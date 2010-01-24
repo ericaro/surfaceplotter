@@ -272,6 +272,10 @@ public class JSurface extends javax.swing.JPanel
 		}
 	}
 	
+	private String format(float f){
+		return String.valueOf(f);
+	}
+	
 	private void init()
 	{
 		colors=model.getColorModel();
@@ -633,7 +637,7 @@ public class JSurface extends javax.swing.JPanel
 		this.graphics=graphics;
 		//System.out.println("filling graphics "+ graphics);
 		int fontsize = (int)(Math.round(projector.get2DScaling() * 0.5));
-		graphics.setFont(new Font("Helvetica",Font.PLAIN,fontsize));
+		//graphics.setFont(new Font("Helvetica",Font.PLAIN,fontsize));
 		
 		
 		SurfaceVertex.invalidate(); 
@@ -1069,7 +1073,7 @@ public class JSurface extends javax.swing.JPanel
 	private final void outFloat(Graphics g, int x, int y, 
 		float f, int x_align, int y_align) {
 		//String s = Float.toString(f);
-		String s = String.format("%.3G", f);
+		String s = format(f);
 		outString(g,x,y,s,x_align,y_align);
 	}
 	
@@ -1826,7 +1830,7 @@ public class JSurface extends javax.swing.JPanel
 				if (i % t_y == 0) {
 					ylabels[index] = 
 						//new String(Float.toString(
-						String.format("%.3G",
+						format(
 						(float)((double)(i+10)/20*(ymax-ymin)+ymin));
 					int strwidth = fm.stringWidth(ylabels[index++]);
 					if (strwidth > maxwidth) maxwidth = strwidth;
@@ -1851,7 +1855,7 @@ public class JSurface extends javax.swing.JPanel
 				legend_label = new String[counts];
 				for (int i=0; i < counts; i++) {
 					float label = (float)((double)(i)/(counts-1)*(zmax-zmin)+zmin);
-					legend_label[i] = String.format("%.3G",label);
+					legend_label[i] = format(label);
 					int labelwidth = fm.stringWidth(legend_label[i]);
 					if (labelwidth > legend_length) legend_length = labelwidth;
 				}
