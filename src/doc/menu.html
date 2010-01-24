@@ -1,0 +1,146 @@
+<html>    
+<head>      
+  <title>Surface Plotter - Menu Commands</title>
+</head> 
+<body bgcolor="#C0C0C0">        
+  <table cellpadding=0 cellspacing=0 width=619 border=0>
+  <tr><td> 
+  <h1>Surface Plotter - Menu Commands</h1>
+  <hr>
+  <h3>Disabled Menus and Selections</h3>
+  Menus and selections that are not currently available are disabled and can not 
+  be selected.  Surface Plotter checks the version of the Java Virtual Machine 
+  it is running on, and disables menus for functions that are not supported. 
+  For example: if the Java Virtual Machine is of version older than 1.1, or 
+  if Surface Plotter is running as an applet, Surface Plotter will disable the 
+  "print" menu.
+  <hr>
+  <h3>File</h3>
+  <ul>
+    <li><b>Open ...</b>
+    <ul>Opens a Surface Plotter file. This menu is not available when
+        running as an applet. (security restriction)</ul>
+    <li><b>Save</b>
+    <ul>Saves a Surface Plotter file. This menu is not available when
+        running as an applet. (security restriction)</ul>
+    <li><b>Save As ...</b>
+    <ul>Saves a user specified Surface Plotter file. This menu is not 
+        available when running as an applet. (security restriction)</ul>
+    <li><b>Surface from Local Image File ...</b>
+    <ul>Loads a local image file and creates a surface data from it.
+        The image is automatically converted to gray scale image and is treated 
+        as a 2.5 dimension data file. Black is converted to the lowest z level
+        and white is converted to the highest z level. Surface Plotter displays
+        <a href="imagetosurface.html">Image to Surface dialog box</a> and lets
+        you enter conversion parameters before actually doing the conversion. 
+        This menu is not available when running as an applet. 
+        (security restriction)
+    </ul>
+    <li><b>Surface from Network Image File ...</b>
+    <ul>Loads an image from network and creates a surface data from it.
+        The image is automatically converted to gray scale image and is treated 
+        as a 2.5 dimension data file. Black is converted to the lowest z level
+        and white is converted to the highest z level. Surface Plotter displays
+        <a href="imagetosurface.html">Image to Surface dialog box</a> and lets
+        you enter conversion parameters before actually doing the conversion.
+    </ul>
+    <li><b>Print ...</b>
+    <ul>Prints surface. This menu is not available when running as an applet 
+        (security restriction) or when the version of Java Virtual Machine is
+        less than 1.1</ul>
+    <li><b>Exit/Close</b>
+    <ul>Exits Surface Plotter (application) or closes the Surface Plotter frame
+        (applet)</ul>
+  </ul>
+  <p>
+  <h3>Edit</h3>
+  <ul>
+    <li><b>Stretch Z Levels ...</b>
+    <ul>Stretches Z levels of current surface data to new ranges.
+        Surface Plotter displays <a href="stretchz.html">Stretch Z dialog box</a> 
+        and lets you specify the stretching method and parameters before actually 
+        doing the stretch.
+    </ul>
+  </ul>
+  <p>
+  <h3>Options</h3>
+  Menus that are in this group are all checkable menu items. You can 
+  change a menu state by selecting the menu item. The following 
+  describes a menu's function when it is checked:<p>
+
+  <ul>
+    <li><b>Show Bounding Box</b>
+    <ul>Instructs Surface Plotter to draw a bounding box for surface plot.</ul>
+    <li><b>Show X-Y Mesh</b>
+    <ul>Instructs Surface Plotter to draw the X-Y mesh of surface plot.</ul>
+    <li><b>Show Face Grids</b>
+    <ul>Instructs Surface Plotter to draw face grids.</ul>
+    <li><b>Scale Bounding Box</b>
+    <ul>Instructs Surface Plotter to scale bounding box to the proportion
+        of variable ranges. Note that when one variable range is far greater 
+        than other variable ranges, Surface Plotter will not scale the
+        bounding box.
+    </ul>
+    <li><b>Show X-Y ticks</b>
+    <ul>Instructs Surface Plotter to show the ticks of X and Y axes.</ul>
+    <li><b>Show Z ticks</b>
+    <ul>Instructs Surface Plotter to show the ticks of Z axis.</ul>
+    <li><b>Wireframe Mode</b>
+    <ul>Instructs Surface Plotter to show a surface as wireframe model.</ul>
+    <li><b>Hidden Surface Elimination</b>
+    <ul>Instructs Surface Plotter to eliminate invisible portions of a surface,
+        but not to shade the surface.</ul>
+    <li><b>Color Spectrum Mode</b>
+    <ul>Instructs Surface Plotter to shade a surface with color function 
+        that moves from violet to red as the z level increases.</ul>
+    <li><b>Gray Scale Mode</b>
+    <ul>Instructs Surface Plotter to shade a surface with color function 
+        that moves from black to white as the z level increases.</ul>
+    <li><b>Dual Shades Mode</b>
+    <ul>Instructs Surface Plotter to shade surface of first function 
+        with yellow and surface of second function with blue. The intensity
+        of the shading colors increase as the z level increases.</ul>
+    <li><b>Surface Plot</b>
+    <ul>Instructs Surface Plotter to create surface plot of defined functions.</ul>
+    <li><b>Contour Plot</b>
+    <ul>Instructs Surface Plotter to create contour plot of a function.
+        Only one function can be plotted in this mode, and the first function
+        has higher priority.</ul>
+    <li><b>Density Plot</b>
+    <ul>Instructs Surface Plotter to create density plot of a function.
+        Only one function can be plotted in this mode, and the first function
+        has higher priority.</ul>
+  </ul>
+  <p>
+  <h3>Help</h3>
+  <ul>
+    <li><b>Menu Commands</b>
+    <ul>Shows this menu commands help page.</ul>
+    <li><b>Function Syntax Reference</b>
+    <ul>Shows function syntax reference page. Refer to this page if you had 
+        problems with function definition.</ul>
+    <li><b>Parts of Surface Plotter</b>
+    <ul>Shows a help page that describes the parts of Surface Plotter.</ul>
+    <li><b>Mouse Operations</b>
+    <ul>Shows a help page that describes mouse operations.</ul>
+    <li><b>Surface Plotter Documentation</b>
+    <ul>Shows Surface Plotter classes documentation page.</ul>
+    <li><b>System Information</b>
+    <ul>Shows information about the system on which Surface Plotter is running.
+        Please select this menu and record all system information before 
+        submitting a bug report. 
+    </ul>
+    <li><b>About</b>
+    <ul>Shows a dialog box that displays Surface Plotter version, author, and
+        other information.
+    </ul>
+  </ul>
+  <hr>
+  <address>
+    Send comments, suggestions, bug reports to 
+    <a href="mailto:yanto@fedu.uec.ac.jp">Yanto Suryono</a>
+  </address>
+  </td></tr>
+  </table>  
+</body>
+</html>

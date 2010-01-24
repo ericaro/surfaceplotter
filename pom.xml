@@ -1,0 +1,118 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.googlecode.surfaceplotter</groupId>
+  <artifactId>surfaceplotter</artifactId>
+  <name>Surface Plotter</name>
+  <version>1.3.1-SNAPSHOT</version>
+  <description>A fully featured Surface plotter.</description>
+    <url>http://surfaceplotter.googlecode.com/</url>
+    <licenses>
+        <license>
+            <name>GNU LGPL</name>
+            <url>www.gnu.org/licenses/lgpl.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:svn:http://surfaceplotter.googlecode.com/svn/trunk</connection>
+        <developerConnection>scm:svn:https://surfaceplotter.googlecode.com/svn/trunk</developerConnection>
+        <url>http://surfaceplotter.googlecode.com/svn/trunk/</url>
+    </scm>
+    <!--
+        maven central declaration
+        "com.googlecode.neoevents","/home/maven/repository-staging/to-ibiblio/maven-svn","svn","Eric","eric@ericaro.net",,"http://neoevents.googlecode.com/svn/repo/releases/"
+    -->
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.2</version>
+            <type>jar</type>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>surfaceplotter-release</id>
+            <name>surfaceplotter Maven repository of releases</name>
+            <url>dav:https://surfaceplotter.googlecode.com/svn/repo/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>surfaceplotter-snapshot</id>
+            <name>surfaceplotter Maven repository of snapshots</name>
+            <url>dav:https://surfaceplotter.googlecode.com/svn/repo/snapshots</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.0.2</version>
+                    <configuration>
+                        <source>1.5</source>
+                        <target>1.5</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <configuration>
+                    
+                        <tagBase>https://surfaceplotter.googlecode.com/svn/tags</tagBase>
+                        <useReleaseProfile>false</useReleaseProfile>
+                        <preparationGoals>clean install</preparationGoals>
+                        <goals>deploy</goals>
+                        <arguments>-Prelease,deploy</arguments>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <!--
+        -->
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+        </extensions>
+
+    </build>
+
+
+</project>

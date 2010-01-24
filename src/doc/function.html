@@ -1,0 +1,200 @@
+<html>    
+<head>      
+  <title>Surface Plotter - Syntax Reference</title>
+</head> 
+<body bgcolor="#C0C0C0">        
+  <table cellpadding=0 cellspacing=0 width=619 border=0>
+  <tr><td>  
+  <h1>Surface Plotter - Syntax Reference</h1>
+  <hr>
+  The syntax of functions in Surface Plotter is very much like the syntax of C language.
+  For example:   <code>sin(x)/x</code><br>
+  You should have no problems in learning how to define functions in Surface Plotter 
+  if you are familiar with programming language, such as C/C++, Pascal, Basic, Java, etc.
+
+  <hr>
+  A function definition is made up of <a href="#operators">operators</a> and operands, 
+  no matter how complex it is.<br>
+  <h2><font color="#0000ff">Operands</font></h2>
+  Operands are divided into two main categories: numerical operands and boolean operands. <br>
+  Boolean operands are the result of applying relational operator to two numerical operands. 
+  (i.e:  2 &lt; 3 results <i>true</i>, which is boolean type). <br>
+  Numerical operands are constants, variables, and result of internal function calls.<p> 
+  Here are the details of numerical operands:<p>
+
+  <h3><b>Constants</b></h3>
+  <p>
+  Surface Plotter defines two constants:
+  <pre>
+  e             natural number                    value = 2.7182818..
+  pi            area of circle with radius 1      value = 3.14159265..
+  </pre>
+
+  <h3><b>Variables</b></h3><p>
+  Valid variables are x and y.
+
+  <h3><b>References</b></h3><p>
+  References are user defined variables. They are used to break long functions into
+  short pieces. Surface Plotter evaluates the values of these references and
+  then treats them as a variable. See <a href="#reference">Using references to break
+  long functions</a> for detail.
+
+  <h3><b>Internal Functions</b></h3>
+  <pre>
+  abs(x)        returns the absolute value of x
+  acos(x)       returns the arc cosine of x
+  acosh(x)      returns the inverse hyperbolic cosine of x
+  asin(x)       returns the arc sine of x
+  asinh(x)      returns the inverse hyperbolic sine of x
+  atan(x)       returns the arc tangent of x
+  atanh(x)      returns the inverse hyperbolic tangent of x     
+  ceil(x)       rounds x up to the nearest integer
+  cos(x)        returns the cosine of x
+  cosh(x)       returns the hyperbolic cosine of x
+  exp(x)        returns the exponential of x 
+  floor(x)      rounds x down to the nearest integer
+  frac(x)       returns the fraction part of x
+  int(x)        returns the integer part of x
+  ln(x)         returns the natural logarithm of x
+  log(x)        returns the base-10 logarithm of x
+  round(x)      rounds x to the nearest integer 
+  sign(x)       returns -1 if x &lt; 0, 1 if x &gt; 0, and 0 if x = 0
+  sin(x)        returns the sine of x
+  sinh(x)       returns the hyperbolic sine of x
+  sqr(x)        returns x * x
+  sqrt(x)       returns the square root of x
+  tan(x)        returns the tangent of x
+  tanh(x)       returns the hyperbolic tangent of x
+  
+  min(a,b)      returns the smaller value of a and b
+  max(a,b)      returns the greater value of a and b
+  atan2(a,b)    computes the phase theta by computing an arc tangent of b/a in
+                the range -pi to pi
+  mod(a,b)      returns the remainder of a divided by b as defined by IEEE 754 
+  </pre>
+
+  <b>Note: </b><br>
+  <ul>
+    <li>All angles are measured in radian.<br>
+    <li>The parameter x,a,b may be replaced with any expression.<br>
+    <li><font color="#770077">Surface Plotter's parser is case-sensitive. Use ONLY 
+    lower case characters.</font><p>
+  </ul>
+
+  <a name="operators">
+  <h2><font color="#0000ff">Operators</font></h2>
+  Surface Plotter recognizes three kinds of operators: arithmetic operators, 
+  <a href="#relbool">relational operators</a>, and <a href="#relbool">boolean operators</a>. <br>
+  Relational operators and Boolean operators are used only in conjuction 
+  with <a href="#if">"if" function</a>. <br>
+  Arithmetic operators are operators for manipulating numbers. 
+  They are the same with those BASIC 
+  programming language uses. <br>
+  Here is the list of all valid arithmetic operators and their precedence.<p>
+ 
+  <h3><b>Precedence of Operators</b></h3>
+  <pre> 
+  ------------------------------------------------------------------------------
+   Operator    Precedence      Operation         Category         Associativity
+  ------------------------------------------------------------------------------
+      +        First (high)    sign identity     unary            right to left
+      -                        sign negation
+  ------------------------------------------------------------------------------
+      ^        Second          power             power            right to left
+  ------------------------------------------------------------------------------
+      *        Third           multiplication    multiplication   left to right
+      /                        division                         
+  ------------------------------------------------------------------------------
+      +        Fourth          addition          addition         left to right
+      -                        substraction
+  ------------------------------------------------------------------------------        
+  </pre>
+  <b>Note: </b>Expressions within parentheses are evaluated before being treated as a 
+  single operand.
+  <p> 
+
+  <a name="relbool">
+  <h3><b>Relational operators and Boolean operators</b></h3><p>
+  Since version 1.10, Surface Plotter's function parser recognizes relational 
+  operators and boolean operators.<br> 
+  Here is the list of valid relational operators and boolean operators:
+  <pre>
+  ------------------------------------------------------------------------------
+   Operator    Operation                 Category         Operand Type(s)
+  ------------------------------------------------------------------------------
+      &lt;        less than                 relational       numerical expression
+      &gt;        greater than              relational       numerical expression
+      &lt;=       less than or equal        relational       numerical expression
+      &gt;=       greater than or equal     relational       numerical expression
+      =        equal                     relational       numerical expression
+      &lt;&gt;       not equal                 relational       numerical expression
+      &        logical and               boolean          boolean expression
+      |        logical or                boolean          boolean expression
+      !        logical inversion         boolean          boolean expression
+  ------------------------------------------------------------------------------        
+  </pre>
+  <b>Note</b>: All operators listed above produce boolean type result. The result can 
+  only be used as the 
+  <i>conditional statement</i> for "if" function.
+
+  <p><a name="if">
+  <h2><font color="#0000ff">The "if" function</font></h2>
+  The "if" function has the following syntax:                           
+  <p><p>
+  if(<i>conditional statement</i>, <i>expression1</i>, <i>expression2</i>)
+  <p>
+   Surface Plotter will evaluate <i>expression1</i> if
+  <i>conditional statement</i> is evaluated to <i>true</i> and <i>expression2</i> otherwise.<br>
+  For example, the result of the following statement<p>
+   if(x &lt; 0, -x, x)<p>
+  is -x if x is less than zero and x otherwise (absolute of x)<br> 
+  The following expressions are also valid:<p>
+  <i>z = (fx,y) = sin(if(x &lt; 0; 2*x, 3*x))</i><br>
+  <i>z = f(x,y) = if(x = 0,0,sin(x)/x) - 2</i><p>
+  And for the last, you can nest "if" functions. For example, you can write sign(x) as:<p>
+  <i>z = f(x,y) = if(x &lt;= 0, if(x = 0, 0, -1), 1)</i>  
+
+  <p><a name="reference">
+  <h2><font color="#0000ff">Using references to break long functions</font></h2>
+  Suppose you want to define a function like this: 
+  <code>z(x,y) = exp(1-cos(x)) / (y + exp(1-cos(x))</code><p>
+  Soon you see that the function definition is long and inefficient. The 
+  <code>exp(1-cos(x))</code> part appeared twice and it is more efficient to
+  make a reference to <code>exp(1-cos(x))</code>, says <code>a</code>, and
+  defines the overall function as: <code>z(x,y) = a / (y + a)</code>.<p>
+  Since version 1.30b1, Surface Plotter provides a way to do this. The syntax
+  of references is:<p>
+  
+  <code><i>reference name 1</i>: <i>definition 1</i>; <i>reference name 2
+  </i>: <i>defintion 2</i>; ...</code><p>
+  The reference name is theoritically can be any characters long, but it must not
+  be the same with any of defined variables or constants (x, y, e, pi), function 
+  names (sin, cos, tan, ...), reserved words or operators (if, |, =, ...). 
+  In short, the reference must not make the original definition ambiguous.
+  The reference name may not start with a number. (e.q: 1st, 2nd, ...) This
+  restriction also apply in most (all ?) of computer language.<p>
+  A function definition may contain many references, and a reference definition
+  may contain other references, but it must not start with a reference. 
+  Surface Plotter evaluates references <b>from back</b>, so you
+  must define a reference <b>after</b> you used it.<p> This makes circular
+  references impossible.<p>
+
+  <b>Examples:</b>
+  <p><code>z(x,y) = a: sin(x); b: cos(y); a + b</code><br>
+  <ul><li>Incorrect, must not start with a reference.</li></ul>
+
+  <p><code>z(x,y) = a + b + c; a: cos(b); c: 2 * a</code><br>
+  <ul><li>Incorrect (in <code>c = 2 * a</code>), must define a reference after used it.</li></ul>
+  
+  <p><code>z(x,y) = a / (1 + b + c); a: cos(b); b: 2 * x; c: x * cos(y)</code><br>
+  <ul><li>Correct.</li></ul>
+
+  <hr>
+  <address>
+    Send comments, suggestions, bug reports to 
+    <a href="mailto:yanto@fedu.uec.ac.jp">Yanto Suryono</a>
+  </address>
+  </td></tr>
+  </table>   
+</body>
+</html>
