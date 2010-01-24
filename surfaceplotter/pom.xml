@@ -3,7 +3,7 @@
   <groupId>com.googlecode.surfaceplotter</groupId>
   <artifactId>surfaceplotter</artifactId>
   <name>Surface Plotter</name>
-  <version>1.3.1</version>
+  <version>1.3.1-SNAPSHOT</version>
   <description>A fully featured Surface plotter.</description>
     <url>http://surfaceplotter.googlecode.com/</url>
     <licenses>
@@ -14,9 +14,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:http://surfaceplotter.googlecode.com/svn/tags/surfaceplotter-1.3.1</connection>
-        <developerConnection>scm:svn:https://surfaceplotter.googlecode.com/svn/tags/surfaceplotter-1.3.1</developerConnection>
-        <url>http://surfaceplotter.googlecode.com/svn/tags/surfaceplotter-1.3.1</url>
+        <connection>scm:svn:http://surfaceplotter.googlecode.com/svn/trunk</connection>
+        <developerConnection>scm:svn:https://surfaceplotter.googlecode.com/svn/trunk</developerConnection>
+        <url>http://surfaceplotter.googlecode.com/svn/trunk/</url>
     </scm>
     <!--
         maven central declaration
