@@ -36,30 +36,7 @@ package com.googlecode.surfaceplotter;
 
 public interface SurfaceModel
 {
-	public static final String X_MIN_PROPERTY = "XMin";
-	public static final String Y_MIN_PROPERTY = "YMin";
-	public static final String Z_MIN_PROPERTY = "ZMin";
-	public static final String X_MAX_PROPERTY = "XMax";
-	public static final String Y_MAX_PROPERTY = "YMax";
-	public static final String Z_MAX_PROPERTY = "ZMax";
-	public static final String EXPECT_DELAY_PROPERTY = "ExpectDelay";
-	public static final String BOXED_PROPERTY = "Boxed";
-	public static final String MESH_PROPERTY = "Mesh";
-	public static final String SCALE_BOX_PROPERTY = "ScaleBox";
-	public static final String DISPLAY_Z_PROPERTY = "DisplayZ";
-	public static final String DISPLAY_GRIDS_PROPERTY = "DisplayGrids";
-	public static final String PLOT_FUNCTION_1_PROPERTY = "PlotFunction1";
-	public static final String PLOT_FUNCTION_2_PROPERTY = "PlotFunction2";
-	public static final String DATA_AVAILABLE_PROPERTY = "DataAvailable";
-	public static final String DISPLAY_X_Y_PROPERTY = "DisplayXY";
-	public static final String CALC_DIVISIONS_PROPERTY = "CalcDivisions";
-	public static final String CONTOUR_LINES_PROPERTY = "ContourLines";
-	public static final String DISP_DIVISIONS_PROPERTY = "DispDivisions";
-	public static final String SURFACE_VERTEX_PROPERTY = "SurfaceVertex";
-	public static final String AUTO_SCALE_Z_PROPERTY = "AutoScaleZ";
-	public static final String PLOT_TYPE_PROPERTY = "PlotType";
-	public static final String PLOT_COLOR_PROPERTY = "PlotColor";
-	public static final String COLOR_MODEL_PROPERTY = "ColorModel";
+	
 
 	//TODO replace with enum
 	//plot type constant 
@@ -86,7 +63,8 @@ public interface SurfaceModel
 	
 	
 	
-	public SurfaceVertex[][] getSurfaceVertex();
+	public SurfaceVertex[][] getSurfaceVertex(); //maybe provide a less brutal parameter passing, but 
+	//I have to ber careful, there is performance at stake
 	
 	public Projector getProjector(); //project is kind of "point of view"
 	
