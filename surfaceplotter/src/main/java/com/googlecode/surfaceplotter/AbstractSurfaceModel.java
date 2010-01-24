@@ -13,6 +13,16 @@ import javax.swing.event.SwingPropertyChangeSupport;
  */
 public class AbstractSurfaceModel implements SurfaceModel
 {
+	// simple interface to make this abstractSurface model reusable.
+	public interface Plotter
+	{
+		public float getX(int i);
+		public float getY(int j);
+		public void setValue(int i, int j, float v1, float v2);
+		public int getWidth();
+		public int getHeight();
+		
+	}
 	
 	protected java.beans.PropertyChangeSupport property;
 	public void addPropertyChangeListener(java.beans.PropertyChangeListener listener) {property.addPropertyChangeListener(listener);}
@@ -86,6 +96,7 @@ public class AbstractSurfaceModel implements SurfaceModel
 	{
 		int o = this.plotColor;
 		this.plotColor = v;
+		if (colorModel!=null) colorModel.setPlotColor(plotColor); //this shouls be handled by the model itself, without any
 		property.firePropertyChange(PLOT_COLOR_PROPERTY,o,v);
 	}
 	
@@ -229,11 +240,13 @@ public class AbstractSurfaceModel implements SurfaceModel
 	}
 	
 	public ColorModelSet colorModel;
-	public ColorModelSet getColorModel()	{return colorModel;}
+	public SurfaceColor getColorModel()	{return colorModel;}
 	protected void setColorModel(ColorModelSet v)
 	{
-		ColorModelSet o = this.colorModel;
+		SurfaceColor o = this.colorModel;
 		this.colorModel = v;
+		if (colorModel!=null) colorModel.setPlotColor(plotColor); //this shouls be handled by the model itself, without any
+		if (colorModel!=null) colorModel.setPlotType(plotType);
 		property.firePropertyChange(COLOR_MODEL_PROPERTY,o,v);
 	}
 	
@@ -469,10 +482,8 @@ public class AbstractSurfaceModel implements SurfaceModel
 		 * @param v value at that point.
 		 * @see package.class
 		
-		 *****************************************************
 		 * @author Eric
 		 * @date vendredi 9 avril 2004 13:26:14
-		 *****************************************************
 		 */
 		public void setValue(int i,int j, float v1, float v2)
 		{

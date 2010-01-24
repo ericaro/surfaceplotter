@@ -8,6 +8,7 @@ import javax.swing.border.BevelBorder;
 import com.googlecode.surfaceplotter.AbstractSurfaceModel;
 import com.googlecode.surfaceplotter.JSurface;
 import com.googlecode.surfaceplotter.SurfaceModel;
+import com.googlecode.surfaceplotter.AbstractSurfaceModel.Plotter;
 
 
 public class SimpleRun {
@@ -15,7 +16,7 @@ public class SimpleRun {
 	
 	public void testSomething() 
 	{
-		final SurfaceModel sm= new AbstractSurfaceModel();
+		final AbstractSurfaceModel sm= new AbstractSurfaceModel();
 		
 		
 		
@@ -66,7 +67,7 @@ public class SimpleRun {
 		new Thread(new Runnable() {
 				public void run()
 				{
-					SurfaceModel.Plotter p = sm.newPlotter(sm.getCalcDivisions());
+					Plotter p = sm.newPlotter(sm.getCalcDivisions());
 					int im=p.getWidth();
 					int jm=p.getHeight();
 					long lastUpdate=System.currentTimeMillis();
