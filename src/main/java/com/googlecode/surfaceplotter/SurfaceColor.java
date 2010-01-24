@@ -9,22 +9,22 @@ import java.awt.Color;
  */
 public interface SurfaceColor {
 
-	public abstract Color getBackgroundColor();
+	public Color getBackgroundColor();
 
-	public abstract Color getLineBoxColor();
+	public Color getLineBoxColor();
 
-	public abstract Color getBoxColor();
+	public Color getBoxColor();
 
-	public abstract Color getLineColor();
+	public Color getLineColor();
 
-	public abstract Color getTextColor();
+	public Color getTextColor();
 
-	public abstract Color getLineColor(int curve, float z);
+	public Color getLineColor(int curve, float z);
 
-	public abstract Color getPolygonColor(int curve, float z);
+	public Color getPolygonColor(int curve, float z);
 
-	public abstract Color getFirstPolygonColor(float z);
+	public Color getFirstPolygonColor(float z);
 
-	public abstract Color getSecondPolygonColor(float z);
+	public Color getSecondPolygonColor(float z);
 
 }

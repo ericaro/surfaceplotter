@@ -1,7 +1,7 @@
 package com.googlecode.surfaceplotter;
 
 import java.awt.Color;
-/**
+/** A simple ColorModel that uses two ColorMode per plot type. 
 
  * @author Eric
  * @date jeudi 8 avril 2004 15:45:40
