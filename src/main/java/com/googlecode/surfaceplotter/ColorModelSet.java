@@ -6,7 +6,7 @@ import java.awt.Color;
  * @author Eric
  * @date jeudi 8 avril 2004 15:45:40
  */
-public class ColorModelSet
+public class ColorModelSet implements SurfaceColor
 {
 	
 	public static float RED_H=0.941896f;
@@ -81,12 +81,30 @@ public class ColorModelSet
 		this.plot_mode=type;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.googlecode.surfaceplotter.SurfaceColor#getBackgroundColor()
+	 */
 	public Color getBackgroundColor(){return lightColor;}
+	/* (non-Javadoc)
+	 * @see com.googlecode.surfaceplotter.SurfaceColor#getLineBoxColor()
+	 */
 	public Color getLineBoxColor() {return lineboxColor;}
+	/* (non-Javadoc)
+	 * @see com.googlecode.surfaceplotter.SurfaceColor#getBoxColor()
+	 */
 	public Color getBoxColor() {return boxColor;}
+	/* (non-Javadoc)
+	 * @see com.googlecode.surfaceplotter.SurfaceColor#getLineColor()
+	 */
 	public Color getLineColor(){return lineColor;}
+	/* (non-Javadoc)
+	 * @see com.googlecode.surfaceplotter.SurfaceColor#getTextColor()
+	 */
 	public Color getTextColor() {return lineColor;}
 	
+	/* (non-Javadoc)
+	 * @see com.googlecode.surfaceplotter.SurfaceColor#getLineColor(int, float)
+	 */
 	public Color getLineColor(int curve, float z)
 	{
 		//return Color.BLUE;
@@ -113,6 +131,9 @@ public class ColorModelSet
 		/**/
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.googlecode.surfaceplotter.SurfaceColor#getPolygonColor(int, float)
+	 */
 	public Color getPolygonColor(int curve, float z)
 	{
 		if (curve==1) return getFirstPolygonColor(z);
@@ -120,6 +141,9 @@ public class ColorModelSet
 		return Color.blue;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.googlecode.surfaceplotter.SurfaceColor#getFirstPolygonColor(float)
+	 */
 	public Color getFirstPolygonColor(float z)
 	{
 		//contour,density  plot does not fit with opaque color 
@@ -140,6 +164,9 @@ public class ColorModelSet
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.googlecode.surfaceplotter.SurfaceColor#getSecondPolygonColor(float)
+	 */
 	public Color getSecondPolygonColor(float z)
 	{
 		//contour,density  plot does not fit with opaque color 

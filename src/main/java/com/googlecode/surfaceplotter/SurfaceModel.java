@@ -31,11 +31,7 @@ package com.googlecode.surfaceplotter;
 
 
 /**
- * The class <code>SurfaceModel</code> produces a model for JSurface.
- * It also provides Surface Plotter a pulldown menu and acts as a middle man between
- * <code>SurfaceCanvas</code> class and other Surface Plotter components
- *
- * @author  Yanto Suryono
+ * The model used to display any surface in JSurface
  */
 
 public interface SurfaceModel
@@ -65,13 +61,14 @@ public interface SurfaceModel
 	public static final String PLOT_COLOR_PROPERTY = "PlotColor";
 	public static final String COLOR_MODEL_PROPERTY = "ColorModel";
 
-	//plot type constant
+	//TODO replace with enum
+	//plot type constant 
 	public static final int PLOT_TYPE_SURFACE=0;
 	public static final int PLOT_TYPE_WIREFRAME=1;
 	public static final int PLOT_TYPE_DENSITY=2;
 	public static final int PLOT_TYPE_CONTOUR=3;
 
-	
+	//TODO replace with enums
 	// plot color constant
 	public static final int PLOT_COLOR_OPAQUE   	 = 0;
 	public static final int PLOT_COLOR_SPECTRUM    = 1;
@@ -79,88 +76,34 @@ public interface SurfaceModel
 	public static final int PLOT_COLOR_GRAYSCALE   = 3;
 	public static final int PLOT_COLOR_FOG		 = 4;
 	
-	
-	
+	//events
 	public void addPropertyChangeListener(java.beans.PropertyChangeListener listener);
 	public void addPropertyChangeListener(String propertyName, java.beans.PropertyChangeListener listener);
 	public void removePropertyChangeListener(java.beans.PropertyChangeListener listener);
 	public void removePropertyChangeListener(String propertyName, java.beans.PropertyChangeListener listener);
-	
 	public void addChangeListener(javax.swing.event.ChangeListener listener);
 	public void removeChangeListener(javax.swing.event.ChangeListener listener);
 	
 	
-	public Plotter newPlotter(int calcDivision);
-	
-	public interface Plotter
-	{
-		public float getX(int i);
-		public float getY(int j);
-		public void setValue(int i, int j, float v1, float v2);
-		public int getWidth();
-		public int getHeight();
-		
-	}
-	
-	
-	public void refresh();
-	
-	public boolean isAutoScaleZ();
-	public void setAutoScaleZ(boolean v);
-	
-	
-	
-	public int getPlotType();
-	public void setPlotType(int v);
-	
-	
-	public int getPlotColor();
-	public void setPlotColor(int v);
-		
-	
-	
 	
 	public SurfaceVertex[][] getSurfaceVertex();
-	public void setSurfaceVertex(SurfaceVertex[][] v);
 	
-	public Projector getProjector();
-
+	public Projector getProjector(); //project is kind of "point of view"
 	
+	
+	public boolean isAutoScaleZ();
+	public int getPlotType();
+	public int getPlotColor();
 	public int getCalcDivisions();
-	public void setCalcDivisions(int v);
-	
-	
 	public int getContourLines();
-	public void setContourLines(int v);
-	
-	
-	public void setDispDivisions(int v);
 	public int getDispDivisions(); 
-	
-	
-	
 	public float getXMin();
-	public void setXMin(float v);
-	
 	public float getYMin();
-	public void setYMin(float v);
-	
-	
 	public float getZMin();
-	public void setZMin(float v);
-	
-	
 	public float getXMax();
-	public void setXMax(float v);
-	
-	
 	public float getYMax();
-	public void setYMax(float v);
 	public float getZMax();
-	public void setZMax(float v);
-	
-	
-	public ColorModelSet getColorModel();
+	public SurfaceColor getColorModel(); // not the right place, but JSurface does not work with any colorset, should be removed lately
 
 	/**
 	 * Determines whether the delay regeneration checkbox is checked.
@@ -169,7 +112,6 @@ public interface SurfaceModel
 	 *         <code>false</code> otherwise
 	 */
 	public boolean isExpectDelay();
-	public void setExpectDelay(boolean v);
 	
 	/**
 	 * Determines whether to show bounding box.
@@ -177,9 +119,6 @@ public interface SurfaceModel
 	 * @return <code>true</code> if to show bounding box
 	 */
 	public boolean isBoxed();
-	public void setBoxed(boolean v);
-	
-	
 	
 	/**
 	 * Determines whether to show x-y mesh.
@@ -187,7 +126,6 @@ public interface SurfaceModel
 	 * @return <code>true</code> if to show x-y mesh
 	 */
 	public boolean isMesh();
-	public void setMesh(boolean v);
 	/**
 	 * Determines whether to scale axes and bounding box.
 	 *
@@ -195,7 +133,6 @@ public interface SurfaceModel
 	 */
 	
 	public boolean isScaleBox();
-	public void setScaleBox(boolean v);
 	
 	/**
 	 * Determines whether to show x-y ticks.
@@ -203,21 +140,18 @@ public interface SurfaceModel
 	 * @return <code>true</code> if to show x-y ticks
 	 */
 	public boolean isDisplayXY();
-	public void setDisplayXY(boolean v);
 	/**
 	 * Determines whether to show z ticks.
 	 *
 	 * @return <code>true</code> if to show z ticks
 	 */
 	public boolean isDisplayZ();
-	public void setDisplayZ(boolean v);
 	/**
 	 * Determines whether to show face grids.
 	 *
 	 * @return <code>true</code> if to show face grids
 	 */
 	public boolean isDisplayGrids();
-	public void setDisplayGrids(boolean v);
 	/**
 	 * Determines whether the first function is selected.
 	 *
@@ -225,7 +159,6 @@ public interface SurfaceModel
 	 *         <code>false</code> otherwise
 	 */
 	public boolean isPlotFunction1();
-	public void setPlotFunction1(boolean v);
 	
 	/**
 	 * Determines whether the first function is selected.
@@ -235,7 +168,6 @@ public interface SurfaceModel
 	 */
 	
 	public boolean isPlotFunction2();
-	public void setPlotFunction2(boolean v);
 	
 	/**
 	 * Sets data availability flag
