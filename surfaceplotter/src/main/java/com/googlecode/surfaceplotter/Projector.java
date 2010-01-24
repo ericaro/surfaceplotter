@@ -1,6 +1,5 @@
-package com.googlecode.surfaceplotter;
 /*----------------------------------------------------------------------------------------*
- * Projector.java version 1.7                                                 Nov  8 1996 *
+ * Projector.java version 1.7                                                  Nov  8 1996 *
  * Projector.java version 1.71                                                May 14 1997 *
  *                                                                                        *
  * Copyright (c) Yanto Suryono <yanto@fedu.uec.ac.jp>                                     *
@@ -20,6 +19,7 @@ package com.googlecode.surfaceplotter;
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                                  *
  *                                                                                        *
  *----------------------------------------------------------------------------------------*/
+package com.googlecode.surfaceplotter;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -48,9 +48,14 @@ public final class Projector {
 
   private final float DEGTORAD  = (float)Math.PI / 180;
    
+  //was static in SurfaceVertex ! now Dynamic in Projector
+float zmin, zmax;
+float zfactor;
+	
+	
   /**
-   * The constructor of <code>Projector</code>.
-   */
+	 * The constructor of <code>Projector</code>.
+	 */
    
   Projector() {
     setScaling(1); 
@@ -62,10 +67,10 @@ public final class Projector {
   }
 
   /**
-   * Sets the projection area.
-   *
-   * @param r the projection area
-   */
+	 * Sets the projection area.
+	 *
+	 * @param r the projection area
+	 */
    
   public void setProjectionArea(Rectangle r) {
     x1 = r.x; x2 = x1 + r.width;
@@ -78,10 +83,10 @@ public final class Projector {
   }
 
   /**
-   * Sets the rotation angle.
-   *
-   * @param angle the rotation angle in degrees
-   */
+	 * Sets the rotation angle.
+	 *
+	 * @param angle the rotation angle in degrees
+	 */
    
   public void setRotationAngle(float angle) {
     rotation = angle;
@@ -95,40 +100,40 @@ public final class Projector {
   }
 
   /**
-   * Gets current rotation angle.
-   *
-   * @return the rotation angle in degrees.
-   */
+	 * Gets current rotation angle.
+	 *
+	 * @return the rotation angle in degrees.
+	 */
    
   public float getRotationAngle() {
     return rotation;
   }
 
   /**
-   * Gets the sine of rotation angle.
-   *
-   * @return the sine of rotation angle
-   */
+	 * Gets the sine of rotation angle.
+	 *
+	 * @return the sine of rotation angle
+	 */
    
   public float getSinRotationAngle() {
     return sin_rotation;
   }
 
   /**
-   * Gets the cosine of rotation angle.
-   *
-   * @return the cosine of rotation angle
-   */
+	 * Gets the cosine of rotation angle.
+	 *
+	 * @return the cosine of rotation angle
+	 */
 
   public float getCosRotationAngle() {
     return cos_rotation;
   }
 
   /**
-   * Sets the elevation angle.
-   *
-   * @param angle the elevation angle in degrees
-   */
+	 * Sets the elevation angle.
+	 *
+	 * @param angle the elevation angle in degrees
+	 */
 
   public void setElevationAngle(float angle) {
     elevation = angle;
@@ -139,40 +144,40 @@ public final class Projector {
   }
 
   /**
-   * Gets current elevation angle.
-   *
-   * @return the elevation angle in degrees.
-   */
+	 * Gets current elevation angle.
+	 *
+	 * @return the elevation angle in degrees.
+	 */
 
   public float getElevationAngle() {
     return elevation;
   }
 
   /**
-   * Gets the sine of elevation angle.
-   *
-   * @return the sine of elevation angle
-   */
+	 * Gets the sine of elevation angle.
+	 *
+	 * @return the sine of elevation angle
+	 */
 
   public float getSinElevationAngle() {
     return sin_elevation;
   }
 
   /**
-   * Gets the cosine of elevation angle.
-   *
-   * @return the cosine of elevation angle
-   */
+	 * Gets the cosine of elevation angle.
+	 *
+	 * @return the cosine of elevation angle
+	 */
 
   public float getCosElevationAngle() {
     return cos_elevation;
   }
 
   /**
-   * Sets the projector distance. 
-   *
-   * @param new_distance the new distance
-   */
+	 * Sets the projector distance. 
+	 *
+	 * @param new_distance the new distance
+	 */
    
   public void setDistance(float new_distance) {
     distance = new_distance;
@@ -180,20 +185,20 @@ public final class Projector {
   }
 
   /**
-   * Gets the projector distance.
-   *
-   * @return the projector distance
-   */
+	 * Gets the projector distance.
+	 *
+	 * @return the projector distance
+	 */
    
   public float getDistance() {
     return distance;
   }
 
   /**
-   * Sets the scaling factor in x direction.
-   *
-   * @param scaling the scaling factor
-   */
+	 * Sets the scaling factor in x direction.
+	 *
+	 * @param scaling the scaling factor
+	 */
    
   public void setXScaling(float scaling) {
     scale_x = scaling;
@@ -202,20 +207,20 @@ public final class Projector {
   }
 
   /**
-   * Gets the scaling factor in x direction.
-   *
-   * @return the scaling factor
-   */
+	 * Gets the scaling factor in x direction.
+	 *
+	 * @return the scaling factor
+	 */
 
   public float getXScaling() {
     return scale_x;
   }
 
   /**
-   * Sets the scaling factor in y direction.
-   *
-   * @param scaling the scaling factor
-   */
+	 * Sets the scaling factor in y direction.
+	 *
+	 * @param scaling the scaling factor
+	 */
 
   public void setYScaling(float scaling) {
     scale_y = scaling;
@@ -224,20 +229,20 @@ public final class Projector {
   }
 
   /**
-   * Gets the scaling factor in y direction.
-   *
-   * @return the scaling factor
-   */
+	 * Gets the scaling factor in y direction.
+	 *
+	 * @return the scaling factor
+	 */
 
   public float getYScaling() {
     return scale_y;
   }
 
   /**
-   * Sets the scaling factor in z direction.
-   *
-   * @param scaling the scaling factor
-   */
+	 * Sets the scaling factor in z direction.
+	 *
+	 * @param scaling the scaling factor
+	 */
 
   public void setZScaling(float scaling) {
     scale_z = scaling;
@@ -246,22 +251,22 @@ public final class Projector {
   }
 
   /**
-   * Gets the scaling factor in z direction.
-   *
-   * @return the scaling factor
-   */
+	 * Gets the scaling factor in z direction.
+	 *
+	 * @return the scaling factor
+	 */
 
   public float getZScaling() {
     return scale_z;
   }
 
   /**
-   * Sets the scaling factor in all direction.
-   *
-   * @param x the scaling factor in x direction
-   * @param y the scaling factor in y direction
-   * @param z the scaling factor in z direction   
-   */
+	 * Sets the scaling factor in all direction.
+	 *
+	 * @param x the scaling factor in x direction
+	 * @param y the scaling factor in y direction
+	 * @param z the scaling factor in z direction   
+	 */
 
   public void setScaling(float x, float y, float z) {
     scale_x = x; scale_y = y; scale_z = z;
@@ -275,10 +280,10 @@ public final class Projector {
   }
 
   /**
-   * Sets the same scaling factor for all direction.
-   *
-   * @param scaling the scaling factor  
-   */
+	 * Sets the same scaling factor for all direction.
+	 *
+	 * @param scaling the scaling factor  
+	 */
 
   public void setScaling(float scaling) {
     scale_x = scale_y = scale_z = scaling;
@@ -292,10 +297,10 @@ public final class Projector {
   }
 
   /**
-   * Sets the 2D scaling factor.
-   *
-   * @param scaling the scaling factor
-   */
+	 * Sets the 2D scaling factor.
+	 *
+	 * @param scaling the scaling factor
+	 */
 
   public void set2DScaling(float scaling) {
     _2D_scale = scaling;
@@ -303,21 +308,21 @@ public final class Projector {
   }
 
   /**
-   * Gets the 2D scaling factor.
-   *
-   * @return the scaling factor
-   */
+	 * Gets the 2D scaling factor.
+	 *
+	 * @return the scaling factor
+	 */
 
   public float get2DScaling() {
     return _2D_scale;
   }
 
   /**
-   * Sets the 2D translation.
-   *
-   * @param x the x translation
-   * @param y the y translation
-   */
+	 * Sets the 2D translation.
+	 *
+	 * @param x the x translation
+	 * @param y the y translation
+	 */
 
   public void set2DTranslation(int x, int y) {
     _2D_trans_x = x; _2D_trans_y = y;
@@ -327,10 +332,10 @@ public final class Projector {
   }
   
   /**
-   * Sets the 2D x translation.
-   *
-   * @param x the x translation
-   */
+	 * Sets the 2D x translation.
+	 *
+	 * @param x the x translation
+	 */
 
   public void set2D_xTranslation(int x) {
     _2D_trans_x = x;
@@ -338,20 +343,20 @@ public final class Projector {
   }
 
   /**
-   * Gets the 2D x translation.
-   *
-   * @return the x translation
-   */
+	 * Gets the 2D x translation.
+	 *
+	 * @return the x translation
+	 */
 
   public int get2D_xTranslation() {
     return _2D_trans_x;
   }
   
   /**
-   * Sets the 2D y translation.
-   *
-   * @param y the y translation
-   */
+	 * Sets the 2D y translation.
+	 *
+	 * @param y the y translation
+	 */
 
   public void set2D_yTranslation(int y) {
     _2D_trans_y = y;
@@ -359,22 +364,22 @@ public final class Projector {
   }
 
   /**
-   * Gets the 2D y translation.
-   *
-   * @return the y translation
-   */
+	 * Gets the 2D y translation.
+	 *
+	 * @return the y translation
+	 */
 
   public int get2D_yTranslation() {
     return _2D_trans_y;
   }
   
   /**
-   * Projects 3D points.
-   *
-   * @param x the x coordinate
-   * @param y the y coordinate
-   * @param z the z coordinate
-   */
+	 * Projects 3D points.
+	 *
+	 * @param x the x coordinate
+	 * @param y the y coordinate
+	 * @param z the z coordinate
+	 */
    
   public final Point project(float x, float y, float z) {
     float temp;
@@ -391,4 +396,12 @@ public final class Projector {
     return new Point((int)(Math.round(x * temp) + trans_x),
                      (int)(Math.round((y * sin_elevation + z * sz_cos) * -temp) + trans_y));
   }
+	
+	
+	
+	public  void setZRange(float zmin, float zmax) {
+		this.zmin = zmin; this.zmax = zmax;
+		this.zfactor = 20/(zmax-zmin);
+	}
+	
 }
