@@ -434,12 +434,12 @@ public class AbstractSurfaceModel implements SurfaceModel
 					float y=getY(j);
 					if (f1)
 					{
-						vertex[0][k] = new SurfaceVertex(projector,(x-xi)*xfactor-10,
+						vertex[0][k] = new SurfaceVertex((x-xi)*xfactor-10,
 							(y-yi)*yfactor-10,Float.NaN);
 					}
 					if (f2)
 					{
-						vertex[1][k] = new SurfaceVertex(projector, (x-xi)*xfactor-10,
+						vertex[1][k] = new SurfaceVertex((x-xi)*xfactor-10,
 							(y-yi)*yfactor-10,Float.NaN);
 					}
 				}
@@ -499,7 +499,7 @@ public class AbstractSurfaceModel implements SurfaceModel
 					if (Float.isNaN(max1) || (v1 > max1)) max1 = v1; else
 						if (Float.isNaN(min1) || (v1 < min1)) min1 = v1;
 				}
-				vertex[0][k] = new SurfaceVertex(projector, (x-xi)*xfactor-10,
+				vertex[0][k] = new SurfaceVertex( (x-xi)*xfactor-10,
 					(y-yi)*yfactor-10,v1);
 			}
 			if (f2) {
@@ -509,7 +509,7 @@ public class AbstractSurfaceModel implements SurfaceModel
 					if (Float.isNaN(max2) || (v2 > max2)) max2 = v2; else
 						if (Float.isNaN(min2) || (v2 < min2)) min2 = v2;
 				}
-				vertex[1][k] = new SurfaceVertex(projector, (x-xi)*xfactor-10,
+				vertex[1][k] = new SurfaceVertex( (x-xi)*xfactor-10,
 					(y-yi)*yfactor-10,v2);
 			}
 			z1Min=(float) floor(min1,2);

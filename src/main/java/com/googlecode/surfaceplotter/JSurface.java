@@ -1276,7 +1276,7 @@ public class JSurface extends javax.swing.JComponent {
 					z += result;
 				}
 				if (valid2) {
-					projection = vertex[index].projection();
+					projection = vertex[index].projection(projector);
 					poly_x[count] = projection.x;
 					poly_y[count] = projection.y;
 					count++;
@@ -1386,8 +1386,7 @@ public class JSurface extends javax.swing.JComponent {
 					}
 					zi = factor * (values2[j].z - values2[i].z) + values2[i].z;
 
-					upperpart[uppercount++] = lowerpart[lowercount++] = new SurfaceVertex(
-							projector, xi, yi, zi);
+					upperpart[uppercount++] = lowerpart[lowercount++] = new SurfaceVertex(xi, yi, zi);
 					upperpart[uppercount++] = values2[i];
 
 					trackposition = UPPER;
@@ -1423,8 +1422,7 @@ public class JSurface extends javax.swing.JComponent {
 					}
 					zi = factor * (values2[j].z - values2[i].z) + values2[i].z;
 
-					lowerpart[lowercount++] = upperpart[uppercount++] = new SurfaceVertex(
-							projector, xi, yi, zi);
+					lowerpart[lowercount++] = upperpart[uppercount++] = new SurfaceVertex(xi, yi, zi);
 					lowerpart[lowercount++] = values2[i];
 
 					trackposition = LOWER;
@@ -1729,12 +1727,12 @@ public class JSurface extends javax.swing.JComponent {
 				* projector.getCosElevationAngle();
 
 		// cop : center of projection
-
-		cop = new SurfaceVertex(projector, distance
+		//OMG there is a new SurfaceVertex every time !
+		cop = new SurfaceVertex(distance
 				* projector.getSinRotationAngle(), distance
 				* projector.getCosRotationAngle(), projector.getDistance()
 				* projector.getSinElevationAngle());
-		cop.transform();
+		cop.transform(projector);
 
 		boolean inc_x = cop.x > 0;
 		boolean inc_y = cop.y > 0;
@@ -2524,7 +2522,7 @@ public class JSurface extends javax.swing.JComponent {
 										* (vertex[func][k].y - ly) + ly, 10);
 							} else {
 								error = false;
-								projection = vertex[func][k].projection();
+								projection = vertex[func][k].projection(projector);
 							}
 							if (lasterror && (!error) && (j != 0)) {
 								if (lastz > zmax) {
@@ -2594,7 +2592,7 @@ public class JSurface extends javax.swing.JComponent {
 										* (vertex[func][k].y - ly) + ly, 10);
 							} else {
 								error = false;
-								projection = vertex[func][k].projection();
+								projection = vertex[func][k].projection(projector);
 							}
 							if (lasterror && (!error) && (i != 0)) {
 								if (lastz > zmax) {
