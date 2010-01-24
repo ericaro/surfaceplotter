@@ -1,0 +1,29 @@
+This is the JavaBrowser library written by Alexey Goloshubin and Jeremy Cook.
+The library allows browsing of HTML files in a help system as a standalone
+application, or from within another www browser that supports the applet tag.
+
+IN the distribution you will find:
+
+	./browser	A subdir containing the browser package
+	./jb		A simple HTML browser which uses the package
+	./doc		A subdir containing documentation in html
+
+You can see a demo by accessing http://www.lstud.ii.uib.no/~s667/jb/
+
+Compiling and running are straightforward - compile all java files
+in browser and jb, then (on UNIX systems):
+
+	setenv CLASSPATH "<this dir>:<this dir>/jb"
+        cd doc
+	java jb
+
+then click reload and you are viewing the documentation.
+
+The browser package implements a subset of HTML. Full documentation
+of the implementation will be included soon, including better
+instructions for building the package!
+
+Please forward all improvements and bug fixes to the authors.
+
+Jeremy Cook, 20/12-1996
+Jeremy.Cook@ii.uib.no
