@@ -1,6 +1,5 @@
-package com.googlecode.surfaceplotter;
 /*----------------------------------------------------------------------------------------*
- * SurfaceVertex.java                                                                     *
+  * SurfaceVertex.java                                                                     *
  *                                                                                        *
  * Surface Plotter   version 1.10    14 Oct 1996                                          *
  *                   version 1.20     8 Nov 1996                                          *
@@ -24,6 +23,7 @@ package com.googlecode.surfaceplotter;
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                                  *
  *                                                                                        *
  *----------------------------------------------------------------------------------------*/
+package com.googlecode.surfaceplotter;
 
 import java.awt.Point;
 
@@ -36,10 +36,9 @@ import java.awt.Point;
 public final class SurfaceVertex {
   private Point  projection;
   private int    project_index;
-  private static Projector projector;
+	
+  private Projector projector;
 
-  private static float zmin, zmax;
-  private static float zfactor;
   private static int   master_project_index = 0;     // over 4 billion times to reset
 
   /**
@@ -66,9 +65,11 @@ public final class SurfaceVertex {
    * @param iz the z coordinate
    */
    
-  SurfaceVertex(float ix, float iy, float iz) {
+  SurfaceVertex(Projector projector, float ix, float iy, float iz) 
+	{
     x = ix; y = iy; z = iz;
     project_index = master_project_index-1;
+	this.projector=projector;
   }
    
   /**
@@ -89,7 +90,7 @@ public final class SurfaceVertex {
    
   public final Point projection() {
     if (project_index != master_project_index) {
-      projection = projector.project(x,y,(z-zmin)*zfactor-10);
+      projection = projector.project(x,y,(z-projector.zmin)*projector.zfactor-10);
       project_index = master_project_index;
     }
     return projection;
@@ -104,7 +105,7 @@ public final class SurfaceVertex {
   public final void transform() {
     x = x / projector.getXScaling();
     y = y / projector.getYScaling();
-    z = (zmax-zmin)*(z/projector.getZScaling()+10)/20 + zmin;
+    z = (projector.zmax-projector.zmin)*(z/projector.getZScaling()+10)/20 + projector.zmin;
   }
   
   /**
@@ -121,11 +122,11 @@ public final class SurfaceVertex {
    *
    * @param projector the projector
    */
-     
-  public static void setProjector(Projector projector) {
-    SurfaceVertex.projector = projector;
+     /*
+  public  void setProjector(Projector projector) {
+    this.projector = projector;
   }
-  
+  /**/
   /**
    * Sets the minimum and maximum value of z range.
    * This values is used to compute a factor to normalized
@@ -135,9 +136,5 @@ public final class SurfaceVertex {
    * @param zmax the maximum z 
    */
    
-  public static void setZRange(float zmin, float zmax) {
-    SurfaceVertex.zmin = zmin; SurfaceVertex.zmax = zmax;
-    zfactor = 20/(zmax-zmin);
-  }
 }
 

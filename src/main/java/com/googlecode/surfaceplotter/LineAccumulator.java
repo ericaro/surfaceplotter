@@ -1,6 +1,5 @@
-package com.googlecode.surfaceplotter;
 /*----------------------------------------------------------------------------------------*
- * LineAccumulator.java                                                                   *
+  * LineAccumulator.java                                                                   *
  *                                                                                        *
  * Surface Plotter   version 1.30b1  17 May 1997                                          *
  *                   version 1.30b2  18 Oct 2001                                          *
@@ -22,6 +21,7 @@ package com.googlecode.surfaceplotter;
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                                  *
  *                                                                                        *
  *----------------------------------------------------------------------------------------*/
+package com.googlecode.surfaceplotter;
 
 import java.awt.Graphics;
 import java.util.Enumeration;
@@ -56,9 +56,13 @@ public class LineAccumulator {
    */
    
   public void addLine(int x1, int y1, int x2, int y2) {
+		if (x1<=0 || y1<=0 || x2<=0 || y2<=0 ) return; 
+		//System.out.println("("+x1+","+y1+","+x2+","+y2+")");
     accumulator.addElement(new LineRecord(x1,y1,x2,y2));
   }
   
+		
+		
   /**
    * Clears accumulator.
    */
