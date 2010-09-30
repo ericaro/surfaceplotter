@@ -37,21 +37,13 @@ package com.googlecode.surfaceplotter;
 public interface SurfaceModel
 {
 	
-
+	public enum PlotType{SURFACE, WIREFRAME, DENSITY, CONTOUR};
 	//TODO replace with enum
 	//plot type constant 
-	public static final int PLOT_TYPE_SURFACE=0;
-	public static final int PLOT_TYPE_WIREFRAME=1;
-	public static final int PLOT_TYPE_DENSITY=2;
-	public static final int PLOT_TYPE_CONTOUR=3;
-
+	
+	public enum PlotColor{OPAQUE, SPECTRUM, DUALSHADE, GRAYSCALE, FOG};
 	//TODO replace with enums
 	// plot color constant
-	public static final int PLOT_COLOR_OPAQUE   	 = 0;
-	public static final int PLOT_COLOR_SPECTRUM    = 1;
-	public static final int PLOT_COLOR_DUALSHADE   = 2;
-	public static final int PLOT_COLOR_GRAYSCALE   = 3;
-	public static final int PLOT_COLOR_FOG		 = 4;
 	
 	//events
 	public void addPropertyChangeListener(java.beans.PropertyChangeListener listener);
@@ -70,8 +62,8 @@ public interface SurfaceModel
 	
 	
 	public boolean isAutoScaleZ();
-	public int getPlotType();
-	public int getPlotColor();
+	public PlotType getPlotType();
+	public PlotColor getPlotColor();
 	public int getCalcDivisions();
 	public int getContourLines();
 	public int getDispDivisions(); 
