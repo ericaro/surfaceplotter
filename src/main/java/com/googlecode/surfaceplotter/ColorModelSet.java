@@ -1,6 +1,9 @@
 package com.googlecode.surfaceplotter;
 
 import java.awt.Color;
+
+import com.googlecode.surfaceplotter.SurfaceModel.PlotColor;
+import com.googlecode.surfaceplotter.SurfaceModel.PlotType;
 /** A simple ColorModel that uses two ColorMode per plot type. 
 
  * @author Eric
@@ -70,13 +73,13 @@ public class ColorModelSet implements SurfaceColor
 		
 	}
 	
-	protected int color_mode=0;
-	public void setPlotColor(int v)	
+	protected PlotColor color_mode= PlotColor.SPECTRUM;
+	public void setPlotColor(PlotColor v)	
 	{
 		this.color_mode=v;
 	}
-	protected int plot_mode=0;
-	public void setPlotType(int type)
+	protected PlotType plot_mode= PlotType.CONTOUR;
+	public void setPlotType(PlotType type)
 	{
 		this.plot_mode=type;
 	}
@@ -109,14 +112,14 @@ public class ColorModelSet implements SurfaceColor
 	{
 		//return Color.BLUE;
 		/**/
-		if (plot_mode==SurfaceModel.PLOT_TYPE_WIREFRAME)
+		if (plot_mode==PlotType.WIREFRAME)
 		{
 			return Color.BLACK;
 		}
 		if (
-			color_mode==SurfaceModel.PLOT_COLOR_GRAYSCALE	|| 
-			color_mode==SurfaceModel.PLOT_COLOR_SPECTRUM||
-			color_mode==SurfaceModel.PLOT_COLOR_DUALSHADE)
+			color_mode==PlotColor.GRAYSCALE	|| 
+			color_mode==PlotColor.SPECTRUM||
+			color_mode==PlotColor.DUALSHADE)
 		return grayscale.getPolygonColor(1-z);
 		else return Color.DARK_GRAY;
 		
@@ -147,19 +150,19 @@ public class ColorModelSet implements SurfaceColor
 	public Color getFirstPolygonColor(float z)
 	{
 		//contour,density  plot does not fit with opaque color 
-		if(plot_mode==SurfaceModel.PLOT_TYPE_CONTOUR ||plot_mode==SurfaceModel.PLOT_TYPE_DENSITY)
+		if(plot_mode==PlotType.CONTOUR ||plot_mode==PlotType.DENSITY)
 		{
-			if (color_mode==SurfaceModel.PLOT_COLOR_OPAQUE)
+			if (color_mode==PlotColor.OPAQUE)
 				return dualshade.getPolygonColor(z);
 		}
 		
 		switch ( color_mode)
 		{
-		case SurfaceModel.PLOT_COLOR_OPAQUE	:return opaque.getPolygonColor(z);
-		case SurfaceModel.PLOT_COLOR_GRAYSCALE	:return grayscale.getPolygonColor(z);
-		case SurfaceModel.PLOT_COLOR_SPECTRUM	:return spectrum.getPolygonColor(z);
-		case SurfaceModel.PLOT_COLOR_DUALSHADE	:return dualshade.getPolygonColor(z);
-		case SurfaceModel.PLOT_COLOR_FOG		:return fog.getPolygonColor(z);
+		case OPAQUE	:return opaque.getPolygonColor(z);
+		case GRAYSCALE	:return grayscale.getPolygonColor(z);
+		case SPECTRUM	:return spectrum.getPolygonColor(z);
+		case DUALSHADE	:return dualshade.getPolygonColor(z);
+		case FOG		:return fog.getPolygonColor(z);
 		default: return Color.blue;
 		}
 	}
@@ -170,18 +173,18 @@ public class ColorModelSet implements SurfaceColor
 	public Color getSecondPolygonColor(float z)
 	{
 		//contour,density  plot does not fit with opaque color 
-		if(plot_mode==SurfaceModel.PLOT_TYPE_CONTOUR ||plot_mode==SurfaceModel.PLOT_TYPE_DENSITY)
+		if(plot_mode==PlotType.CONTOUR ||plot_mode==PlotType.DENSITY)
 		{
-			if (color_mode==SurfaceModel.PLOT_COLOR_OPAQUE)
+			if (color_mode==PlotColor.OPAQUE)
 				return alt_dualshade.getPolygonColor(z);
 		}
 		switch ( color_mode)
 		{
-		case SurfaceModel.PLOT_COLOR_OPAQUE	:return alt_opaque.getPolygonColor(z);
-		case SurfaceModel.PLOT_COLOR_GRAYSCALE	:return alt_grayscale.getPolygonColor(z);
-		case SurfaceModel.PLOT_COLOR_SPECTRUM	:return alt_spectrum.getPolygonColor(z);
-		case SurfaceModel.PLOT_COLOR_DUALSHADE	:return alt_dualshade.getPolygonColor(z);
-		case SurfaceModel.PLOT_COLOR_FOG		:return alt_fog.getPolygonColor(z);
+		case OPAQUE	:return alt_opaque.getPolygonColor(z);
+		case GRAYSCALE	:return alt_grayscale.getPolygonColor(z);
+		case SPECTRUM	:return alt_spectrum.getPolygonColor(z);
+		case DUALSHADE	:return alt_dualshade.getPolygonColor(z);
+		case FOG		:return alt_fog.getPolygonColor(z);
 		default: return Color.blue;
 		}
 	}

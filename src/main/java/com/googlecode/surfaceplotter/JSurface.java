@@ -38,6 +38,8 @@ import java.awt.Label;
 import java.awt.Point;
 import java.awt.PrintGraphics;
 import java.awt.Rectangle;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -47,6 +49,9 @@ import java.awt.image.VolatileImage;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
+
+import com.googlecode.surfaceplotter.SurfaceModel.PlotColor;
+import com.googlecode.surfaceplotter.SurfaceModel.PlotType;
 
 /**
  * The class <code>JSurface</code> is responsible for the generation of surface
@@ -83,8 +88,8 @@ public class JSurface extends javax.swing.JComponent {
 
 	// setting variables
 
-	private int plot_color;
-	private int plot_type;
+	private PlotColor plot_color;
+	private PlotType plot_type;
 
 	private int calc_divisions;
 	private boolean plotfunc1, plotfunc2, plotboth;
@@ -107,6 +112,7 @@ public class JSurface extends javax.swing.JComponent {
 
 	SurfaceColor colors;
 	private JSurfaceChangesListener surfaceChangesListener;
+	private static JSurface lastFocused;
 
 	// TODO makes the JSurface works without model, so that it can become a real
 	// bean
@@ -127,9 +133,19 @@ public class JSurface extends javax.swing.JComponent {
 		addMouseListener(my);
 		addMouseMotionListener(my);
 		addMouseWheelListener(my);
+		addFocusListener(new FocusAdapter() {
+
+		@Override public void focusGained(FocusEvent e) {
+				//keep track of the last focused Jsurface to connect actions to them
+				lastFocused = JSurface.this;
+			}});
 		setModel(model);
 	}
 
+	public static JSurface getFocusedComponent() {
+		return lastFocused ;
+	}
+	
 	private void setModel(SurfaceModel model) {
 
 		if (this.model != null)
@@ -165,7 +181,7 @@ public class JSurface extends javax.swing.JComponent {
 			float new_value = 0.0f;
 			float old_value = projector.get2DScaling();
 			new_value = old_value
-					* (1 + e.getScrollAmount() * e.getWheelRotation() / 10f);
+					* (1 - e.getScrollAmount() * e.getWheelRotation() / 10f);
 			if (new_value > 60.0f)
 				new_value = 60.0f;
 			if (new_value < 2.0f)
@@ -541,7 +557,7 @@ public class JSurface extends javax.swing.JComponent {
 	}
 
 	private boolean is3D() {
-		return (plot_type == model.PLOT_TYPE_WIREFRAME || plot_type == model.PLOT_TYPE_SURFACE);
+		return (plot_type == PlotType.WIREFRAME || plot_type == PlotType.SURFACE);
 	}
 
 	private void printing(Graphics graphics) {
@@ -653,16 +669,16 @@ public class JSurface extends javax.swing.JComponent {
 
 		// contour plot
 		switch (plot_type) {
-		case SurfaceModel.PLOT_TYPE_CONTOUR:
+		case CONTOUR:
 			plotContour();
 			break;
-		case SurfaceModel.PLOT_TYPE_DENSITY:
+		case DENSITY:
 			plotDensity();
 			break;
-		case SurfaceModel.PLOT_TYPE_WIREFRAME:
+		case WIREFRAME:
 			plotWireframe();
 			break;
-		case SurfaceModel.PLOT_TYPE_SURFACE:
+		case SURFACE:
 			plotSurface();
 			break;
 		}
@@ -736,8 +752,8 @@ public class JSurface extends javax.swing.JComponent {
 		x[4] = x[0];
 		y[4] = y[0];
 
-		if (plot_type != SurfaceModel.PLOT_TYPE_WIREFRAME) {
-			if (plot_color == SurfaceModel.PLOT_COLOR_OPAQUE)
+		if (plot_type != PlotType.WIREFRAME) {
+			if (plot_color == PlotColor.OPAQUE)
 				g.setColor(colors.getBackgroundColor());
 			else
 				g.setColor(colors.getBoxColor());
@@ -842,8 +858,8 @@ public class JSurface extends javax.swing.JComponent {
 				x[4] = x[0];
 				y[4] = y[0];
 
-				if (plot_type != SurfaceModel.PLOT_TYPE_WIREFRAME) {
-					if (plot_color == SurfaceModel.PLOT_COLOR_OPAQUE)
+				if (plot_type != PlotType.WIREFRAME) {
+					if (plot_color == PlotColor.OPAQUE)
 						g.setColor(colors.getBackgroundColor());
 					else
 						g.setColor(colors.getBoxColor());
@@ -863,8 +879,8 @@ public class JSurface extends javax.swing.JComponent {
 				x[4] = x[0];
 				y[4] = y[0];
 
-				if (plot_type != SurfaceModel.PLOT_TYPE_WIREFRAME) {
-					if (plot_color == SurfaceModel.PLOT_COLOR_OPAQUE)
+				if (plot_type != PlotType.WIREFRAME) {
+					if (plot_color == PlotColor.OPAQUE)
 						g.setColor(colors.getBackgroundColor());
 					else
 						g.setColor(colors.getBoxColor());
@@ -1312,21 +1328,8 @@ public class JSurface extends javax.swing.JComponent {
 			graphics.setColor(colors.getPolygonColor(curve, z));
 			graphics.fillPolygon(poly_x, poly_y, count);
 			graphics.setColor(colors.getLineColor(1, z));
-			if (isMesh || (plot_color == SurfaceModel.PLOT_COLOR_OPAQUE)) {// the
-																			// OPAQUE
-																			// COLOR
-																			// MODE
-																			// doesn't
-																			// show
-																			// the
-																			// shape,
-																			// so
-																			// it
-																			// must
-																			// be
-																			// drawn
-																			// with
-																			// mesh
+			if (isMesh || (plot_color == PlotColor.OPAQUE)) {
+		
 				poly_x[count] = poly_x[0];
 				poly_y[count] = poly_y[0];
 				count++;
@@ -2223,8 +2226,8 @@ public class JSurface extends javax.swing.JComponent {
 					contour_n++;
 				}
 			}
-			if ((plot_type != SurfaceModel.PLOT_TYPE_WIREFRAME)
-					&& (plot_color != SurfaceModel.PLOT_COLOR_OPAQUE)) {
+			if ((plot_type != PlotType.WIREFRAME)
+					&& (plot_color != PlotColor.OPAQUE)) {
 				if (counter > contour_lines) {
 					if (printing)
 						graphics.setColor(Color.white);

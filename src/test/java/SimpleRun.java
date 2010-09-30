@@ -1,14 +1,11 @@
-import java.awt.Color;
-
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import javax.swing.border.BevelBorder;
 
 import com.googlecode.surfaceplotter.AbstractSurfaceModel;
 import com.googlecode.surfaceplotter.JSurface;
-import com.googlecode.surfaceplotter.SurfaceModel;
 import com.googlecode.surfaceplotter.AbstractSurfaceModel.Plotter;
+import com.googlecode.surfaceplotter.SurfaceModel.PlotColor;
+import com.googlecode.surfaceplotter.SurfaceModel.PlotType;
 
 
 public class SimpleRun {
@@ -22,7 +19,7 @@ public class SimpleRun {
 		
 		System.out.println("plotting");
 		
-		sm.setPlotFunction2(true);
+		sm.setPlotFunction2(false);
 		
 		sm.setCalcDivisions(50);
 		sm.setDispDivisions(50);
@@ -33,29 +30,26 @@ public class SimpleRun {
 		sm.setYMin(-3);
 		sm.setYMax(3);
 		
-		sm.setBoxed(true);
+		sm.setBoxed(false);
 		sm.setDisplayXY(true);
 		sm.setExpectDelay(false);
 		sm.setAutoScaleZ(true);
 		sm.setDisplayZ(true);
-		sm.setMesh(true);
-		sm.setPlotType(sm.PLOT_TYPE_SURFACE);
-		//sm.setPlotType(sm.PLOT_TYPE_WIREFRAME);
-		//sm.setPlotType(sm.PLOT_TYPE_CONTOUR);
-		//sm.setPlotType(sm.PLOT_TYPE_DENSITY);
+		sm.setMesh(false);
+		sm.setPlotType(PlotType.SURFACE);
+		//sm.setPlotType(PlotType.WIREFRAME);
+		//sm.setPlotType(PlotType.CONTOUR);
+		//sm.setPlotType(PlotType.DENSITY);
 		
-		sm.setPlotColor(sm.PLOT_COLOR_SPECTRUM);
-		//sm.setPlotColor(sm.PLOT_COLOR_DUALSHADE);
-		//sm.setPlotColor(sm.PLOT_COLOR_FOG);
-		//sm.setPlotColor(sm.PLOT_COLOR_OPAQUE);
-		
+		sm.setPlotColor(PlotColor.SPECTRUM);
+		//sm.setPlotColor(PlotColor.DUALSHADE);
+		//sm.setPlotColor(PlotColor.FOG);
+		//sm.setPlotColor(PlotColor.OPAQUE);
 		
 		
 		//( (AbstractSurfaceModel) sm).run();
 		
 		JSurface canvas = new JSurface(sm);
-		//canvas.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-		canvas.setBorder(BorderFactory.createLineBorder(Color.RED, 6)); //check if the paint is ok
 		
 		
 		JFrame jf= new JFrame("test");
@@ -70,7 +64,6 @@ public class SimpleRun {
 					Plotter p = sm.newPlotter(sm.getCalcDivisions());
 					int im=p.getWidth();
 					int jm=p.getHeight();
-					long lastUpdate=System.currentTimeMillis();
 					for(int i=0;i<im;i++)
 						for(int j=0;j<jm;j++)
 						{
@@ -79,16 +72,12 @@ public class SimpleRun {
 							y=p.getY(j);
 							//System.out.println("setting value");
 							p.setValue(i,j,f1(x,y),f2(x,y) );
-							/**/ // force the fill to be slow to mimic a slow computation
+							/** // force the fill to be slow to mimic a slow computation
 							try{
-								Thread.sleep(10);
+								Thread.sleep(2);
 							}catch(InterruptedException e) {System.out.println("interrupted");}
 							/**/
-							sm.refresh();
 						}
-					//System.out.println("Duration "+(System.currentTimeMillis()-lastUpdate));
-					//( (AbstractSurfaceModel) sm).doUpdate();
-					sm.refresh();
 				}
 			}).start();
 		
