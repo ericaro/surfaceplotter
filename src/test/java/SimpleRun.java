@@ -21,8 +21,8 @@ public class SimpleRun {
 		
 		sm.setPlotFunction2(false);
 		
-		sm.setCalcDivisions(50);
-		sm.setDispDivisions(50);
+		sm.setCalcDivisions(100);
+		sm.setDispDivisions(100);
 		sm.setContourLines(10);
 		
 		sm.setXMin(-3);
@@ -31,10 +31,10 @@ public class SimpleRun {
 		sm.setYMax(3);
 		
 		sm.setBoxed(false);
-		sm.setDisplayXY(true);
+		sm.setDisplayXY(false);
 		sm.setExpectDelay(false);
 		sm.setAutoScaleZ(true);
-		sm.setDisplayZ(true);
+		sm.setDisplayZ(false);
 		sm.setMesh(false);
 		sm.setPlotType(PlotType.SURFACE);
 		//sm.setPlotType(PlotType.WIREFRAME);
