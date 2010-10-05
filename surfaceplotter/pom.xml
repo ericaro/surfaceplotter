@@ -26,9 +26,9 @@
 	<!-- MAVEN STUFF -->
 
 	<scm>
-		<connection>scm:svn:http://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter</connection>
+		<connection>scm:svn:https://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter</connection>
 		<developerConnection>scm:svn:https://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter</developerConnection>
-		<url>http://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter</url>
+		<url>https://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter</url>
 	</scm>
 	<licenses>
 		<license>
