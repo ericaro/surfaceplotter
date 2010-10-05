@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.googlecode.surfaceplotter</groupId>
 	<artifactId>surfaceplotter</artifactId>
 	<name>Surface Plotter</name>
-	<version>2.0.0.beta2-SNAPSHOT</version>
+	<version>2.0.0.beta2</version>
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
@@ -26,9 +25,9 @@
 	<!-- MAVEN STUFF -->
 
 	<scm>
-		<connection>scm:svn:https://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter</connection>
-		<developerConnection>scm:svn:https://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter</developerConnection>
-		<url>https://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter</url>
+		<connection>scm:svn:https://surfaceplotter.googlecode.com/svn/tags/surfaceplotter-2.0.0.beta2</connection>
+		<developerConnection>scm:svn:https://surfaceplotter.googlecode.com/svn/tags/surfaceplotter-2.0.0.beta2</developerConnection>
+		<url>https://surfaceplotter.googlecode.com/svn/tags/surfaceplotter-2.0.0.beta2</url>
 	</scm>
 	<licenses>
 		<license>
