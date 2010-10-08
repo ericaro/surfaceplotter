@@ -103,8 +103,7 @@ public class AbstractSurfaceModel implements SurfaceModel {
 	public void setAutoScaleZ(boolean v) {
 		boolean o = this.autoScaleZ;
 		this.autoScaleZ = v;
-		if (autoScaleZ)
-			autoScale();
+		autoScale();
 
 		property.firePropertyChange(AUTO_SCALE_Z_PROPERTY, o, v);
 	}
@@ -115,6 +114,7 @@ public class AbstractSurfaceModel implements SurfaceModel {
 
 	public void autoScale() {
 		//compute  auto scale and repaint
+		if (! autoScaleZ ) return;
 		if (plotFunction1 && plotFunction2) {
 			setZMin(Math.min(z1Min, z2Min));
 			setZMax(Math.max(z1Max, z2Max));
@@ -137,9 +137,12 @@ public class AbstractSurfaceModel implements SurfaceModel {
 	}
 
 	public void setPlotType(PlotType v) {
-		Object o = this.plotType;
+		PlotType o = this.plotType;
 		this.plotType = v;
+		if (colorModel != null)
+			colorModel.setPlotType(plotType); //this should be handled by the model itself, without any
 		property.firePropertyChange(PLOT_TYPE_PROPERTY, o, v);
+		fireAllType(o, v);
 	}
 
 	protected PlotColor plotColor;
@@ -149,13 +152,77 @@ public class AbstractSurfaceModel implements SurfaceModel {
 	}
 
 	public void setPlotColor(PlotColor v) {
-		Object o = this.plotColor;
+		PlotColor o = this.plotColor;
 		this.plotColor = v;
 		if (colorModel != null)
 			colorModel.setPlotColor(plotColor); //this should be handled by the model itself, without any
 		property.firePropertyChange(PLOT_COLOR_PROPERTY, o, v);
+		fireAllMode(o, v);
+	}
+	
+	private void fireAllMode(PlotColor oldValue, PlotColor newValue) {
+		for(PlotColor c: PlotColor.values())
+			property.firePropertyChange(c.getPropertyName(), oldValue == c, newValue==c);
+	}
+	
+	private void fireAllType(PlotType oldValue, PlotType newValue) {
+		for(PlotType c: PlotType.values())
+			property.firePropertyChange(c.getPropertyName(), oldValue == c, newValue==c);
+	}
+	
+	private void fireAllFunction(boolean oldHas1, boolean oldHas2) {
+		property.firePropertyChange("FirstFunctionOnly", (!oldHas2) && oldHas1, (!plotFunction2) && plotFunction1);
+		property.firePropertyChange("SecondFunctionOnly", (!oldHas1) && oldHas2, (!plotFunction1) && plotFunction2);
+		property.firePropertyChange("BothFunction", oldHas1 && oldHas2, plotFunction1 && plotFunction2);
+		autoScale() ;
+		
 	}
 
+	
+	
+	public boolean isHiddenMode() {return plotColor== PlotColor.OPAQUE;	}
+	public void setHiddenMode(boolean val) { setPlotColor(val?PlotColor.OPAQUE: PlotColor.SPECTRUM);}
+
+	public boolean isSpectrumMode() {return plotColor== PlotColor.SPECTRUM;	}
+	public void setSpectrumMode(boolean val) { setPlotColor(val?PlotColor.SPECTRUM: PlotColor.GRAYSCALE);}
+
+	public boolean isGrayScaleMode() {return plotColor== PlotColor.GRAYSCALE;	}
+	public void setGrayScaleMode(boolean val) { setPlotColor(val?PlotColor.GRAYSCALE: PlotColor.SPECTRUM);}
+
+	public boolean isDualShadeMode() {return plotColor== PlotColor.DUALSHADE;	}
+	public void setDualShadeMode(boolean val) { setPlotColor(val?PlotColor.DUALSHADE: PlotColor.SPECTRUM);}
+
+	public boolean isFogMode() {return plotColor== PlotColor.FOG;	}
+	public void setFogMode(boolean val) { setPlotColor(val?PlotColor.FOG: PlotColor.SPECTRUM);}
+
+	public boolean isWireframeType() {return plotType == PlotType.WIREFRAME;	}
+	public void setWireframeType(boolean val) { if (val) setPlotType(PlotType.WIREFRAME);	else setPlotType(PlotType.SURFACE);}
+
+	public boolean isSurfaceType() {return plotType== PlotType.SURFACE;	}
+	public void setSurfaceType(boolean val) { setPlotType(val?PlotType.SURFACE: PlotType.WIREFRAME);}
+	
+	public boolean isContourType() {return plotType== PlotType.CONTOUR;	}
+	public void setContourType(boolean val) { setPlotType(val?PlotType.CONTOUR: PlotType.SURFACE);}
+
+	public boolean isDensityType() {return plotType== PlotType.DENSITY;	}
+	public void setDensityType(boolean val) { setPlotType(val?PlotType.DENSITY: PlotType.SURFACE);}
+	
+	public boolean isFirstFunctionOnly() { return plotFunction1&& ! plotFunction2;	}
+	public void setFirstFunctionOnly(boolean val) { setPlotFunction12(val,!val);}
+	
+	public boolean isSecondFunctionOnly() { return (!plotFunction1) && plotFunction2;	}
+	public void setSecondFunctionOnly(boolean val) { setPlotFunction12(!val, val); }
+
+	public boolean isBothFunction() { return plotFunction1&& plotFunction2;	}
+	public void setBothFunction(boolean val) { setPlotFunction12(val,val); }
+	
+	
+	
+	
+	
+	
+	
+	
 	protected SurfaceVertex[][] vertex;
 
 	public SurfaceVertex[][] getSurfaceVertex() {
@@ -902,6 +969,19 @@ public class AbstractSurfaceModel implements SurfaceModel {
 		boolean o = this.plotFunction1;
 		this.plotFunction1 = hasFunction1 && v;
 		property.firePropertyChange(PLOT_FUNCTION_1_PROPERTY, o, v);
+		fireAllFunction(o, plotFunction2  );
+	}
+	
+	public void setPlotFunction12(boolean p1, boolean p2) {
+		boolean o1 = this.plotFunction1;
+		boolean o2 = this.plotFunction2;
+		
+		this.plotFunction1 = hasFunction1 && p1;
+		property.firePropertyChange(PLOT_FUNCTION_1_PROPERTY, o1, p1);
+		
+		this.plotFunction2 = hasFunction2 && p2;
+		property.firePropertyChange(PLOT_FUNCTION_2_PROPERTY, o2, p2);
+		fireAllFunction(o1, o2 );
 	}
 
 	public void togglePlotFunction1() {
@@ -931,6 +1011,7 @@ public class AbstractSurfaceModel implements SurfaceModel {
 		boolean o = this.plotFunction2;
 		this.plotFunction2 = hasFunction2 && v;
 		property.firePropertyChange(PLOT_FUNCTION_2_PROPERTY, o, v);
+		fireAllFunction( plotFunction1, o  );
 	}
 
 	/**

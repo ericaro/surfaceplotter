@@ -45,20 +45,20 @@ public class ColorModel
 		{
 		case DUALSHADE:
 			{
-				return Color.getHSBColor(hue,sat, norm(z));
+				return color(hue,sat, norm(z));
 			}
 		case SPECTRUM:
 			{
-				return Color.getHSBColor(norm(1-z),sat, bright);
-				//return Color.getHSBColor(norm(1-z),0.3f+z*(0.7f), bright);
+				return color(norm(1-z),sat, bright);
+				//return color(norm(1-z),0.3f+z*(0.7f), bright);
 			}
 		case FOG:
 			{
-				return Color.getHSBColor(hue,norm(z), bright);
+				return color(hue,norm(z), bright);
 			}
 		case OPAQUE:
 			{
-				if (ocolor==null) ocolor=Color.getHSBColor(hue,sat, bright);
+				if (ocolor==null) ocolor=color(hue,sat, bright);
 				return ocolor;
 			}
 		}
@@ -66,25 +66,27 @@ public class ColorModel
 	}
 	
 	
+	
+	/**
+	 * @param hue
+	 * @param sat
+	 * @param bright
+	 * @return
+	 */
+	private Color color(float hue, float sat, float bright) {
+		return  Color.getHSBColor(hue, sat, bright);
+		// transparency management, unfortunately we reach to power of 2010 computers, it's laggy
+		//return new Color(hsb.getRed(), hsb.getGreen(), hsb.getBlue(), 128);
+	}
+
+
+
 	private float norm(float z)
 	{
 		if (min==max) return min;
 		return min+z*(max-min);
 	}
 	
-	
-	/*
-	case DUALSHADE:   z = (z-zi)*color_factor+dualshadeOffset;
-					graphics.setColor();
-					break;
-				case SPECTRUM:    z = 0.8f-(z-zi)*color_factor;
-					graphics.setColor(Color.getHSBColor(z,1.0f,1.0f)); 
-					break;
-				default:          z = (z-zi)*color_factor;
-					graphics.setColor(Color.getHSBColor(0,0,z));
-					if (z < 0.3f) line_color = new Color(0.6f,0.6f,0.6f);                    
-					break;
-					/**/
 	
 
 }//end of class

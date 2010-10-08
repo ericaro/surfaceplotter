@@ -28,16 +28,7 @@ Means : using default swing doubleBuffering for interactive painting (drag etc.)
  *----------------------------------------------------------------------------------------*/
 package com.googlecode.surfaceplotter;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Label;
-import java.awt.Point;
-import java.awt.PrintGraphics;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
@@ -50,7 +41,6 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 
-import com.googlecode.surfaceplotter.SurfaceModel.PlotColor;
 import com.googlecode.surfaceplotter.SurfaceModel.PlotType;
 
 /**
@@ -67,28 +57,18 @@ public class JSurface extends javax.swing.JComponent {
 	private boolean data_available; // data availability flag
 	private boolean interrupted; // interrupted flag
 	private boolean critical; // for speed up
-	// private boolean rotate; // rotate flag
 	private boolean printing; // printing flag
-	// private boolean contour; // contour flag
-	// private boolean density; // density flag
 	private int prevwidth, prevheight; // canvas size
 	private int printwidth, printheight; // print size
 	private SurfaceVertex cop; // center of projection
 
-	// used to set the color of a surface in the case of two
-	// curves in the same graph : in particular to define
-	// the topmost polygon color !
-	// private float color; // color of surface
-	private int curve = 0; // replace the ugly color code by a curve number code
+	private int curve = 0; 
 
 	private Graphics graphics; // the actual graphics used by all private
 								// methods
-	private VolatileImage buffer; // the buffer used to draw image (in in
-									// rotation process
 
 	// setting variables
 
-	private PlotColor plot_color;
 	private PlotType plot_type;
 
 	private int calc_divisions;
@@ -319,7 +299,6 @@ public class JSurface extends javax.swing.JComponent {
 		if (data_available)
 			setValuesArray(model.getSurfaceVertex());
 
-		plot_color = model.getPlotColor();
 		plot_type = model.getPlotType();
 
 		isBoxed = model.isBoxed();
@@ -342,16 +321,7 @@ public class JSurface extends javax.swing.JComponent {
 	public void destroyImage() {
 		repaint();
 	}
-
-	/**
-	 * Sets contour plot flag. <code>SurfaceCanvas</code> will generate contour
-	 * plot of surface if this flag is true.
-	 * 
-	 * @param contour
-	 *            new contour plot flag
-	 * @see #setDensity
-	 */
-
+	
 	/**
 	 * Sets the x and y ranges of calculated surface vertices. The ranges will
 	 * not affect surface appearance. They affect axes scale appearance.
@@ -606,43 +576,9 @@ public class JSurface extends javax.swing.JComponent {
 		paintComponent(g); // do not erase, just paint
 	}
 
-	// rendering to the image
-	private void renderOffscreen() {
-		do {
-			if (buffer == null
-					|| buffer.validate(getGraphicsConfiguration()) == VolatileImage.IMAGE_INCOMPATIBLE) {
-				// old buffer doesn't work with new GraphicsConfig; re-create it
-				buffer = createVolatileImage(getBounds().width,
-						getBounds().height);
-			}
-			Graphics2D g = buffer.createGraphics();
-			draw(g);
-			g.dispose();
+	
 
-		} while (buffer.contentsLost());
-	}
-
-	private void flushBuffer() {
-
-		// copying from the image (here, gScreen is the Graphics
-		// object for the onscreen window)
-		do {
-			int returnCode = buffer.validate(getGraphicsConfiguration());
-			if (returnCode == VolatileImage.IMAGE_RESTORED) {
-				// Contents need to be restored
-				renderOffscreen(); // restore contents
-			} else if (returnCode == VolatileImage.IMAGE_INCOMPATIBLE) {
-				// old vImg doesn't work with new GraphicsConfig; re-create it
-				buffer = createVolatileImage(getBounds().width,
-						getBounds().height);
-				renderOffscreen();
-			}
-
-			getGraphics().drawImage(buffer, 0, 0, this);
-		} while (buffer.contentsLost());
-
-	}
-
+	
 	private void export(Graphics g) {
 		if (data_available && !interrupted) {
 			draw(g);
@@ -752,13 +688,8 @@ public class JSurface extends javax.swing.JComponent {
 		x[4] = x[0];
 		y[4] = y[0];
 
-		if (plot_type != PlotType.WIREFRAME) {
-			if (plot_color == PlotColor.OPAQUE)
-				g.setColor(colors.getBackgroundColor());
-			else
-				g.setColor(colors.getBoxColor());
-			g.fillPolygon(x, y, 4);
-		}
+		g.setColor(colors.getBoxColor());
+		g.fillPolygon(x, y, 4);
 
 		g.setColor(colors.getLineBoxColor());
 		g.drawPolygon(x, y, 5);
@@ -785,7 +716,6 @@ public class JSurface extends javax.swing.JComponent {
 			return;
 
 		if (draw_axes) {
-			System.out.println("back");
 			drawBase(g, x, y);
 			projection = projector.project(0, 0, -10);
 			x[0] = projection.x;
@@ -858,13 +788,9 @@ public class JSurface extends javax.swing.JComponent {
 				x[4] = x[0];
 				y[4] = y[0];
 
-				if (plot_type != PlotType.WIREFRAME) {
-					if (plot_color == PlotColor.OPAQUE)
-						g.setColor(colors.getBackgroundColor());
-					else
-						g.setColor(colors.getBoxColor());
-					g.fillPolygon(x, y, 4);
-				}
+				g.setColor(colors.getBoxColor());
+				g.fillPolygon(x, y, 4);
+					
 				g.setColor(colors.getLineBoxColor());
 				g.drawPolygon(x, y, 5);
 
@@ -879,13 +805,9 @@ public class JSurface extends javax.swing.JComponent {
 				x[4] = x[0];
 				y[4] = y[0];
 
-				if (plot_type != PlotType.WIREFRAME) {
-					if (plot_color == PlotColor.OPAQUE)
-						g.setColor(colors.getBackgroundColor());
-					else
-						g.setColor(colors.getBoxColor());
-					g.fillPolygon(x, y, 4);
-				}
+				g.setColor(colors.getBoxColor());
+				g.fillPolygon(x, y, 4);
+					
 				g.setColor(colors.getLineBoxColor());
 				g.drawPolygon(x, y, 5);
 			} else if (isDisplayZ) {
@@ -1328,7 +1250,7 @@ public class JSurface extends javax.swing.JComponent {
 			graphics.setColor(colors.getPolygonColor(curve, z));
 			graphics.fillPolygon(poly_x, poly_y, count);
 			graphics.setColor(colors.getLineColor(1, z));
-			if (isMesh || (plot_color == PlotColor.OPAQUE)) {
+			if (isMesh ) {
 		
 				poly_x[count] = poly_x[0];
 				poly_y[count] = poly_y[0];
@@ -2117,7 +2039,6 @@ public class JSurface extends javax.swing.JComponent {
 
 	private final void createContour() {
 		float z = zmin;
-		boolean fill = true;
 
 		int xmin = xpoints[0] = contourConvertX(contour_vertex[0].x);
 		int xmax = xpoints[4] = contourConvertX(contour_vertex[2].x);
@@ -2226,22 +2147,19 @@ public class JSurface extends javax.swing.JComponent {
 					contour_n++;
 				}
 			}
-			if ( plot_type != PlotType.WIREFRAME)
-					 {
-				if (counter > contour_lines) {
-					if (printing)
-						graphics.setColor(Color.white);
-					else
-						graphics.setColor(colors.getBackgroundColor());
-				} else
-					graphics.setColor(contour_color[counter]);
-				if (ok(contour_x, contour_n) && ok(contour_y, contour_n))
-					graphics.fillPolygon(contour_x, contour_y, contour_n);
-			}
+			if (counter > contour_lines) {
+				if (printing)
+					graphics.setColor(Color.white);
+				else
+					graphics.setColor(colors.getBackgroundColor());
+			} else
+				graphics.setColor(contour_color[counter]);
+			if (ok(contour_x, contour_n) && ok(contour_y, contour_n))
+				graphics.fillPolygon(contour_x, contour_y, contour_n);
 
 			// Creates contour lines
 
-			if (isMesh || !fill) {
+			if (isMesh) {
 				int x = -1;
 				int y = -1;
 

@@ -1,8 +1,13 @@
+import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
+import javax.swing.JSlider;
 import javax.swing.SwingUtilities;
 
 import com.googlecode.surfaceplotter.AbstractSurfaceModel;
 import com.googlecode.surfaceplotter.JSurface;
+import com.googlecode.surfaceplotter.JSurfacePanel;
+import com.googlecode.surfaceplotter.VerticalConfigurationPanel;
 import com.googlecode.surfaceplotter.AbstractSurfaceModel.Plotter;
 import com.googlecode.surfaceplotter.SurfaceModel.PlotColor;
 import com.googlecode.surfaceplotter.SurfaceModel.PlotType;
@@ -16,13 +21,12 @@ public class SimpleRun {
 		final AbstractSurfaceModel sm= new AbstractSurfaceModel();
 		
 		
-		
 		System.out.println("plotting");
 		
 		sm.setPlotFunction2(false);
 		
 		sm.setCalcDivisions(100);
-		sm.setDispDivisions(100);
+		sm.setDispDivisions(30);
 		sm.setContourLines(10);
 		
 		sm.setXMin(-3);
@@ -49,37 +53,23 @@ public class SimpleRun {
 		
 		//( (AbstractSurfaceModel) sm).run();
 		
-		JSurface canvas = new JSurface(sm);
 		
+//		
+//		sm.setCalcDivisions(100);
+//		sm.setDispDivisions(100);
+//		sm.setContourLines(10);
+		
+		VerticalConfigurationPanel conf = new VerticalConfigurationPanel();
+		conf.setModel(sm);
+		JSurface canvas = new JSurface(sm);
 		
 		JFrame jf= new JFrame("test");
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jf.getContentPane().add(canvas);
+		jf.getContentPane().add(new JSurfacePanel(), BorderLayout.CENTER);
 		jf.pack();
 		jf.setVisible(true);
 		
-		new Thread(new Runnable() {
-				public void run()
-				{
-					Plotter p = sm.newPlotter(sm.getCalcDivisions());
-					int im=p.getWidth();
-					int jm=p.getHeight();
-					for(int i=0;i<im;i++)
-						for(int j=0;j<jm;j++)
-						{
-							float x,y;
-							x=p.getX(i);
-							y=p.getY(j);
-							//System.out.println("setting value");
-							p.setValue(i,j,f1(x,y),f2(x,y) );
-							/** // force the fill to be slow to mimic a slow computation
-							try{
-								Thread.sleep(2);
-							}catch(InterruptedException e) {System.out.println("interrupted");}
-							/**/
-						}
-				}
-			}).start();
+		
 		
 		//sm.doRotate();
 		
