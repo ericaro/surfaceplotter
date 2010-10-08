@@ -98,7 +98,7 @@ public class JSurface extends javax.swing.JComponent {
 	private float xmin, xmax, ymin;
 	private float ymax, zmin, zmax;
 
-	private SurfaceVertex surfaceVertex;
+	//private SurfaceVertex surfaceVertex;
 
 	// constants
 	private static final int TOP = 0;
@@ -2226,8 +2226,8 @@ public class JSurface extends javax.swing.JComponent {
 					contour_n++;
 				}
 			}
-			if ((plot_type != PlotType.WIREFRAME)
-					&& (plot_color != PlotColor.OPAQUE)) {
+			if ( plot_type != PlotType.WIREFRAME)
+					 {
 				if (counter > contour_lines) {
 					if (printing)
 						graphics.setColor(Color.white);
