@@ -37,11 +37,34 @@ package com.googlecode.surfaceplotter;
 public interface SurfaceModel
 {
 	
-	public enum PlotType{SURFACE, WIREFRAME, DENSITY, CONTOUR};
+	public enum PlotType{
+		SURFACE("surfaceType"), 
+		WIREFRAME("wireframeType"), 
+		DENSITY("densityType"), 
+		CONTOUR("contourType");
+		
+		final String att;
+		PlotType(String att){this.att = att;}
+		public String getPropertyName() {return att;}
+	
+		};
 	//TODO replace with enum
 	//plot type constant 
 	
-	public enum PlotColor{OPAQUE, SPECTRUM, DUALSHADE, GRAYSCALE, FOG};
+	public enum PlotColor{
+		OPAQUE("hiddenMode"), 
+		SPECTRUM("spectrumMode"), 
+		DUALSHADE("dualShadeMode"), 
+		GRAYSCALE("grayScaleMode"), 
+		FOG("fogMode");
+		
+		final String att;
+		PlotColor(String att){this.att = att;}
+		public String getPropertyName() {return att;}
+	
+		
+			
+	};
 	//TODO replace with enums
 	// plot color constant
 	
