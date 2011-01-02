@@ -126,7 +126,7 @@ public class JSurface extends javax.swing.JComponent {
 		return lastFocused ;
 	}
 	
-	private void setModel(SurfaceModel model) {
+	void setModel(SurfaceModel model) {
 
 		if (this.model != null)
 			model.removePropertyChangeListener(surfaceChangesListener);

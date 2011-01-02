@@ -1,14 +1,3 @@
-/*
-       ____  _____  ___  ____    __      ____  _____  _    _  ____  ____ 
-      (  _ \(  _  )/ __)( ___)  /__\    (  _ \(  _  )( \/\/ )( ___)(  _ \
-       )(_) ))(_)(( (__  )__)  /(__)\    )___/ )(_)(  )    (  )__)  )   /
-      (____/(_____)\___)(____)(__)(__)  (__)  (_____)(__/\__)(____)(_)\_)
-
-* Created Oct 8, 2010 by : Eric.Atienza@doceapower.com
-* Copyright Docea Power 2010
-* Any reproduction or distribution prohibited without express written permission from Docea Power
-***************************************************************************
-*/
 package com.googlecode.surfaceplotter;
 
 import java.awt.BorderLayout;
@@ -44,8 +33,8 @@ public class JSurfacePanel extends JPanel {
 
 		sm.setPlotFunction2(false);
 		
-		sm.setCalcDivisions(100);
-		sm.setDispDivisions(30);
+		sm.setCalcDivisions(50);
+		sm.setDispDivisions(50);
 		sm.setContourLines(10);
 
 		sm.setXMin(-3);
@@ -123,6 +112,7 @@ public class JSurfacePanel extends JPanel {
 			configurationPanel.setVisible(false);
 			configurationPanel.setModel(null);
 		}
+		surface.setModel(model);
 	}
 
 	/**
