@@ -25,8 +25,8 @@ public class SimpleRun {
 		
 		sm.setPlotFunction2(false);
 		
-		sm.setCalcDivisions(100);
-		sm.setDispDivisions(30);
+		sm.setCalcDivisions(200);
+		sm.setDispDivisions(200);
 		sm.setContourLines(10);
 		
 		sm.setXMin(-3);
