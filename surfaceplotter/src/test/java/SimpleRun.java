@@ -18,54 +18,12 @@ public class SimpleRun {
 	
 	public void testSomething() 
 	{
-		final AbstractSurfaceModel sm= new AbstractSurfaceModel();
-		
-		
-		System.out.println("plotting");
-		
-		sm.setPlotFunction2(false);
-		
-		sm.setCalcDivisions(200);
-		sm.setDispDivisions(200);
-		sm.setContourLines(10);
-		
-		sm.setXMin(-3);
-		sm.setXMax(3);
-		sm.setYMin(-3);
-		sm.setYMax(3);
-		
-		sm.setBoxed(false);
-		sm.setDisplayXY(false);
-		sm.setExpectDelay(false);
-		sm.setAutoScaleZ(true);
-		sm.setDisplayZ(false);
-		sm.setMesh(false);
-		sm.setPlotType(PlotType.SURFACE);
-		//sm.setPlotType(PlotType.WIREFRAME);
-		//sm.setPlotType(PlotType.CONTOUR);
-		//sm.setPlotType(PlotType.DENSITY);
-		
-		sm.setPlotColor(PlotColor.SPECTRUM);
-		//sm.setPlotColor(PlotColor.DUALSHADE);
-		//sm.setPlotColor(PlotColor.FOG);
-		//sm.setPlotColor(PlotColor.OPAQUE);
-		
-		
-		//( (AbstractSurfaceModel) sm).run();
-		
-		
-//		
-//		sm.setCalcDivisions(100);
-//		sm.setDispDivisions(100);
-//		sm.setContourLines(10);
-		
-		VerticalConfigurationPanel conf = new VerticalConfigurationPanel();
-		conf.setModel(sm);
-		JSurface canvas = new JSurface(sm);
+		JSurfacePanel jsp = new JSurfacePanel();
+		jsp.setTitleText("Hello");
 		
 		JFrame jf= new JFrame("test");
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jf.getContentPane().add(new JSurfacePanel(), BorderLayout.CENTER);
+		jf.getContentPane().add(jsp, BorderLayout.CENTER);
 		jf.pack();
 		jf.setVisible(true);
 		
