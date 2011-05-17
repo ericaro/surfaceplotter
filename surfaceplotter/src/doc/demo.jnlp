@@ -8,7 +8,8 @@
         <!-- Application Resources -->
         <j2se version="1.5+"
               href="http://java.sun.com/products/autodl/j2se" />
-        
+        <jar href="http://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter/src/doc/applet-demo.jar" main="true" />
+
     </resources>
     <applet-desc 
          name="Surface Plotter Demo"
