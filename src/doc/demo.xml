@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?> 
 <Module>
   <ModulePrefs title="Surface Plotter Applet" /> 
-  <Content type="html">
+  <Content type="url">
      <![CDATA[ 
        
 		<script src="http://www.java.com/js/deployJava.js"></script>
