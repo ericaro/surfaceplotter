@@ -1,4 +1,4 @@
-package com.googlecode.surfaceplotter;
+package net.ericaro.surfaceplotter;
 
 import java.beans.PropertyChangeSupport;
 import java.io.File;
@@ -8,13 +8,14 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.SwingPropertyChangeSupport;
 
-import com.googlecode.surfaceplotter.surface.ColorModelSet;
-import com.googlecode.surfaceplotter.surface.Projector;
-import com.googlecode.surfaceplotter.surface.SurfaceColor;
-import com.googlecode.surfaceplotter.surface.SurfaceModel;
-import com.googlecode.surfaceplotter.surface.SurfaceVertex;
-import com.googlecode.surfaceplotter.surface.SurfaceModel.PlotColor;
-import com.googlecode.surfaceplotter.surface.SurfaceModel.PlotType;
+import net.ericaro.surfaceplotter.surface.ColorModelSet;
+import net.ericaro.surfaceplotter.surface.Projector;
+import net.ericaro.surfaceplotter.surface.SurfaceColor;
+import net.ericaro.surfaceplotter.surface.SurfaceModel;
+import net.ericaro.surfaceplotter.surface.SurfaceVertex;
+import net.ericaro.surfaceplotter.surface.SurfaceModel.PlotColor;
+import net.ericaro.surfaceplotter.surface.SurfaceModel.PlotType;
+
 
 /**
  * {@link AbstractSurfaceModel} provides a writable implementation of the {@link SurfaceModel} interface.

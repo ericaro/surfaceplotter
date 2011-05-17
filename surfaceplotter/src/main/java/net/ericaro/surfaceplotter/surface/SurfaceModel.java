@@ -25,7 +25,7 @@
  *            
 Modified : Eric : remove every graphical stuff to get rid of Frame
  *----------------------------------------------------------------------------------------*/
-package com.googlecode.surfaceplotter.surface;
+package net.ericaro.surfaceplotter.surface;
 
  
 

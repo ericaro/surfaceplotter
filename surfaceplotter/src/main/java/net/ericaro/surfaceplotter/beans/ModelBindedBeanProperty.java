@@ -1,9 +1,10 @@
 
-package com.googlecode.surfaceplotter.beans;
+package net.ericaro.surfaceplotter.beans;
 
 import java.beans.PropertyChangeEvent;
 
-import com.googlecode.surfaceplotter.AbstractSurfaceModel;
+import net.ericaro.surfaceplotter.AbstractSurfaceModel;
+
 
 
 

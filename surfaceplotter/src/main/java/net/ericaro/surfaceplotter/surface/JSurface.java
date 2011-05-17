@@ -27,7 +27,7 @@ eric : Modified to be swing compliant:                                          
 	 : and VolativeBuffering for rotation process
 	 : and use a SurfaceModel interface to drive it.
  *----------------------------------------------------------------------------------------*/
-package com.googlecode.surfaceplotter.surface;
+package net.ericaro.surfaceplotter.surface;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -50,8 +50,9 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 
-import com.googlecode.surfaceplotter.AbstractSurfaceModel;
-import com.googlecode.surfaceplotter.surface.SurfaceModel.PlotType;
+import net.ericaro.surfaceplotter.AbstractSurfaceModel;
+import net.ericaro.surfaceplotter.surface.SurfaceModel.PlotType;
+
 
 /**
  * The class <code>JSurface</code> is responsible for the generation of surface

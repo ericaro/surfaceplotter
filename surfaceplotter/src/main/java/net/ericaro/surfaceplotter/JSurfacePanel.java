@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Tue May 17 09:54:22 CEST 2011
  */
 
-package com.googlecode.surfaceplotter;
+package net.ericaro.surfaceplotter;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -24,13 +24,14 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 
-import com.googlecode.surfaceplotter.AbstractSurfaceModel.Plotter;
-import com.googlecode.surfaceplotter.beans.JGridBagScrollPane;
-import com.googlecode.surfaceplotter.surface.JSurface;
-import com.googlecode.surfaceplotter.surface.SurfaceModel;
-import com.googlecode.surfaceplotter.surface.VerticalConfigurationPanel;
-import com.googlecode.surfaceplotter.surface.SurfaceModel.PlotColor;
-import com.googlecode.surfaceplotter.surface.SurfaceModel.PlotType;
+import net.ericaro.surfaceplotter.AbstractSurfaceModel.Plotter;
+import net.ericaro.surfaceplotter.beans.JGridBagScrollPane;
+import net.ericaro.surfaceplotter.surface.JSurface;
+import net.ericaro.surfaceplotter.surface.SurfaceModel;
+import net.ericaro.surfaceplotter.surface.VerticalConfigurationPanel;
+import net.ericaro.surfaceplotter.surface.SurfaceModel.PlotColor;
+import net.ericaro.surfaceplotter.surface.SurfaceModel.PlotType;
+
 
 /** Main panel to display a surface plot.
  * 
@@ -236,7 +237,7 @@ public class JSurfacePanel extends JPanel {
 
 	private void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-		ResourceBundle bundle = ResourceBundle.getBundle("com.googlecode.surfaceplotter.JSurfacePanel");
+		ResourceBundle bundle = ResourceBundle.getBundle("net.ericaro.surfaceplotter.JSurfacePanel");
 		title = new JLabel();
 		surface = new JSurface();
 		scrollpane = new JGridBagScrollPane();

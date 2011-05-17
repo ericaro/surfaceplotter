@@ -1,4 +1,4 @@
-package com.googlecode.surfaceplotter.beans;
+package net.ericaro.surfaceplotter.beans;
 
 import java.awt.Component;
 import java.awt.Dimension;

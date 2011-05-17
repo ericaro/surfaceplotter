@@ -25,7 +25,7 @@
 /* eric: moved from Vector to List, and LinkedList
  * 
  */
-package com.googlecode.surfaceplotter.surface;
+package net.ericaro.surfaceplotter.surface;
 
 import java.awt.Graphics;
 import java.util.LinkedList;

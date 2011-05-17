@@ -1,4 +1,4 @@
-package com.googlecode.surfaceplotter.surface;
+package net.ericaro.surfaceplotter.surface;
 
 import java.awt.Color;
 

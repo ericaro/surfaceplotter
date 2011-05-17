@@ -1,9 +1,10 @@
-package com.googlecode.surfaceplotter.surface;
+package net.ericaro.surfaceplotter.surface;
 
 import java.awt.Color;
 
-import com.googlecode.surfaceplotter.surface.SurfaceModel.PlotColor;
-import com.googlecode.surfaceplotter.surface.SurfaceModel.PlotType;
+import net.ericaro.surfaceplotter.surface.SurfaceModel.PlotColor;
+import net.ericaro.surfaceplotter.surface.SurfaceModel.PlotType;
+
 
 /** A simple {@link SurfaceColor} implementations that uses two ColorMode per plot type. 
 
@@ -76,28 +77,28 @@ public class ColorModelSet implements SurfaceColor
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.googlecode.surfaceplotter.SurfaceColor#getBackgroundColor()
+	 * @see net.ericaro.surfaceplotter.SurfaceColor#getBackgroundColor()
 	 */
 	public Color getBackgroundColor(){return lightColor;}
 	/* (non-Javadoc)
-	 * @see com.googlecode.surfaceplotter.SurfaceColor#getLineBoxColor()
+	 * @see net.ericaro.surfaceplotter.SurfaceColor#getLineBoxColor()
 	 */
 	public Color getLineBoxColor() {return lineboxColor;}
 	/* (non-Javadoc)
-	 * @see com.googlecode.surfaceplotter.SurfaceColor#getBoxColor()
+	 * @see net.ericaro.surfaceplotter.SurfaceColor#getBoxColor()
 	 */
 	public Color getBoxColor() {return boxColor;}
 	/* (non-Javadoc)
-	 * @see com.googlecode.surfaceplotter.SurfaceColor#getLineColor()
+	 * @see net.ericaro.surfaceplotter.SurfaceColor#getLineColor()
 	 */
 	public Color getLineColor(){return lineColor;}
 	/* (non-Javadoc)
-	 * @see com.googlecode.surfaceplotter.SurfaceColor#getTextColor()
+	 * @see net.ericaro.surfaceplotter.SurfaceColor#getTextColor()
 	 */
 	public Color getTextColor() {return lineColor;}
 	
 	/* (non-Javadoc)
-	 * @see com.googlecode.surfaceplotter.SurfaceColor#getLineColor(int, float)
+	 * @see net.ericaro.surfaceplotter.SurfaceColor#getLineColor(int, float)
 	 */
 	public Color getLineColor(int curve, float z)
 	{
@@ -129,7 +130,7 @@ public class ColorModelSet implements SurfaceColor
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.googlecode.surfaceplotter.SurfaceColor#getPolygonColor(int, float)
+	 * @see net.ericaro.surfaceplotter.SurfaceColor#getPolygonColor(int, float)
 	 */
 	public Color getPolygonColor(int curve, float z)
 	{
@@ -139,7 +140,7 @@ public class ColorModelSet implements SurfaceColor
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.googlecode.surfaceplotter.SurfaceColor#getFirstPolygonColor(float)
+	 * @see net.ericaro.surfaceplotter.SurfaceColor#getFirstPolygonColor(float)
 	 */
 	public Color getFirstPolygonColor(float z)
 	{
@@ -162,7 +163,7 @@ public class ColorModelSet implements SurfaceColor
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.googlecode.surfaceplotter.SurfaceColor#getSecondPolygonColor(float)
+	 * @see net.ericaro.surfaceplotter.SurfaceColor#getSecondPolygonColor(float)
 	 */
 	public Color getSecondPolygonColor(float z)
 	{
