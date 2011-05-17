@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?> 
-<Module>
+<Module>http://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter/src/doc/demo.html
   <ModulePrefs title="Surface Plotter Applet" /> 
-  <Content type="url">
+  <Content type="html">
      <![CDATA[ 
        
 		<script src="http://www.java.com/js/deployJava.js"></script>
