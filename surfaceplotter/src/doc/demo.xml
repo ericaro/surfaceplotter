@@ -3,7 +3,21 @@
   <ModulePrefs title="Surface Plotter Applet" /> 
   <Content type="html">
      <![CDATA[ 
-       
+       <applet code="net.ericaro.surfaceplotter.JSurfaceApplet" align="middle" width="564" height="452" archive="<codebase>/applet-demo.jar">If you can read this, 
+your browser can't display ChView</applet>
+
+		
+		
+     ]]>
+  </Content> 
+</Module>
+
+<!--
+
+<applet code="net.ericaro.surfaceplotter.JSurfaceApplet" align="middle" width="564" height="452" archive="http://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter/src/doc/applet-demo.jar">If you can read this, 
+		your browser can't display java.</applet>
+
+
 		<script src="http://www.java.com/js/deployJava.js"></script>
 		<script> 
         var attributes = { 
@@ -15,15 +29,6 @@
         var parameters = {jnlp_href: '<codebase>/demo.jnlp'} ; 
         deployJava.runApplet(attributes, parameters, '1.5'); 
 		</script>
-		
-		
-     ]]>
-  </Content> 
-</Module>
 
-<!--
-
-<applet code="net.ericaro.surfaceplotter.JSurfaceApplet" align="middle" width="564" height="452" archive="http://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter/src/doc/applet-demo.jar">If you can read this, 
-		your browser can't display java.</applet>
 		
 -->
