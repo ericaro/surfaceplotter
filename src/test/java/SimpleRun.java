@@ -1,16 +1,11 @@
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
-import javax.swing.JSlider;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.plaf.basic.BasicArrowButton;
 
-import com.googlecode.surfaceplotter.AbstractSurfaceModel;
-import com.googlecode.surfaceplotter.JSurface;
 import com.googlecode.surfaceplotter.JSurfacePanel;
-import com.googlecode.surfaceplotter.VerticalConfigurationPanel;
-import com.googlecode.surfaceplotter.AbstractSurfaceModel.Plotter;
-import com.googlecode.surfaceplotter.SurfaceModel.PlotColor;
-import com.googlecode.surfaceplotter.SurfaceModel.PlotType;
 
 
 public class SimpleRun {

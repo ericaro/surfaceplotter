@@ -7,8 +7,8 @@ import javax.swing.event.SwingPropertyChangeSupport;
 
 import com.googlecode.surfaceplotter.AbstractSurfaceModel;
 
-/**
- * @author Eric.Atienza
+/** A Bean that "handles" an AbstractSurfaceModel, editors  get ginded to this source to display an attribute.
+ * @author eric
  *
  */
 public class ModelSource {

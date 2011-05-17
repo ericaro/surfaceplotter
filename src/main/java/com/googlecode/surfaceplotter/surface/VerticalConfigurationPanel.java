@@ -2,19 +2,29 @@
  * Created by JFormDesigner on Thu Oct 07 17:39:55 CEST 2010
  */
 
-package com.googlecode.surfaceplotter;
+package com.googlecode.surfaceplotter.surface;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import com.googlecode.surfaceplotter.beans.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.util.ResourceBundle;
 
-/**
- * @author User #1
+import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
+import javax.swing.border.EmptyBorder;
+
+import com.googlecode.surfaceplotter.AbstractSurfaceModel;
+import com.googlecode.surfaceplotter.beans.JBindedCheckBox;
+import com.googlecode.surfaceplotter.beans.JBindedRadioButton;
+import com.googlecode.surfaceplotter.beans.JScrollablePanel;
+import com.googlecode.surfaceplotter.beans.ModelSource;
+
+/** A Vertical Configuration panel for the {@link AbstractSurfaceModel}.
+ * @author eric
  */
-public class VerticalConfigurationPanel extends JPanel {
+public class VerticalConfigurationPanel extends JScrollablePanel {
 	public VerticalConfigurationPanel() {
 		initComponents();
 	}
@@ -27,7 +37,7 @@ public class VerticalConfigurationPanel extends JPanel {
 	
 	private void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-		ResourceBundle bundle = ResourceBundle.getBundle("com.googlecode.surfaceplotter.VerticalConfigurationPanel");
+		ResourceBundle bundle = ResourceBundle.getBundle("com.googlecode.surfaceplotter.surface.VerticalConfigurationPanel");
 		label1 = new JLabel();
 		boxed = new JBindedCheckBox();
 		scaleBox = new JBindedCheckBox();
@@ -72,7 +82,7 @@ public class VerticalConfigurationPanel extends JPanel {
 		label1.setBackground(Color.white);
 		add(label1, new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-			new Insets(6, 0, 6, 0), 0, 0));
+			new Insets(6, 0, 0, 0), 0, 0));
 
 		//---- boxed ----
 		boxed.setText(bundle.getString("boxed.text"));
@@ -107,7 +117,7 @@ public class VerticalConfigurationPanel extends JPanel {
 		label3.setBackground(Color.white);
 		add(label3, new GridBagConstraints(0, 4, 2, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-			new Insets(6, 0, 6, 0), 0, 0));
+			new Insets(6, 0, 0, 0), 0, 0));
 
 		//---- displayXY ----
 		displayXY.setText(bundle.getString("displayXY.text"));
@@ -133,7 +143,7 @@ public class VerticalConfigurationPanel extends JPanel {
 		label6.setBackground(Color.white);
 		add(label6, new GridBagConstraints(0, 7, 2, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-			new Insets(6, 0, 6, 0), 0, 0));
+			new Insets(6, 0, 0, 0), 0, 0));
 
 		//---- displayGrids ----
 		displayGrids.setText(bundle.getString("displayGrids.text"));
@@ -159,7 +169,7 @@ public class VerticalConfigurationPanel extends JPanel {
 		label4.setBackground(Color.white);
 		add(label4, new GridBagConstraints(0, 10, 2, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-			new Insets(6, 0, 6, 0), 0, 0));
+			new Insets(6, 0, 0, 0), 0, 0));
 
 		//---- hiddenMode ----
 		hiddenMode.setText(bundle.getString("hiddenMode.text"));
@@ -212,7 +222,7 @@ public class VerticalConfigurationPanel extends JPanel {
 		label5.setBackground(Color.white);
 		add(label5, new GridBagConstraints(0, 16, 2, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-			new Insets(6, 0, 6, 0), 0, 0));
+			new Insets(6, 0, 0, 0), 0, 0));
 
 		//---- wireframeType ----
 		wireframeType.setText(bundle.getString("wireframeType.text"));
@@ -256,7 +266,7 @@ public class VerticalConfigurationPanel extends JPanel {
 		label2.setBackground(Color.white);
 		add(label2, new GridBagConstraints(0, 21, 2, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-			new Insets(6, 0, 6, 0), 0, 0));
+			new Insets(6, 0, 0, 0), 0, 0));
 
 		//---- firstFunctionOnly ----
 		firstFunctionOnly.setText(bundle.getString("firstFunctionOnly.text"));

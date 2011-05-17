@@ -1,10 +1,11 @@
-package com.googlecode.surfaceplotter;
+package com.googlecode.surfaceplotter.surface;
 
 import java.awt.Color;
 
-import com.googlecode.surfaceplotter.SurfaceModel.PlotColor;
-import com.googlecode.surfaceplotter.SurfaceModel.PlotType;
-/** A simple ColorModel that uses two ColorMode per plot type. 
+import com.googlecode.surfaceplotter.surface.SurfaceModel.PlotColor;
+import com.googlecode.surfaceplotter.surface.SurfaceModel.PlotType;
+
+/** A simple {@link SurfaceColor} implementations that uses two ColorMode per plot type. 
 
  * @author Eric
  * @date jeudi 8 avril 2004 15:45:40

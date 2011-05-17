@@ -1,30 +1,49 @@
+/*
+ * Created by JFormDesigner on Tue May 17 09:54:22 CEST 2011
+ */
+
 package com.googlecode.surfaceplotter;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ResourceBundle;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
 
 import com.googlecode.surfaceplotter.AbstractSurfaceModel.Plotter;
-import com.googlecode.surfaceplotter.SurfaceModel.PlotColor;
-import com.googlecode.surfaceplotter.SurfaceModel.PlotType;
+import com.googlecode.surfaceplotter.beans.JGridBagScrollPane;
+import com.googlecode.surfaceplotter.surface.JSurface;
+import com.googlecode.surfaceplotter.surface.SurfaceModel;
+import com.googlecode.surfaceplotter.surface.VerticalConfigurationPanel;
+import com.googlecode.surfaceplotter.surface.SurfaceModel.PlotColor;
+import com.googlecode.surfaceplotter.surface.SurfaceModel.PlotType;
 
-/**
- * @author Eric.Atienza
+/** Main panel to display a surface plot.
  * 
+ * @author eric
  */
 public class JSurfacePanel extends JPanel {
-
-	private VerticalConfigurationPanel configurationPanel;
-	private JSurface surface;
-	private JLabel title;
-
+	
+	
 	public JSurfacePanel() {
 		this(createDefaultSurfaceModel());
 	}
 
+	
 	/**
 	 * @return
 	 */
@@ -93,23 +112,23 @@ public class JSurfacePanel extends JPanel {
 
 	public JSurfacePanel(SurfaceModel model) {
 		super(new BorderLayout());
-		configurationPanel = new VerticalConfigurationPanel();
-		surface = new JSurface(model);
-		title = new JLabel();
-		title.setHorizontalAlignment(JLabel.CENTER);
-
-		add(surface, BorderLayout.CENTER);
-		add(configurationPanel, BorderLayout.EAST);
-		add(title, BorderLayout.NORTH);
+		initComponents();
+		
+		String name = (String) configurationToggler.getValue(Action.NAME);
+		getActionMap().put(name, configurationToggler);
+		getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), name);
+		
 		setModel(model);
 
 	}
+
+	
 
 	public void setModel(SurfaceModel model) {
 		if (model instanceof AbstractSurfaceModel)
 			configurationPanel.setModel((AbstractSurfaceModel) model);
 		else {
-			configurationPanel.setVisible(false);
+			scrollpane.setVisible(false);
 			configurationPanel.setModel(null);
 		}
 		surface.setModel(model);
@@ -184,7 +203,7 @@ public class JSurfacePanel extends JPanel {
 	 * @see java.awt.Component#isVisible()
 	 */
 	public boolean isConfigurationVisible() {
-		return configurationPanel.isVisible();
+		return scrollpane.isVisible();
 	}
 
 	/**
@@ -192,10 +211,91 @@ public class JSurfacePanel extends JPanel {
 	 * @see javax.swing.JComponent#setVisible(boolean)
 	 */
 	public void setConfigurationVisible(boolean aFlag) {
-		configurationPanel.setVisible(aFlag);
+		scrollpane.setVisible(aFlag);
+		invalidate();
+		revalidate();
 	}
+
+	private void titleMouseClicked(MouseEvent e) {
+		toggleConfiguration();
+	}
+
+	private void toggleConfiguration() {
+		setConfigurationVisible(!isConfigurationVisible());
+	}
+
+	private void surfaceMouseClicked() {
+		surface.requestFocusInWindow();
+	}
+
+	
+	
 	
 	
 	
 
+	private void initComponents() {
+		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
+		ResourceBundle bundle = ResourceBundle.getBundle("com.googlecode.surfaceplotter.JSurfacePanel");
+		title = new JLabel();
+		surface = new JSurface();
+		scrollpane = new JGridBagScrollPane();
+		configurationPanel = new VerticalConfigurationPanel();
+		configurationToggler = new AbstractAction(){public void actionPerformed(ActionEvent e){toggleConfiguration();}};
+
+		//======== this ========
+		setLayout(new GridBagLayout());
+		((GridBagLayout)getLayout()).columnWidths = new int[] {0, 0, 0};
+		((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0};
+		((GridBagLayout)getLayout()).columnWeights = new double[] {1.0, 0.0, 1.0E-4};
+		((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 1.0, 1.0E-4};
+
+		//---- title ----
+		title.setText(bundle.getString("title.text"));
+		title.setHorizontalTextPosition(SwingConstants.CENTER);
+		title.setHorizontalAlignment(SwingConstants.CENTER);
+		title.setBackground(Color.white);
+		title.setOpaque(true);
+		title.setFont(title.getFont().deriveFont(title.getFont().getSize() + 4f));
+		add(title, new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0,
+			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+			new Insets(0, 0, 0, 0), 0, 0));
+
+		//---- surface ----
+		surface.setToolTipText(bundle.getString("surface.toolTipText"));
+		surface.setInheritsPopupMenu(true);
+		surface.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				surfaceMouseClicked();
+			}
+		});
+		add(surface, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+			new Insets(0, 0, 0, 0), 0, 0));
+
+		//======== scrollpane ========
+		{
+			scrollpane.setWidthFixed(true);
+
+			//---- configurationPanel ----
+			configurationPanel.setNextFocusableComponent(this);
+			scrollpane.setViewportView(configurationPanel);
+		}
+		add(scrollpane, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+			new Insets(0, 0, 0, 0), 0, 0));
+
+		//---- configurationToggler ----
+		configurationToggler.putValue(Action.NAME, bundle.getString("configurationToggler.Name"));
+		// JFormDesigner - End of component initialization  //GEN-END:initComponents
+	}
+
+	// JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+	private JLabel title;
+	private JSurface surface;
+	private JGridBagScrollPane scrollpane;
+	private VerticalConfigurationPanel configurationPanel;
+	private AbstractAction configurationToggler;
+	// JFormDesigner - End of variables declaration  //GEN-END:variables
 }

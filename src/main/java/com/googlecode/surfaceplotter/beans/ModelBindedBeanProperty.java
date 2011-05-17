@@ -8,7 +8,7 @@ import com.googlecode.surfaceplotter.AbstractSurfaceModel;
 
 
 /** bind the "bean" attribute to a "source" property of a model provider.
- * @author Eric.Atienza
+ * @author eric
  * 
  */
 public abstract class ModelBindedBeanProperty<PROP> extends BeanProperty<AbstractSurfaceModel, PROP>{
