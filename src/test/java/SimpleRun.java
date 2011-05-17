@@ -5,7 +5,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicArrowButton;
 
-import com.googlecode.surfaceplotter.JSurfacePanel;
+import net.ericaro.surfaceplotter.JSurfacePanel;
+
 
 
 public class SimpleRun {

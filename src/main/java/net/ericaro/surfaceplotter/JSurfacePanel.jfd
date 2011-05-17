@@ -7,7 +7,7 @@
   </void> 
   <void method="setProperty"> 
    <string>i18n.bundlePackage</string> 
-   <string>com.googlecode.surfaceplotter</string> 
+   <string>net.ericaro.surfaceplotter</string> 
   </void> 
   <void method="setProperty"> 
    <string>i18n.bundleName</string> 
@@ -97,7 +97,7 @@
       </void> 
       <void method="add"> 
        <object class="com.jformdesigner.model.FormComponent"> 
-        <string>com.googlecode.surfaceplotter.surface.JSurface</string> 
+        <string>net.ericaro.surfaceplotter.surface.JSurface</string> 
         <void method="setProperty"> 
          <string>toolTipText</string> 
          <object class="com.jformdesigner.model.FormMessage"> 
@@ -131,7 +131,7 @@
       </void> 
       <void method="add"> 
        <object class="com.jformdesigner.model.FormContainer"> 
-        <string>com.googlecode.surfaceplotter.beans.JGridBagScrollPane</string> 
+        <string>net.ericaro.surfaceplotter.beans.JGridBagScrollPane</string> 
         <object class="com.jformdesigner.model.FormLayoutManager"> 
          <class>javax.swing.JScrollPane</class> 
         </object> 
@@ -144,7 +144,7 @@
         </void> 
         <void method="add"> 
          <object class="com.jformdesigner.model.FormComponent"> 
-          <string>com.googlecode.surfaceplotter.surface.VerticalConfigurationPanel</string> 
+          <string>net.ericaro.surfaceplotter.surface.VerticalConfigurationPanel</string> 
           <void method="setProperty"> 
            <string>nextFocusableComponent</string> 
            <object class="com.jformdesigner.model.FormReference"> 

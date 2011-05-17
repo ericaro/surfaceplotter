@@ -2,7 +2,7 @@
  * Created by JFormDesigner on Thu Oct 07 17:39:55 CEST 2010
  */
 
-package com.googlecode.surfaceplotter.surface;
+package net.ericaro.surfaceplotter.surface;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -15,11 +15,12 @@ import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
-import com.googlecode.surfaceplotter.AbstractSurfaceModel;
-import com.googlecode.surfaceplotter.beans.JBindedCheckBox;
-import com.googlecode.surfaceplotter.beans.JBindedRadioButton;
-import com.googlecode.surfaceplotter.beans.JScrollablePanel;
-import com.googlecode.surfaceplotter.beans.ModelSource;
+import net.ericaro.surfaceplotter.AbstractSurfaceModel;
+import net.ericaro.surfaceplotter.beans.JBindedCheckBox;
+import net.ericaro.surfaceplotter.beans.JBindedRadioButton;
+import net.ericaro.surfaceplotter.beans.JScrollablePanel;
+import net.ericaro.surfaceplotter.beans.ModelSource;
+
 
 /** A Vertical Configuration panel for the {@link AbstractSurfaceModel}.
  * @author eric
@@ -37,7 +38,7 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 	
 	private void initComponents() {
 		// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-		ResourceBundle bundle = ResourceBundle.getBundle("com.googlecode.surfaceplotter.surface.VerticalConfigurationPanel");
+		ResourceBundle bundle = ResourceBundle.getBundle("net.ericaro.surfaceplotter.surface.VerticalConfigurationPanel");
 		label1 = new JLabel();
 		boxed = new JBindedCheckBox();
 		scaleBox = new JBindedCheckBox();

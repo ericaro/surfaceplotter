@@ -5,7 +5,8 @@ import javax.swing.*;
 
 import javax.swing.JPanel;
 
-import com.googlecode.surfaceplotter.JSurfacePanel;
+import net.ericaro.surfaceplotter.JSurfacePanel;
+
 
 
 

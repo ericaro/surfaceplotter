@@ -1,5 +1,5 @@
 
-package com.googlecode.surfaceplotter.beans;
+package net.ericaro.surfaceplotter.beans;
 
 import java.awt.Checkbox;
 import java.awt.event.ActionEvent;
@@ -99,7 +99,7 @@ public class JBindedRadioButton extends JRadioButton {
 
 	/**
 	 * @return
-	 * @see com.googlecode.surfaceplotter.beans.BeanProperty#getProperty()
+	 * @see net.ericaro.surfaceplotter.beans.BeanProperty#getProperty()
 	 */
 	public Boolean getProperty() {
 		return property.getProperty();
@@ -110,7 +110,7 @@ public class JBindedRadioButton extends JRadioButton {
 	
 	/**
 	 * @param value
-	 * @see com.googlecode.surfaceplotter.beans.BeanProperty#setProperty(java.lang.Object)
+	 * @see net.ericaro.surfaceplotter.beans.BeanProperty#setProperty(java.lang.Object)
 	 */
 	public void setProperty(Boolean value) {
 		property.setProperty(value);
@@ -118,7 +118,7 @@ public class JBindedRadioButton extends JRadioButton {
 
 	/**
 	 * @return
-	 * @see com.googlecode.surfaceplotter.beans.BeanProperty#getPropertyName()
+	 * @see net.ericaro.surfaceplotter.beans.BeanProperty#getPropertyName()
 	 */
 	public String getPropertyName() {
 		return property.getPropertyName();
@@ -126,7 +126,7 @@ public class JBindedRadioButton extends JRadioButton {
 
 	/**
 	 * @param propertyName
-	 * @see com.googlecode.surfaceplotter.beans.BeanProperty#setPropertyName(java.lang.String)
+	 * @see net.ericaro.surfaceplotter.beans.BeanProperty#setPropertyName(java.lang.String)
 	 */
 	public void setPropertyName(String propertyName) {
 		property.setPropertyName(propertyName);
@@ -134,7 +134,7 @@ public class JBindedRadioButton extends JRadioButton {
 
 	/**
 	 * @return
-	 * @see com.googlecode.surfaceplotter.beans.ModelBindedBeanProperty#getSourceBean()
+	 * @see net.ericaro.surfaceplotter.beans.ModelBindedBeanProperty#getSourceBean()
 	 */
 	public ModelSource getSourceBean() {
 		return property.getSourceBean();
@@ -142,7 +142,7 @@ public class JBindedRadioButton extends JRadioButton {
 	
 	/**
 	 * @param modelSource
-	 * @see com.googlecode.surfaceplotter.beans.ModelBindedBeanProperty#setSourceBean(java.lang.Object)
+	 * @see net.ericaro.surfaceplotter.beans.ModelBindedBeanProperty#setSourceBean(java.lang.Object)
 	 */
 	public void setSourceBean(ModelSource modelSource) {
 		property.setSourceBean(modelSource);

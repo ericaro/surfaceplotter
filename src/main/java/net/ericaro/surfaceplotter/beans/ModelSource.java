@@ -1,11 +1,12 @@
 
-package com.googlecode.surfaceplotter.beans;
+package net.ericaro.surfaceplotter.beans;
 
 import java.beans.PropertyChangeListener;
 
 import javax.swing.event.SwingPropertyChangeSupport;
 
-import com.googlecode.surfaceplotter.AbstractSurfaceModel;
+import net.ericaro.surfaceplotter.AbstractSurfaceModel;
+
 
 /** A Bean that "handles" an AbstractSurfaceModel, editors  get ginded to this source to display an attribute.
  * @author eric

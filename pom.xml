@@ -1,17 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.googlecode.surfaceplotter</groupId>
+	<groupId>net.ericaro</groupId>
 	<artifactId>surfaceplotter</artifactId>
 	<name>Surface Plotter</name>
 	<version>2.0.0.beta3-SNAPSHOT</version>
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
-		<version>5</version>
+		<version>7</version>
 	</parent>
 	<description>Simple, reusable, 3D surface-plotter library in Java/Swing.</description>
-	<url>http://surfaceplotter.googlecode.com/</url>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -22,7 +21,56 @@
 		</dependency>
 	</dependencies>
 
-	<!-- MAVEN STUFF -->
+
+
+<properties>
+		<googlecode>${project.artifactId}</googlecode>
+	</properties>
+	
+<!-- MAVEN STUFF -->
+<url>http://${googlecode}.googlecode.com/</url>
+<distributionManagement>
+		<snapshotRepository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>sonatype-nexus-staging</id>
+			<name>Nexus Release Repository</name>
+			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+</distributionManagement>	
+<profiles>
+		<profile>
+			<id>release</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.0</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 
 	<scm>
 		<connection>scm:svn:https://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter</connection>
@@ -45,24 +93,26 @@
 				<role>Owner</role>
 			</roles>
 		</developer>
+		<developer>
+		<name>yanto.suryono</name>
+			<roles>
+				<role>Contributor</role>
+				<role>First Author</role>
+			</roles>
+		</developer>
 	</developers>
+	<!-- BUILD STUFF -->
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-			</plugin>
-
+			
 		</plugins>
 
 
@@ -115,12 +165,13 @@
 					<artifactId>maven-release-plugin</artifactId>
 					<configuration>
 
-						<tagBase>https://surfaceplotter.googlecode.com/svn/tags</tagBase>
+						<tagBase>https://${googlecode}.googlecode.com/svn/tags</tagBase>
 						<useReleaseProfile>false</useReleaseProfile>
 						<preparationGoals>clean install</preparationGoals>
 						<goals>deploy</goals>
 						<arguments>-Prelease,deploy</arguments>
 						<autoVersionSubmodules>true</autoVersionSubmodules>
+						<mavenExecutorId>forked-path</mavenExecutorId>
 					</configuration>
 				</plugin>
 				<plugin>

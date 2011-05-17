@@ -17,7 +17,7 @@
       </void> 
       <void method="add"> 
        <object class="com.jformdesigner.model.FormComponent"> 
-        <string>com.googlecode.surfaceplotter.JSurfacePanel</string> 
+        <string>net.ericaro.surfaceplotter.JSurfacePanel</string> 
         <void method="setProperty"> 
          <string>titleText</string> 
          <string>title</string> 
