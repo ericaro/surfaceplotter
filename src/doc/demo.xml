@@ -3,7 +3,7 @@
   <ModulePrefs title="Surface Plotter Applet" /> 
   <Content type="html">
      <![CDATA[ 
-       <applet code="net.ericaro.surfaceplotter.JSurfaceApplet" align="middle" width="564" height="452" archive="/gadgets/proxy?url=http://code.google.com/p/surfaceplotter/source/browse/trunk/surfaceplotter/src/doc/applet-demo.jar">If you can read this, 
+       <applet code="net.ericaro.surfaceplotter.JSurfaceApplet" align="middle" width="564" height="452" archive="/gadgets/proxy?url=http://code.google.com/p/surfaceplotter/svn/trunk/surfaceplotter/src/doc/applet-demo.jar">If you can read this, 
 		your browser can't display java.</applet>
      ]]>
   </Content> 
