@@ -1,15 +1,17 @@
 
 package com.googlecode.surfaceplotter.beans;
 
+import java.awt.Checkbox;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.Action;
 import javax.swing.Icon;
+import javax.swing.JCheckBox;
 
 
-/**
- * @author Eric.Atienza
+/** A {@link JCheckBox} binded to a boolean property of a ModelSource bean
+ * @author Eric
  *
  */
 public class JBindedCheckBox extends javax.swing.JCheckBox {

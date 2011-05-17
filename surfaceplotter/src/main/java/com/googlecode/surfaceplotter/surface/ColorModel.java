@@ -1,4 +1,4 @@
-package com.googlecode.surfaceplotter;
+package com.googlecode.surfaceplotter.surface;
 
 import java.awt.Color;
 
@@ -6,7 +6,7 @@ import java.awt.Color;
 /** Stands for a Color Model
 
  * @author Eric
- * @date jeudi 8 avril 2004 15:18:27
+ * @date 8 avril 2004 15:18:27
  */
 public class ColorModel
 {
@@ -74,9 +74,10 @@ public class ColorModel
 	 * @return
 	 */
 	private Color color(float hue, float sat, float bright) {
-		return  Color.getHSBColor(hue, sat, bright);
-		// transparency management, unfortunately we reach to power of 2010 computers, it's laggy
+		Color hsb = Color.getHSBColor(hue, sat, bright);
+		// transparency management: unfortunately we reached power limits of 2010's computers it's laggy
 		//return new Color(hsb.getRed(), hsb.getGreen(), hsb.getBlue(), 128);
+		return  hsb;
 	}
 
 

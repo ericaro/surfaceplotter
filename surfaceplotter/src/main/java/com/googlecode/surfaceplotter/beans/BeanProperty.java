@@ -7,9 +7,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyDescriptor;
 
-/** Observe a standard bean property, and provide easy access to the get and set.
+/** Observe a standard Bean's property, and provide easy, type safe access to the get and set.
  * 
- * @author Eric.Atienza
+ * @author Eric
  *
  */
 public abstract class BeanProperty<BEAN, PROP> {
@@ -30,7 +30,10 @@ public abstract class BeanProperty<BEAN, PROP> {
 	
 	
 	
-
+	/** Sets the actual bean object
+	 * 
+	 * @param model
+	 */
 	public void setBean(BEAN model) {
 		Object old = this.bean;
 		this.bean = model;
@@ -73,8 +76,8 @@ public abstract class BeanProperty<BEAN, PROP> {
 		return propertyName;
 	}
 
-	/**
-	 * @param propertyName the propertyName to set
+	/** attribute to bind to.
+	 * @param propertyName usual lowercased property name
 	 */
 	public void setPropertyName(String propertyName) {
 		this.propertyName = propertyName;

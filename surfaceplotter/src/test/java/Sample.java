@@ -1,9 +1,11 @@
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import javax.swing.*;
-import com.googlecode.surfaceplotter.*;
-/*
- * Created by JFormDesigner on Fri Oct 08 18:14:44 CEST 2010
- */
+
+import javax.swing.JPanel;
+
+import com.googlecode.surfaceplotter.JSurfacePanel;
 
 
 

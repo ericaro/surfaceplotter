@@ -23,12 +23,12 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                                  *
  *                                                                                        *
  *----------------------------------------------------------------------------------------*/
-package com.googlecode.surfaceplotter;
+package com.googlecode.surfaceplotter.surface;
 
 import java.awt.Point;
 
 /**
- * The class <code>SurfaceVertex</code> represents a vertex in 3D space.
+ * The class <code>SurfaceVertex</code> represents a surfaceVertex in 3D space.
  *
  * @author  Yanto Suryono
  */
@@ -64,16 +64,16 @@ public final class SurfaceVertex {
    * @param iz the z coordinate
    */
    
-  SurfaceVertex(float ix, float iy, float iz) 
+  public SurfaceVertex(float ix, float iy, float iz) 
 	{
     x = ix; y = iy; z = iz;
     project_index = master_project_index-1;
   }
    
   /**
-   * Determines whether this vertex is invalid, i.e has invalid coordinates value.
+   * Determines whether this surfaceVertex is invalid, i.e has invalid coordinates value.
    *
-   * @return <code>true</code> if this vertex is invalid
+   * @return <code>true</code> if this surfaceVertex is invalid
    */
    
   public final boolean isInvalid() {
@@ -81,7 +81,7 @@ public final class SurfaceVertex {
   }
 
   /**
-   * Gets the 2D projection of the vertex.
+   * Gets the 2D projection of the surfaceVertex.
    *
    * @return the 2D projection
    */
@@ -108,7 +108,7 @@ public final class SurfaceVertex {
   
   /**
    * Invalidates all vertices. This will force the projector
-   * to recalculate vertex projection.
+   * to recalculate surfaceVertex projection.
    */
    
   public static void invalidate() {
@@ -116,7 +116,7 @@ public final class SurfaceVertex {
   }
 
   /**
-   * Sets the projector to project this vertex.
+   * Sets the projector to project this surfaceVertex.
    *
    * @param projector the projector
    */

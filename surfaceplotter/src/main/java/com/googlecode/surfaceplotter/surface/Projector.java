@@ -19,7 +19,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                                  *
  *                                                                                        *
  *----------------------------------------------------------------------------------------*/
-package com.googlecode.surfaceplotter;
+package com.googlecode.surfaceplotter.surface;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -57,7 +57,7 @@ float zfactor;
 	 * The constructor of <code>Projector</code>.
 	 */
    
-  Projector() {
+  public Projector() {
     setScaling(1); 
     setRotationAngle(0); 
     setElevationAngle(0); 

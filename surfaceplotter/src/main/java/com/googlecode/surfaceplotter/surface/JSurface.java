@@ -22,13 +22,23 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,                *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                                  *
  *       
-EA: Modified to be swing compliant                                                        *
-Means : using default swing doubleBuffering for interactive painting (drag etc.)
-: and VolativeBuffering for rotation process
+eric : Modified to be swing compliant:                                                       *
+	 : using default swing doubleBuffering for interactive painting (drag etc.)
+	 : and VolativeBuffering for rotation process
+	 : and use a SurfaceModel interface to drive it.
  *----------------------------------------------------------------------------------------*/
-package com.googlecode.surfaceplotter;
+package com.googlecode.surfaceplotter.surface;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Label;
+import java.awt.Point;
+import java.awt.PrintGraphics;
+import java.awt.Rectangle;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
@@ -36,16 +46,18 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.awt.image.VolatileImage;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 
-import com.googlecode.surfaceplotter.SurfaceModel.PlotType;
+import com.googlecode.surfaceplotter.AbstractSurfaceModel;
+import com.googlecode.surfaceplotter.surface.SurfaceModel.PlotType;
 
 /**
  * The class <code>JSurface</code> is responsible for the generation of surface
  * images and user mouse events handling.
+ * 
+ * It relies on a SurfaceModel that handles everything. This class only display data available in the model.
  * 
  * @author Yanto Suryono
  */
@@ -122,11 +134,15 @@ public class JSurface extends javax.swing.JComponent {
 		setModel(model);
 	}
 
+	/** Return the last focused JSurface component. Useful for actions to apply on it.
+	 * 
+	 * @return
+	 */
 	public static JSurface getFocusedComponent() {
 		return lastFocused ;
 	}
 	
-	void setModel(SurfaceModel model) {
+	public void setModel(SurfaceModel model) {
 
 		if (this.model != null)
 			model.removePropertyChangeListener(surfaceChangesListener);
@@ -382,7 +398,7 @@ public class JSurface extends javax.swing.JComponent {
 	/**
 	 * Sets the new vertices array of surface.
 	 * 
-	 * @param vertex
+	 * @param surfaceVertex
 	 *            the new vertices array
 	 * @see #getValuesArray
 	 */
@@ -1170,7 +1186,7 @@ public class JSurface extends javax.swing.JComponent {
 	/**
 	 * Plots a single plane
 	 * 
-	 * @param vertex
+	 * @param surfaceVertex
 	 *            vertices array of the plane
 	 * @param verticescount
 	 *            number of vertices to process
@@ -1502,7 +1518,7 @@ public class JSurface extends javax.swing.JComponent {
 
 	/**
 	 * Determines whether a plane is plottable, i.e: does not have invalid
-	 * vertex.
+	 * surfaceVertex.
 	 * 
 	 * @return <code>true</code> if the plane is plottable, <code>false</code>
 	 *         otherwise

@@ -21,11 +21,15 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                                  *
  *                                                                                        *
  *----------------------------------------------------------------------------------------*/
-package com.googlecode.surfaceplotter;
+
+/* eric: moved from Vector to List, and LinkedList
+ * 
+ */
+package com.googlecode.surfaceplotter.surface;
 
 import java.awt.Graphics;
-import java.util.Enumeration;
-import java.util.Vector;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * The class <code>LineAccumulator</code> accumulates line drawing information and
@@ -36,14 +40,14 @@ import java.util.Vector;
  */
  
 public class LineAccumulator {
-  private Vector accumulator; 
+  private List<LineRecord> accumulator; 
   
   /**
    * The constructor of <code>LineAccumulator</code>
    */
    
   LineAccumulator() {
-    accumulator = new Vector();
+    accumulator = new LinkedList<LineRecord>();
   } 
   
   /**
@@ -58,7 +62,7 @@ public class LineAccumulator {
   public void addLine(int x1, int y1, int x2, int y2) {
 		if (x1<=0 || y1<=0 || x2<=0 || y2<=0 ) return; 
 		//System.out.println("("+x1+","+y1+","+x2+","+y2+")");
-    accumulator.addElement(new LineRecord(x1,y1,x2,y2));
+    accumulator.add(new LineRecord(x1,y1,x2,y2));
   }
   
 		
@@ -68,7 +72,7 @@ public class LineAccumulator {
    */
    
   public void clearAccumulator() {
-    accumulator.removeAllElements();
+    accumulator.clear();
   } 
   
   /**
@@ -78,12 +82,8 @@ public class LineAccumulator {
    */
    
   public void drawAll(Graphics g) {
-    Enumeration enumeration = accumulator.elements();
-    
-    while (enumeration.hasMoreElements()) {
-      LineRecord line = (LineRecord)(enumeration.nextElement());
-      g.drawLine(line.x1,line.y1,line.x2,line.y2);
-    }
+	    for(LineRecord line: accumulator)
+	    	g.drawLine(line.x1,line.y1,line.x2,line.y2);
   }
 }
 
@@ -94,26 +94,26 @@ public class LineAccumulator {
  * @see LineAccumulator
  */
  
-class LineRecord extends Object {
+class LineRecord {
   /**
    * @param x1 the first point's x coordinate
    */
-  public int x1;
+  public final int x1;
 
   /**
    * @param y1 the first point's y coordinate
    */
-  public int y1;
+  public final int y1;
 
   /**
    * @param x2 the second point's x coordinate
    */
-  public int x2;
+  public final int x2;
 
   /**
    * @param y2 the second point's y coordinate
    */
-  public int y2;
+  public final int y2;
   
   /**
    * The constructor of <code>LineRecord</code>

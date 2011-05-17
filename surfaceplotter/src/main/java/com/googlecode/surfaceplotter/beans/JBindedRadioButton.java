@@ -1,6 +1,7 @@
 
 package com.googlecode.surfaceplotter.beans;
 
+import java.awt.Checkbox;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 
@@ -8,8 +9,8 @@ import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JRadioButton;
 
-/**
- * @author Eric.Atienza
+/**A {@link JRadioButton} binded to a boolean property of a ModelSource bean
+ * @author Eric
  * 
  */
 public class JBindedRadioButton extends JRadioButton {
@@ -79,7 +80,6 @@ public class JBindedRadioButton extends JRadioButton {
 	 */
 	public JBindedRadioButton(String text, Icon icon, boolean selected) {
 		super(text, icon, selected);
-		// TODO Auto-generated constructor stub
 	}
 
 	/* intercept the actionperformed to fire my own
