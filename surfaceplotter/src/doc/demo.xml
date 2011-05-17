@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<Module>
+  <ModulePrefs title="Surface Plotter Applet" /> 
+  <Content type="html">
+     <![CDATA[ 
+       <applet code="net.ericaro.surfaceplotter.JSurfaceApplet" align="middle" width="564" height="452" archive="surfaceplotter-2.0.0.beta3-SNAPSHOT-jar-with-dependencies.jar">If you can read this, 
+		your browser can't display java.</applet>
+     ]]>
+  </Content> 
+</Module>
