@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?> 
 <Module>http://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter/src/doc/demo.html
   <ModulePrefs title="Surface Plotter Applet" /> 
-  <Content type="html">
-     <![CDATA[ 
-       <applet code="net.ericaro.surfaceplotter.JSurfaceApplet" align="middle" width="564" height="452" archive="http://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter/src/doc/applet-demo.jar">If you can read this, 
-your browser can't display Surface Plotter</applet>
-
-		
-		
-     ]]>
-  </Content> 
+  <Content type="url" href="http://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter/src/doc/demo.html"></Content> 
 </Module>
 
 <!--
