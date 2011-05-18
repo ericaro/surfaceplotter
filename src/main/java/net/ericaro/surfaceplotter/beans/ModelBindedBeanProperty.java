@@ -3,7 +3,7 @@ package net.ericaro.surfaceplotter.beans;
 
 import java.beans.PropertyChangeEvent;
 
-import net.ericaro.surfaceplotter.AbstractSurfaceModel;
+import net.ericaro.surfaceplotter.surface.AbstractSurfaceModel;
 
 
 

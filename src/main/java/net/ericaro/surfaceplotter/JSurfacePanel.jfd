@@ -89,10 +89,6 @@
        </object> 
        <object class="com.jformdesigner.model.FormLayoutConstraints"> 
         <class>com.jformdesigner.runtime.GridBagConstraintsEx</class> 
-        <void method="setProperty"> 
-         <string>gridwidth</string> 
-         <int>2</int> 
-        </void> 
        </object> 
       </void> 
       <void method="add"> 
@@ -112,12 +108,26 @@
         <void property="name"> 
          <string>surface</string> 
         </void> 
+        <void method="auxiliary"> 
+         <void method="setProperty"> 
+          <string>JavaCodeGenerator.variableGetter</string> 
+          <boolean>true</boolean> 
+         </void> 
+        </void> 
+        <void method="addEvent"> 
+         <object class="com.jformdesigner.model.FormEvent"> 
+          <string>java.awt.event.MouseListener</string> 
+          <string>mousePressed</string> 
+          <string>mousePressed</string> 
+          <boolean>false</boolean> 
+         </object> 
+        </void> 
         <void method="addEvent"> 
          <object class="com.jformdesigner.model.FormEvent"> 
           <string>java.awt.event.MouseListener</string> 
           <string>mouseClicked</string> 
           <string>surfaceMouseClicked</string> 
-          <boolean>false</boolean> 
+          <boolean>true</boolean> 
          </object> 
         </void> 
        </object> 
@@ -164,8 +174,8 @@
          <int>1</int> 
         </void> 
         <void method="setProperty"> 
-         <string>gridy</string> 
-         <int>1</int> 
+         <string>gridheight</string> 
+         <int>2</int> 
         </void> 
        </object> 
       </void> 

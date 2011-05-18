@@ -24,13 +24,13 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 
-import net.ericaro.surfaceplotter.AbstractSurfaceModel.Plotter;
 import net.ericaro.surfaceplotter.beans.JGridBagScrollPane;
+import net.ericaro.surfaceplotter.surface.AbstractSurfaceModel;
 import net.ericaro.surfaceplotter.surface.JSurface;
 import net.ericaro.surfaceplotter.surface.SurfaceModel;
-import net.ericaro.surfaceplotter.surface.VerticalConfigurationPanel;
 import net.ericaro.surfaceplotter.surface.SurfaceModel.PlotColor;
 import net.ericaro.surfaceplotter.surface.SurfaceModel.PlotType;
+import net.ericaro.surfaceplotter.surface.VerticalConfigurationPanel;
 
 
 /** Main panel to display a surface plot.
@@ -49,7 +49,7 @@ public class JSurfacePanel extends JPanel {
 	 * @return
 	 */
 	private static SurfaceModel createDefaultSurfaceModel() {
-		final AbstractSurfaceModel sm = new AbstractSurfaceModel();
+		final DefaultSurfaceModel sm = new DefaultSurfaceModel();
 
 		sm.setPlotFunction2(false);
 		
@@ -69,6 +69,7 @@ public class JSurfacePanel extends JPanel {
 		sm.setDisplayZ(false);
 		sm.setMesh(false);
 		sm.setPlotType(PlotType.SURFACE);
+		sm.setFirstFunctionOnly(true);
 		//sm.setPlotType(PlotType.WIREFRAME);
 		//sm.setPlotType(PlotType.CONTOUR);
 		//sm.setPlotType(PlotType.DENSITY);
@@ -77,8 +78,7 @@ public class JSurfacePanel extends JPanel {
 		//sm.setPlotColor(PlotColor.DUALSHADE);
 		//sm.setPlotColor(PlotColor.FOG);
 		//sm.setPlotColor(PlotColor.OPAQUE);
-		
-		new Thread(new Runnable() {
+		sm.setMapper(new Mapper() {
 			public  float f1( float x, float y)
 			{
 				float r = x*x+y*y;
@@ -91,22 +91,8 @@ public class JSurfacePanel extends JPanel {
 			{
 				return (float)(Math.sin(x*y));
 			}
-			public void run()
-			{
-				Plotter p = sm.newPlotter(sm.getCalcDivisions());
-				int im=p.getWidth();
-				int jm=p.getHeight();
-				for(int i=0;i<im;i++)
-					for(int j=0;j<jm;j++)
-					{
-						float x,y;
-						x=p.getX(i);
-						y=p.getY(j);
-						p.setValue(i,j,f1(x,y),f2(x,y) );
-					}
-			}
-		}).start();
-		
+		});
+		sm.plot().execute();
 		return sm;
 
 	}
@@ -216,17 +202,25 @@ public class JSurfacePanel extends JPanel {
 		invalidate();
 		revalidate();
 	}
-
-	private void titleMouseClicked(MouseEvent e) {
-		toggleConfiguration();
-	}
+	
 
 	private void toggleConfiguration() {
 		setConfigurationVisible(!isConfigurationVisible());
+		if ( !isConfigurationVisible())
+			surface.requestFocusInWindow();
 	}
 
-	private void surfaceMouseClicked() {
+	public JSurface getSurface() {
+		return surface;
+	}
+
+	private void mousePressed() {
 		surface.requestFocusInWindow();
+	}
+
+	private void surfaceMouseClicked(MouseEvent e) {
+		if (e.getClickCount()>=2)
+			toggleConfiguration();
 	}
 
 	
@@ -258,7 +252,7 @@ public class JSurfacePanel extends JPanel {
 		title.setBackground(Color.white);
 		title.setOpaque(true);
 		title.setFont(title.getFont().deriveFont(title.getFont().getSize() + 4f));
-		add(title, new GridBagConstraints(0, 0, 2, 1, 0.0, 0.0,
+		add(title, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
 
@@ -268,7 +262,11 @@ public class JSurfacePanel extends JPanel {
 		surface.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				surfaceMouseClicked();
+				surfaceMouseClicked(e);
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				JSurfacePanel.this.mousePressed();
 			}
 		});
 		add(surface, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
@@ -283,7 +281,7 @@ public class JSurfacePanel extends JPanel {
 			configurationPanel.setNextFocusableComponent(this);
 			scrollpane.setViewportView(configurationPanel);
 		}
-		add(scrollpane, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
+		add(scrollpane, new GridBagConstraints(1, 0, 1, 2, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
 
@@ -299,4 +297,5 @@ public class JSurfacePanel extends JPanel {
 	private VerticalConfigurationPanel configurationPanel;
 	private AbstractAction configurationToggler;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
+	
 }

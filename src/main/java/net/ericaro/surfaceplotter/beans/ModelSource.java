@@ -5,10 +5,10 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.event.SwingPropertyChangeSupport;
 
-import net.ericaro.surfaceplotter.AbstractSurfaceModel;
+import net.ericaro.surfaceplotter.surface.AbstractSurfaceModel;
 
 
-/** A Bean that "handles" an AbstractSurfaceModel, editors  get ginded to this source to display an attribute.
+/** A Bean that "handles" an DefaultSurfaceModel, editors  get ginded to this source to display an attribute.
  * @author eric
  *
  */
