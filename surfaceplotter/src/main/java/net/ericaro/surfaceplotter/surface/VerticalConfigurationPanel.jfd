@@ -29,7 +29,7 @@
        </void> 
        <void method="setProperty"> 
         <string>$rowSpecs</string> 
-        <string>0, 0, 0, 0, center:0, 0, 0, 0, 0, 0, center:0, 0, 0, 0, 0, 0, center:0, 0, 0, 0, 0, center:0, 0, 0, 0, 0</string> 
+        <string>0, 0, 0, center:0, 0, 0, 0, 0, 0, 0, center:0, 0, 0, 0, 0, 0, center:0, 0, 0, 0, 0, center:0, 0, 0, 0</string> 
        </void> 
        <void method="setProperty"> 
         <string>$alignTop</string> 
@@ -140,6 +140,15 @@
          <string>propertyName</string> 
          <string>boxed</string> 
         </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
         <void property="name"> 
          <string>boxed</string> 
         </void> 
@@ -178,6 +187,15 @@
          <string>propertyName</string> 
          <string>scaleBox</string> 
         </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
         <void property="name"> 
          <string>scaleBox</string> 
         </void> 
@@ -187,44 +205,6 @@
         <void method="setProperty"> 
          <string>gridy</string> 
          <int>2</int> 
-        </void> 
-        <void method="setProperty"> 
-         <string>gridx</string> 
-         <int>1</int> 
-        </void> 
-       </object> 
-      </void> 
-      <void method="add"> 
-       <object class="com.jformdesigner.model.FormComponent"> 
-        <string>net.ericaro.surfaceplotter.beans.JBindedCheckBox</string> 
-        <void method="setProperty"> 
-         <string>text</string> 
-         <object class="com.jformdesigner.model.FormMessage"> 
-          <null/> 
-          <string>expectDelay.text</string> 
-         </object> 
-        </void> 
-        <void method="setProperty"> 
-         <string>background</string> 
-         <object idref="Color0"/> 
-        </void> 
-        <void method="setProperty"> 
-         <string>sourceBean</string> 
-         <object idref="FormReference0"/> 
-        </void> 
-        <void method="setProperty"> 
-         <string>propertyName</string> 
-         <string>expectDelay</string> 
-        </void> 
-        <void property="name"> 
-         <string>expectDelay</string> 
-        </void> 
-       </object> 
-       <object class="com.jformdesigner.model.FormLayoutConstraints"> 
-        <class>com.jformdesigner.runtime.GridBagConstraintsEx</class> 
-        <void method="setProperty"> 
-         <string>gridy</string> 
-         <int>3</int> 
         </void> 
         <void method="setProperty"> 
          <string>gridx</string> 
@@ -258,7 +238,7 @@
         <class>com.jformdesigner.runtime.GridBagConstraintsEx</class> 
         <void method="setProperty"> 
          <string>gridy</string> 
-         <int>4</int> 
+         <int>3</int> 
         </void> 
         <void method="setProperty"> 
          <string>gridwidth</string> 
@@ -297,6 +277,15 @@
          <string>propertyName</string> 
          <string>displayXY</string> 
         </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
         <void property="name"> 
          <string>displayXY</string> 
         </void> 
@@ -305,7 +294,7 @@
         <class>com.jformdesigner.runtime.GridBagConstraintsEx</class> 
         <void method="setProperty"> 
          <string>gridy</string> 
-         <int>5</int> 
+         <int>4</int> 
         </void> 
         <void method="setProperty"> 
          <string>gridx</string> 
@@ -335,6 +324,15 @@
          <string>propertyName</string> 
          <string>displayZ</string> 
         </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
         <void property="name"> 
          <string>displayZ</string> 
         </void> 
@@ -343,7 +341,7 @@
         <class>com.jformdesigner.runtime.GridBagConstraintsEx</class> 
         <void method="setProperty"> 
          <string>gridy</string> 
-         <int>6</int> 
+         <int>5</int> 
         </void> 
         <void method="setProperty"> 
          <string>gridx</string> 
@@ -377,7 +375,7 @@
         <class>com.jformdesigner.runtime.GridBagConstraintsEx</class> 
         <void method="setProperty"> 
          <string>gridy</string> 
-         <int>7</int> 
+         <int>6</int> 
         </void> 
         <void method="setProperty"> 
          <string>gridwidth</string> 
@@ -416,6 +414,15 @@
          <string>propertyName</string> 
          <string>displayGrids</string> 
         </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
         <void property="name"> 
          <string>displayGrids</string> 
         </void> 
@@ -424,7 +431,7 @@
         <class>com.jformdesigner.runtime.GridBagConstraintsEx</class> 
         <void method="setProperty"> 
          <string>gridy</string> 
-         <int>8</int> 
+         <int>7</int> 
         </void> 
         <void method="setProperty"> 
          <string>gridx</string> 
@@ -454,8 +461,64 @@
          <string>propertyName</string> 
          <string>mesh</string> 
         </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
         <void property="name"> 
          <string>mesh</string> 
+        </void> 
+       </object> 
+       <object class="com.jformdesigner.model.FormLayoutConstraints"> 
+        <class>com.jformdesigner.runtime.GridBagConstraintsEx</class> 
+        <void method="setProperty"> 
+         <string>gridy</string> 
+         <int>8</int> 
+        </void> 
+        <void method="setProperty"> 
+         <string>gridx</string> 
+         <int>1</int> 
+        </void> 
+       </object> 
+      </void> 
+      <void method="add"> 
+       <object class="com.jformdesigner.model.FormComponent"> 
+        <string>net.ericaro.surfaceplotter.beans.JBindedCheckBox</string> 
+        <void method="setProperty"> 
+         <string>text</string> 
+         <object class="com.jformdesigner.model.FormMessage"> 
+          <null/> 
+          <string>expectDelay.text</string> 
+         </object> 
+        </void> 
+        <void method="setProperty"> 
+         <string>background</string> 
+         <object idref="Color0"/> 
+        </void> 
+        <void method="setProperty"> 
+         <string>sourceBean</string> 
+         <object idref="FormReference0"/> 
+        </void> 
+        <void method="setProperty"> 
+         <string>propertyName</string> 
+         <string>expectDelay</string> 
+        </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
+        <void property="name"> 
+         <string>expectDelay</string> 
         </void> 
        </object> 
        <object class="com.jformdesigner.model.FormLayoutConstraints"> 
@@ -541,6 +604,15 @@
          <string>propertyName</string> 
          <string>hiddenMode</string> 
         </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
         <void property="name"> 
          <string>hiddenMode</string> 
         </void> 
@@ -582,6 +654,15 @@
         <void method="setProperty"> 
          <string>propertyName</string> 
          <string>spectrumMode</string> 
+        </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
         </void> 
         <void property="name"> 
          <string>spectrumMode</string> 
@@ -625,6 +706,15 @@
          <string>propertyName</string> 
          <string>grayScaleMode</string> 
         </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
         <void property="name"> 
          <string>grayScaleMode</string> 
         </void> 
@@ -667,6 +757,15 @@
          <string>propertyName</string> 
          <string>dualShadeMode</string> 
         </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
         <void property="name"> 
          <string>dualShadeMode</string> 
         </void> 
@@ -708,6 +807,15 @@
         <void method="setProperty"> 
          <string>propertyName</string> 
          <string>fogMode</string> 
+        </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
         </void> 
         <void property="name"> 
          <string>fogMode</string> 
@@ -796,6 +904,15 @@
          <string>propertyName</string> 
          <string>wireframeType</string> 
         </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
         <void property="name"> 
          <string>wireframeType</string> 
         </void> 
@@ -840,6 +957,15 @@
          <string>propertyName</string> 
          <string>surfaceType</string> 
         </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
         <void property="name"> 
          <string>surfaceType</string> 
         </void> 
@@ -882,6 +1008,15 @@
          <string>propertyName</string> 
          <string>contourType</string> 
         </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
         <void property="name"> 
          <string>contourType</string> 
         </void> 
@@ -923,6 +1058,15 @@
         <void method="setProperty"> 
          <string>propertyName</string> 
          <string>densityType</string> 
+        </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
         </void> 
         <void property="name"> 
          <string>densityType</string> 
@@ -1015,6 +1159,15 @@
          <string>property</string> 
          <boolean>true</boolean> 
         </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
         <void property="name"> 
          <string>firstFunctionOnly</string> 
         </void> 
@@ -1061,6 +1214,15 @@
          <string>property</string> 
          <boolean>true</boolean> 
         </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
         <void property="name"> 
          <string>secondFunctionOnly</string> 
         </void> 
@@ -1103,6 +1265,15 @@
          <string>propertyName</string> 
          <string>bothFunction</string> 
         </void> 
+        <void method="setProperty"> 
+         <string>margin</string> 
+         <object class="java.awt.Insets"> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+          <int>0</int> 
+         </object> 
+        </void> 
         <void property="name"> 
          <string>bothFunction</string> 
         </void> 
@@ -1126,14 +1297,14 @@
        <string>location</string> 
        <object class="java.awt.Point"> 
         <int>160</int> 
-        <int>0</int> 
+        <int>5</int> 
        </object> 
       </void> 
       <void method="setProperty"> 
        <string>size</string> 
        <object class="java.awt.Dimension"> 
-        <int>220</int> 
-        <int>630</int> 
+        <int>160</int> 
+        <int>625</int> 
        </object> 
       </void> 
      </object> 
@@ -1150,8 +1321,8 @@
       <void method="setProperty"> 
        <string>location</string> 
        <object class="java.awt.Point"> 
-        <int>395</int> 
-        <int>250</int> 
+        <int>370</int> 
+        <int>245</int> 
        </object> 
       </void> 
      </object> 
@@ -1168,8 +1339,8 @@
       <void method="setProperty"> 
        <string>location</string> 
        <object class="java.awt.Point"> 
-        <int>385</int> 
-        <int>390</int> 
+        <int>370</int> 
+        <int>360</int> 
        </object> 
       </void> 
      </object> 
@@ -1186,8 +1357,8 @@
       <void method="setProperty"> 
        <string>location</string> 
        <object class="java.awt.Point"> 
-        <int>390</int> 
-        <int>470</int> 
+        <int>370</int> 
+        <int>450</int> 
        </object> 
       </void> 
      </object> 
@@ -1218,7 +1389,7 @@
     </void> 
     <void method="add"> 
      <object class="com.jformdesigner.model.FormNonVisual"> 
-      <string>net.ericaro.surfaceplotter.AbstractSurfaceModel</string> 
+      <string>net.ericaro.surfaceplotter.DefaultSurfaceModel</string> 
       <void method="setProperty"> 
        <string>secondFunctionOnly</string> 
        <boolean>true</boolean> 

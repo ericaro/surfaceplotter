@@ -1,7 +1,6 @@
 
 package net.ericaro.surfaceplotter.beans;
 
-import java.awt.Checkbox;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 

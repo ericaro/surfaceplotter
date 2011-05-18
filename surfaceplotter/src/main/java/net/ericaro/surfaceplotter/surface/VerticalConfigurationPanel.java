@@ -10,19 +10,20 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ResourceBundle;
+import javax.swing.*;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
-import net.ericaro.surfaceplotter.AbstractSurfaceModel;
+import net.ericaro.surfaceplotter.DefaultSurfaceModel;
 import net.ericaro.surfaceplotter.beans.JBindedCheckBox;
 import net.ericaro.surfaceplotter.beans.JBindedRadioButton;
 import net.ericaro.surfaceplotter.beans.JScrollablePanel;
 import net.ericaro.surfaceplotter.beans.ModelSource;
 
 
-/** A Vertical Configuration panel for the {@link AbstractSurfaceModel}.
+/** A Vertical Configuration panel for the {@link DefaultSurfaceModel}.
  * @author eric
  */
 public class VerticalConfigurationPanel extends JScrollablePanel {
@@ -42,13 +43,13 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		label1 = new JLabel();
 		boxed = new JBindedCheckBox();
 		scaleBox = new JBindedCheckBox();
-		expectDelay = new JBindedCheckBox();
 		label3 = new JLabel();
 		displayXY = new JBindedCheckBox();
 		displayZ = new JBindedCheckBox();
 		label6 = new JLabel();
 		displayGrids = new JBindedCheckBox();
 		mesh = new JBindedCheckBox();
+		expectDelay = new JBindedCheckBox();
 		label4 = new JLabel();
 		hiddenMode = new JBindedRadioButton();
 		spectrumMode = new JBindedRadioButton();
@@ -65,7 +66,7 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		secondFunctionOnly = new JBindedRadioButton();
 		bothFunction = new JBindedRadioButton();
 		modelSource1 = new ModelSource();
-		abstractSurfaceModel1 = new AbstractSurfaceModel();
+		abstractSurfaceModel1 = new DefaultSurfaceModel();
 
 		//======== this ========
 		setBorder(new EmptyBorder(6, 6, 6, 6));
@@ -73,9 +74,9 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		setAlignmentY(0.0F);
 		setLayout(new GridBagLayout());
 		((GridBagLayout)getLayout()).columnWidths = new int[] {6, 0, 0};
-		((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		((GridBagLayout)getLayout()).columnWeights = new double[] {0.0, 1.0, 1.0E-4};
-		((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
+		((GridBagLayout)getLayout()).rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 
 		//---- label1 ----
 		label1.setText(bundle.getString("label1.text"));
@@ -90,6 +91,7 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		boxed.setBackground(Color.white);
 		boxed.setSourceBean(modelSource1);
 		boxed.setPropertyName("boxed");
+		boxed.setMargin(new Insets(0, 0, 0, 0));
 		add(boxed, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
@@ -99,16 +101,8 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		scaleBox.setBackground(Color.white);
 		scaleBox.setSourceBean(modelSource1);
 		scaleBox.setPropertyName("scaleBox");
+		scaleBox.setMargin(new Insets(0, 0, 0, 0));
 		add(scaleBox, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
-			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-			new Insets(0, 0, 0, 0), 0, 0));
-
-		//---- expectDelay ----
-		expectDelay.setText(bundle.getString("expectDelay.text"));
-		expectDelay.setBackground(Color.white);
-		expectDelay.setSourceBean(modelSource1);
-		expectDelay.setPropertyName("expectDelay");
-		add(expectDelay, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
 
@@ -116,7 +110,7 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		label3.setText(bundle.getString("label3.text"));
 		label3.setFont(label3.getFont().deriveFont(label3.getFont().getStyle() | Font.BOLD));
 		label3.setBackground(Color.white);
-		add(label3, new GridBagConstraints(0, 4, 2, 1, 0.0, 0.0,
+		add(label3, new GridBagConstraints(0, 3, 2, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
 			new Insets(6, 0, 0, 0), 0, 0));
 
@@ -125,7 +119,8 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		displayXY.setBackground(Color.white);
 		displayXY.setSourceBean(modelSource1);
 		displayXY.setPropertyName("displayXY");
-		add(displayXY, new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0,
+		displayXY.setMargin(new Insets(0, 0, 0, 0));
+		add(displayXY, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
 
@@ -134,7 +129,8 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		displayZ.setBackground(Color.white);
 		displayZ.setSourceBean(modelSource1);
 		displayZ.setPropertyName("displayZ");
-		add(displayZ, new GridBagConstraints(1, 6, 1, 1, 0.0, 0.0,
+		displayZ.setMargin(new Insets(0, 0, 0, 0));
+		add(displayZ, new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
 
@@ -142,7 +138,7 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		label6.setText(bundle.getString("label6.text"));
 		label6.setFont(label6.getFont().deriveFont(label6.getFont().getStyle() | Font.BOLD));
 		label6.setBackground(Color.white);
-		add(label6, new GridBagConstraints(0, 7, 2, 1, 0.0, 0.0,
+		add(label6, new GridBagConstraints(0, 6, 2, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(6, 0, 0, 0), 0, 0));
 
@@ -151,7 +147,8 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		displayGrids.setBackground(Color.white);
 		displayGrids.setSourceBean(modelSource1);
 		displayGrids.setPropertyName("displayGrids");
-		add(displayGrids, new GridBagConstraints(1, 8, 1, 1, 0.0, 0.0,
+		displayGrids.setMargin(new Insets(0, 0, 0, 0));
+		add(displayGrids, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
 
@@ -160,7 +157,18 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		mesh.setBackground(Color.white);
 		mesh.setSourceBean(modelSource1);
 		mesh.setPropertyName("mesh");
-		add(mesh, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0,
+		mesh.setMargin(new Insets(0, 0, 0, 0));
+		add(mesh, new GridBagConstraints(1, 8, 1, 1, 0.0, 0.0,
+			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+			new Insets(0, 0, 0, 0), 0, 0));
+
+		//---- expectDelay ----
+		expectDelay.setText(bundle.getString("expectDelay.text"));
+		expectDelay.setBackground(Color.white);
+		expectDelay.setSourceBean(modelSource1);
+		expectDelay.setPropertyName("expectDelay");
+		expectDelay.setMargin(new Insets(0, 0, 0, 0));
+		add(expectDelay, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
 
@@ -177,6 +185,7 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		hiddenMode.setBackground(Color.white);
 		hiddenMode.setSourceBean(modelSource1);
 		hiddenMode.setPropertyName("hiddenMode");
+		hiddenMode.setMargin(new Insets(0, 0, 0, 0));
 		add(hiddenMode, new GridBagConstraints(1, 11, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
@@ -186,6 +195,7 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		spectrumMode.setBackground(Color.white);
 		spectrumMode.setSourceBean(modelSource1);
 		spectrumMode.setPropertyName("spectrumMode");
+		spectrumMode.setMargin(new Insets(0, 0, 0, 0));
 		add(spectrumMode, new GridBagConstraints(1, 12, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
@@ -195,6 +205,7 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		grayScaleMode.setBackground(Color.white);
 		grayScaleMode.setSourceBean(modelSource1);
 		grayScaleMode.setPropertyName("grayScaleMode");
+		grayScaleMode.setMargin(new Insets(0, 0, 0, 0));
 		add(grayScaleMode, new GridBagConstraints(1, 13, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
@@ -204,6 +215,7 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		dualShadeMode.setBackground(Color.white);
 		dualShadeMode.setSourceBean(modelSource1);
 		dualShadeMode.setPropertyName("dualShadeMode");
+		dualShadeMode.setMargin(new Insets(0, 0, 0, 0));
 		add(dualShadeMode, new GridBagConstraints(1, 14, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
@@ -213,6 +225,7 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		fogMode.setBackground(Color.white);
 		fogMode.setSourceBean(modelSource1);
 		fogMode.setPropertyName("fogMode");
+		fogMode.setMargin(new Insets(0, 0, 0, 0));
 		add(fogMode, new GridBagConstraints(1, 15, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
@@ -230,6 +243,7 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		wireframeType.setBackground(Color.white);
 		wireframeType.setSourceBean(modelSource1);
 		wireframeType.setPropertyName("wireframeType");
+		wireframeType.setMargin(new Insets(0, 0, 0, 0));
 		add(wireframeType, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
@@ -239,6 +253,7 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		surfaceType.setBackground(Color.white);
 		surfaceType.setSourceBean(modelSource1);
 		surfaceType.setPropertyName("surfaceType");
+		surfaceType.setMargin(new Insets(0, 0, 0, 0));
 		add(surfaceType, new GridBagConstraints(1, 18, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
@@ -248,6 +263,7 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		contourType.setBackground(Color.white);
 		contourType.setSourceBean(modelSource1);
 		contourType.setPropertyName("contourType");
+		contourType.setMargin(new Insets(0, 0, 0, 0));
 		add(contourType, new GridBagConstraints(1, 19, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
@@ -257,6 +273,7 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		densityType.setBackground(Color.white);
 		densityType.setSourceBean(modelSource1);
 		densityType.setPropertyName("densityType");
+		densityType.setMargin(new Insets(0, 0, 0, 0));
 		add(densityType, new GridBagConstraints(1, 20, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
@@ -275,6 +292,7 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		firstFunctionOnly.setSourceBean(modelSource1);
 		firstFunctionOnly.setPropertyName("firstFunctionOnly");
 		firstFunctionOnly.setProperty(true);
+		firstFunctionOnly.setMargin(new Insets(0, 0, 0, 0));
 		add(firstFunctionOnly, new GridBagConstraints(1, 22, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
@@ -285,6 +303,7 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		secondFunctionOnly.setSourceBean(modelSource1);
 		secondFunctionOnly.setPropertyName("secondFunctionOnly");
 		secondFunctionOnly.setProperty(true);
+		secondFunctionOnly.setMargin(new Insets(0, 0, 0, 0));
 		add(secondFunctionOnly, new GridBagConstraints(1, 23, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
@@ -294,6 +313,7 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 		bothFunction.setBackground(Color.white);
 		bothFunction.setSourceBean(modelSource1);
 		bothFunction.setPropertyName("bothFunction");
+		bothFunction.setMargin(new Insets(0, 0, 0, 0));
 		add(bothFunction, new GridBagConstraints(1, 24, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
@@ -331,13 +351,13 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 	private JLabel label1;
 	private JBindedCheckBox boxed;
 	private JBindedCheckBox scaleBox;
-	private JBindedCheckBox expectDelay;
 	private JLabel label3;
 	private JBindedCheckBox displayXY;
 	private JBindedCheckBox displayZ;
 	private JLabel label6;
 	private JBindedCheckBox displayGrids;
 	private JBindedCheckBox mesh;
+	private JBindedCheckBox expectDelay;
 	private JLabel label4;
 	private JBindedRadioButton hiddenMode;
 	private JBindedRadioButton spectrumMode;
@@ -354,6 +374,6 @@ public class VerticalConfigurationPanel extends JScrollablePanel {
 	private JBindedRadioButton secondFunctionOnly;
 	private JBindedRadioButton bothFunction;
 	private ModelSource modelSource1;
-	private AbstractSurfaceModel abstractSurfaceModel1;
+	private DefaultSurfaceModel abstractSurfaceModel1;
 	// JFormDesigner - End of variables declaration  //GEN-END:variables
 }

@@ -39,6 +39,7 @@ import java.awt.Label;
 import java.awt.Point;
 import java.awt.PrintGraphics;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
@@ -50,14 +51,16 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 
-import net.ericaro.surfaceplotter.AbstractSurfaceModel;
+import javax.xml.parsers.ParserConfigurationException;
+
+import net.ericaro.surfaceplotter.DefaultSurfaceModel;
 import net.ericaro.surfaceplotter.surface.SurfaceModel.PlotType;
 
+import org.apache.batik.svggen.SVGGraphics2D;
 
 /**
  * The class <code>JSurface</code> is responsible for the generation of surface
  * images and user mouse events handling.
- * 
  * It relies on a SurfaceModel that handles everything. This class only display data available in the model.
  * 
  * @author Yanto Suryono
@@ -66,7 +69,7 @@ import net.ericaro.surfaceplotter.surface.SurfaceModel.PlotType;
 public class JSurface extends javax.swing.JComponent {
 	private SurfaceModel model; // the parent, Surface Plotter model
 	private Projector projector; // the projector, controls the point of view
-	private SurfaceVertex[][] vertex; // vertices array
+	private SurfaceVertex[][] surfaceVertex; // vertices array 
 	private boolean data_available; // data availability flag
 	private boolean interrupted; // interrupted flag
 	private boolean critical; // for speed up
@@ -75,7 +78,7 @@ public class JSurface extends javax.swing.JComponent {
 	private int printwidth, printheight; // print size
 	private SurfaceVertex cop; // center of projection
 
-	private int curve = 0; 
+	private int curve = 0;
 
 	private Graphics graphics; // the actual graphics used by all private
 								// methods
@@ -91,7 +94,6 @@ public class JSurface extends javax.swing.JComponent {
 	private float xmin, xmax, ymin;
 	private float ymax, zmin, zmax;
 
-	//private SurfaceVertex surfaceVertex;
 
 	// constants
 	private static final int TOP = 0;
@@ -110,7 +112,7 @@ public class JSurface extends javax.swing.JComponent {
 	// TODO makes the JSurface works without model, so that it can become a real
 	// bean
 	public JSurface() {
-		this(new AbstractSurfaceModel());
+		this(new DefaultSurfaceModel());
 	}
 
 	/**
@@ -128,21 +130,24 @@ public class JSurface extends javax.swing.JComponent {
 		addMouseWheelListener(my);
 		addFocusListener(new FocusAdapter() {
 
-		@Override public void focusGained(FocusEvent e) {
-				//keep track of the last focused Jsurface to connect actions to them
+			@Override
+			public void focusGained(FocusEvent e) {
+				// keep track of the last focused Jsurface to connect actions to them
 				lastFocused = JSurface.this;
-			}});
+			}
+		});
 		setModel(model);
 	}
 
-	/** Return the last focused JSurface component. Useful for actions to apply on it.
+	/**
+	 * Return the last focused JSurface component. Useful for actions to apply on it.
 	 * 
 	 * @return
 	 */
 	public static JSurface getFocusedComponent() {
-		return lastFocused ;
+		return lastFocused;
 	}
-	
+
 	public void setModel(SurfaceModel model) {
 
 		if (this.model != null)
@@ -151,7 +156,7 @@ public class JSurface extends javax.swing.JComponent {
 			model.removeChangeListener(surfaceChangesListener);
 
 		if (model == null)
-			model = new AbstractSurfaceModel();
+			model = new DefaultSurfaceModel();
 
 		this.model = model;
 		interrupted = false;
@@ -160,25 +165,21 @@ public class JSurface extends javax.swing.JComponent {
 		// contour = density = false;
 		prevwidth = prevheight = -1;
 		projector = model.getProjector();
-		// surfaceVertex= new SurfaceVertex();
-		// SurfaceVertex.setProjector(projector);
-		vertex = new SurfaceVertex[2][];
+		surfaceVertex = new SurfaceVertex[2][];
 
 		model.addPropertyChangeListener(surfaceChangesListener);
 		model.addChangeListener(surfaceChangesListener);
 		init(); // fill all availables properties
 	}
 
-	class JSurfaceMouseListener extends MouseAdapter implements
-			MouseMotionListener, MouseWheelListener {
+	class JSurfaceMouseListener extends MouseAdapter implements MouseMotionListener, MouseWheelListener {
 
 		int i = 0;
 
 		public void mouseWheelMoved(MouseWheelEvent e) {
 			float new_value = 0.0f;
 			float old_value = projector.get2DScaling();
-			new_value = old_value
-					* (1 - e.getScrollAmount() * e.getWheelRotation() / 10f);
+			new_value = old_value * (1 - e.getScrollAmount() * e.getWheelRotation() / 10f);
 			if (new_value > 60.0f)
 				new_value = 60.0f;
 			if (new_value < 2.0f)
@@ -249,10 +250,8 @@ public class JSurface extends javax.swing.JComponent {
 				return;
 			// if (!thread.isAlive() || !data_available) {
 			if (e.isControlDown()) {
-				projector.set2D_xTranslation(projector.get2D_xTranslation()
-						+ (x - click_x));
-				projector.set2D_yTranslation(projector.get2D_yTranslation()
-						+ (y - click_y));
+				projector.set2D_xTranslation(projector.get2D_xTranslation() + (x - click_x));
+				projector.set2D_yTranslation(projector.get2D_yTranslation() + (y - click_y));
 			} else if (e.isShiftDown()) {
 				new_value = projector.get2DScaling() + (y - click_y) * 0.5f;
 				if (new_value > 60.0f)
@@ -291,8 +290,7 @@ public class JSurface extends javax.swing.JComponent {
 
 	}
 
-	class JSurfaceChangesListener implements PropertyChangeListener,
-			javax.swing.event.ChangeListener {
+	class JSurfaceChangesListener implements PropertyChangeListener, javax.swing.event.ChangeListener {
 		public void stateChanged(javax.swing.event.ChangeEvent e) {
 			destroyImage();
 		}
@@ -309,8 +307,7 @@ public class JSurface extends javax.swing.JComponent {
 
 	private void init() {
 		colors = model.getColorModel();
-		setRanges(model.getXMin(), model.getXMax(), model.getYMin(), model
-				.getYMax());
+		setRanges(model.getXMin(), model.getXMax(), model.getYMin(), model.getYMax());
 
 		data_available = model.isDataAvailable();
 		if (data_available)
@@ -338,7 +335,7 @@ public class JSurface extends javax.swing.JComponent {
 	public void destroyImage() {
 		repaint();
 	}
-	
+
 	/**
 	 * Sets the x and y ranges of calculated surface vertices. The ranges will
 	 * not affect surface appearance. They affect axes scale appearance.
@@ -381,8 +378,7 @@ public class JSurface extends javax.swing.JComponent {
 	}
 
 	/**
-	 * Sets the data availability flag. If this flag is <code>false</code>,
-	 * <code>SurfaceCanvas</code> will not generate any surface image, even if
+	 * Sets the data availability flag. If this flag is <code>false</code>, <code>SurfaceCanvas</code> will not generate any surface image, even if
 	 * the data is available. But it is the programmer's responsiblity to set
 	 * this flag to <code>false</code> when data is not available.
 	 * 
@@ -405,7 +401,7 @@ public class JSurface extends javax.swing.JComponent {
 	 */
 
 	public void setValuesArray(SurfaceVertex[][] vertex) {
-		this.vertex = vertex;
+		this.surfaceVertex = vertex;
 	}
 
 	/**
@@ -418,7 +414,7 @@ public class JSurface extends javax.swing.JComponent {
 	public SurfaceVertex[][] getValuesArray() {
 		if (!data_available)
 			return null;
-		return vertex;
+		return surfaceVertex;
 	}
 
 	private boolean is_data_available; // holds the original data availability
@@ -444,9 +440,7 @@ public class JSurface extends javax.swing.JComponent {
 		int h, w;
 		w = 50;
 		h = 30;
-		java.awt.image.BufferedImage bf = new java.awt.image.BufferedImage(
-				getWidth(), getHeight(),
-				java.awt.image.BufferedImage.TYPE_INT_RGB);
+		java.awt.image.BufferedImage bf = new java.awt.image.BufferedImage(getWidth(), getHeight(), java.awt.image.BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = bf.createGraphics();
 
 		// g2d.setColor(java.awt.Color.white);
@@ -458,28 +452,29 @@ public class JSurface extends javax.swing.JComponent {
 	}
 
 	/**
-	 * needs batik, will reintroduce it later public void doExportSVG(File file)
-	 * { if (file==null) return;
-	 * 
-	 * // Create an instance of org.w3c.dom.Document org.w3c.dom.Document
-	 * document = javax.xml.parsers.DocumentBuilderFactory.newInstance().
-	 * newDocumentBuilder().newDocument();
-	 * 
-	 * // Create an instance of the SVG Generator
-	 * 
-	 * SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
-	 * 
-	 * // Ask the test to render into the SVG Graphics2D implementation
-	 * export(svgGenerator);
-	 * 
-	 * // Finally, stream out SVG to the standard output using UTF-8 //
-	 * character to byte encoding boolean useCSS = true; // we want to use CSS
-	 * style attribute java.io.Writer out = new java.io.OutputStreamWriter(new
-	 * java.io.FileOutputStream(file), "UTF-8"); svgGenerator.stream(out,
-	 * useCSS); }
-	 * 
-	 * /
-	 **/
+	 * needs batik, will reintroduce it later
+	 * @throws ParserConfigurationException 
+	 */
+	public void doExportSVG(File file) throws IOException, ParserConfigurationException{
+		if (file == null)
+			return;
+
+		// Create an instance of org.w3c.dom.Document
+		org.w3c.dom.Document document = javax.xml.parsers.DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+
+		// Create an instance of the SVG Generator
+
+		SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
+
+		// Ask the test to render into the SVG Graphics2D implementation
+		export(svgGenerator);
+
+		// Finally, stream out SVG to the standard output using UTF-8 //
+		// character to byte encoding
+		boolean useCSS = true; // we want to use CSS		// style attribute
+		java.io.Writer out = new java.io.OutputStreamWriter(new java.io.FileOutputStream(file), "UTF-8");
+		svgGenerator.stream(out, useCSS);
+	}
 
 	/**
 	 * Paints surface. Creates surface plot, contour plot, or density plot based
@@ -500,12 +495,10 @@ public class JSurface extends javax.swing.JComponent {
 
 		// backing buffer creation
 
-		if ((getBounds().width != prevwidth)
-				|| (getBounds().height != prevheight)) {
+		if ((getBounds().width != prevwidth) || (getBounds().height != prevheight)) {
 			// model.setMessage("New image size: " + getBounds().width + "x" +
 			// getBounds().height);
-			projector.setProjectionArea(new Rectangle(0, 0, getBounds().width,
-					getBounds().height));
+			projector.setProjectionArea(new Rectangle(0, 0, getBounds().width, getBounds().height));
 			// if (Buffer != null) Buffer.flush();
 			// Buffer = createImage(getBounds().width, getBounds().height);
 			// if (graphics != null) graphics.dispose();
@@ -520,6 +513,7 @@ public class JSurface extends javax.swing.JComponent {
 		// importVariables();
 
 		printing = g instanceof PrintGraphics;
+		
 
 		if (printing)
 			printing(g);
@@ -551,8 +545,7 @@ public class JSurface extends javax.swing.JComponent {
 
 		// modifies variables
 
-		Dimension pagedimension = ((PrintGraphics) graphics).getPrintJob()
-				.getPageDimension();
+		Dimension pagedimension = ((PrintGraphics) graphics).getPrintJob().getPageDimension();
 
 		printwidth = pagedimension.width;
 		printheight = prevheight * printwidth / prevwidth;
@@ -563,8 +556,7 @@ public class JSurface extends javax.swing.JComponent {
 		}
 
 		float savedscalingfactor = projector.get2DScaling();
-		projector
-				.setProjectionArea(new Rectangle(0, 0, printwidth, printheight));
+		projector.setProjectionArea(new Rectangle(0, 0, printwidth, printheight));
 		projector.set2DScaling(savedscalingfactor * printwidth / prevwidth);
 
 		graphics.clipRect(0, 0, printwidth, printheight);
@@ -576,8 +568,7 @@ public class JSurface extends javax.swing.JComponent {
 		// restores variables
 
 		projector.set2DScaling(savedscalingfactor);
-		projector.setProjectionArea(new Rectangle(0, 0, getBounds().width,
-				getBounds().height));
+		projector.setProjectionArea(new Rectangle(0, 0, getBounds().width, getBounds().height));
 		return;
 	}
 
@@ -593,12 +584,16 @@ public class JSurface extends javax.swing.JComponent {
 		paintComponent(g); // do not erase, just paint
 	}
 
-	
-
-	
 	private void export(Graphics g) {
 		if (data_available && !interrupted) {
+			boolean old = printing;
+			printing = true;
+			
 			draw(g);
+			
+			
+			printing = old;
+			
 
 		} else {
 			System.out.println("empty plot");
@@ -666,14 +661,11 @@ public class JSurface extends javax.swing.JComponent {
 		startingpoint = projector.project(factor_x * 10, factor_y * 10, 10);
 		graphics.setColor(colors.getLineBoxColor());
 		projection = projector.project(-factor_x * 10, factor_y * 10, 10);
-		graphics.drawLine(startingpoint.x, startingpoint.y, projection.x,
-				projection.y);
+		graphics.drawLine(startingpoint.x, startingpoint.y, projection.x, projection.y);
 		projection = projector.project(factor_x * 10, -factor_y * 10, 10);
-		graphics.drawLine(startingpoint.x, startingpoint.y, projection.x,
-				projection.y);
+		graphics.drawLine(startingpoint.x, startingpoint.y, projection.x, projection.y);
 		projection = projector.project(factor_x * 10, factor_y * 10, -10);
-		graphics.drawLine(startingpoint.x, startingpoint.y, projection.x,
-				projection.y);
+		graphics.drawLine(startingpoint.x, startingpoint.y, projection.x, projection.y);
 	}
 
 	/**
@@ -740,28 +732,18 @@ public class JSurface extends javax.swing.JComponent {
 			projection = projector.project(10.5f, 0, -10);
 			g.drawLine(x[0], y[0], projection.x, projection.y);
 			if (projection.x < x[0])
-				outString(g, (int) (1.05 * (projection.x - x[0])) + x[0],
-						(int) (1.05 * (projection.y - y[0])) + y[0], "x",
-						Label.RIGHT, TOP);
+				outString(g, (int) (1.05 * (projection.x - x[0])) + x[0], (int) (1.05 * (projection.y - y[0])) + y[0], "x", Label.RIGHT, TOP);
 			else
-				outString(g, (int) (1.05 * (projection.x - x[0])) + x[0],
-						(int) (1.05 * (projection.y - y[0])) + y[0], "x",
-						Label.LEFT, TOP);
+				outString(g, (int) (1.05 * (projection.x - x[0])) + x[0], (int) (1.05 * (projection.y - y[0])) + y[0], "x", Label.LEFT, TOP);
 			projection = projector.project(0, 11.5f, -10);
 			g.drawLine(x[0], y[0], projection.x, projection.y);
 			if (projection.x < x[0])
-				outString(g, (int) (1.05 * (projection.x - x[0])) + x[0],
-						(int) (1.05 * (projection.y - y[0])) + y[0], "y",
-						Label.RIGHT, TOP);
+				outString(g, (int) (1.05 * (projection.x - x[0])) + x[0], (int) (1.05 * (projection.y - y[0])) + y[0], "y", Label.RIGHT, TOP);
 			else
-				outString(g, (int) (1.05 * (projection.x - x[0])) + x[0],
-						(int) (1.05 * (projection.y - y[0])) + y[0], "y",
-						Label.LEFT, TOP);
+				outString(g, (int) (1.05 * (projection.x - x[0])) + x[0], (int) (1.05 * (projection.y - y[0])) + y[0], "y", Label.LEFT, TOP);
 			projection = projector.project(0, 0, 10.5f);
 			g.drawLine(x[0], y[0], projection.x, projection.y);
-			outString(g, (int) (1.05 * (projection.x - x[0])) + x[0],
-					(int) (1.05 * (projection.y - y[0])) + y[0], "z",
-					Label.CENTER, CENTER);
+			outString(g, (int) (1.05 * (projection.x - x[0])) + x[0], (int) (1.05 * (projection.y - y[0])) + y[0], "z", Label.CENTER, CENTER);
 		} else {
 			factor_x = factor_y = 1;
 			projection = projector.project(0, 0, -10);
@@ -786,20 +768,16 @@ public class JSurface extends javax.swing.JComponent {
 			drawBase(g, x, y);
 
 			if (isBoxed) {
-				projection = projector.project(-factor_x * 10, -factor_y * 10,
-						-10);
+				projection = projector.project(-factor_x * 10, -factor_y * 10, -10);
 				x[0] = projection.x;
 				y[0] = projection.y;
-				projection = projector.project(-factor_x * 10, -factor_y * 10,
-						10);
+				projection = projector.project(-factor_x * 10, -factor_y * 10, 10);
 				x[1] = projection.x;
 				y[1] = projection.y;
-				projection = projector.project(factor_x * 10, -factor_y * 10,
-						10);
+				projection = projector.project(factor_x * 10, -factor_y * 10, 10);
 				x[2] = projection.x;
 				y[2] = projection.y;
-				projection = projector.project(factor_x * 10, -factor_y * 10,
-						-10);
+				projection = projector.project(factor_x * 10, -factor_y * 10, -10);
 				x[3] = projection.x;
 				y[3] = projection.y;
 				x[4] = x[0];
@@ -807,16 +785,14 @@ public class JSurface extends javax.swing.JComponent {
 
 				g.setColor(colors.getBoxColor());
 				g.fillPolygon(x, y, 4);
-					
+
 				g.setColor(colors.getLineBoxColor());
 				g.drawPolygon(x, y, 5);
 
-				projection = projector.project(-factor_x * 10, factor_y * 10,
-						10);
+				projection = projector.project(-factor_x * 10, factor_y * 10, 10);
 				x[2] = projection.x;
 				y[2] = projection.y;
-				projection = projector.project(-factor_x * 10, factor_y * 10,
-						-10);
+				projection = projector.project(-factor_x * 10, factor_y * 10, -10);
 				x[3] = projection.x;
 				y[3] = projection.y;
 				x[4] = x[0];
@@ -824,24 +800,20 @@ public class JSurface extends javax.swing.JComponent {
 
 				g.setColor(colors.getBoxColor());
 				g.fillPolygon(x, y, 4);
-					
+
 				g.setColor(colors.getLineBoxColor());
 				g.drawPolygon(x, y, 5);
 			} else if (isDisplayZ) {
-				projection = projector.project(factor_x * 10, -factor_y * 10,
-						-10);
+				projection = projector.project(factor_x * 10, -factor_y * 10, -10);
 				x[0] = projection.x;
 				y[0] = projection.y;
-				projection = projector.project(factor_x * 10, -factor_y * 10,
-						10);
+				projection = projector.project(factor_x * 10, -factor_y * 10, 10);
 				g.drawLine(x[0], y[0], projection.x, projection.y);
 
-				projection = projector.project(-factor_x * 10, factor_y * 10,
-						-10);
+				projection = projector.project(-factor_x * 10, factor_y * 10, -10);
 				x[0] = projection.x;
 				y[0] = projection.y;
-				projection = projector.project(-factor_x * 10, factor_y * 10,
-						10);
+				projection = projector.project(-factor_x * 10, factor_y * 10, 10);
 				g.drawLine(x[0], y[0], projection.x, projection.y);
 			}
 
@@ -849,62 +821,40 @@ public class JSurface extends javax.swing.JComponent {
 				if (isDisplayXY || isDisplayGrids) {
 					if (!isDisplayGrids || (i % (t_y / 2) == 0) || isDisplayXY) {
 						if (isDisplayGrids && (i % t_y == 0))
-							projection = projector.project(-factor_x * 10, i,
-									-10);
+							projection = projector.project(-factor_x * 10, i, -10);
 						else {
 							if (i % t_y != 0)
-								projection = projector.project(factor_x * 9.8f,
-										i, -10);
+								projection = projector.project(factor_x * 9.8f, i, -10);
 							else
-								projection = projector.project(factor_x * 9.5f,
-										i, -10);
+								projection = projector.project(factor_x * 9.5f, i, -10);
 						}
 						tickpos = projector.project(factor_x * 10, i, -10);
-						g.drawLine(projection.x, projection.y, tickpos.x,
-								tickpos.y);
+						g.drawLine(projection.x, projection.y, tickpos.x, tickpos.y);
 						if ((i % t_y == 0) && isDisplayXY) {
-							tickpos = projector.project(factor_x * 10.5f, i,
-									-10);
+							tickpos = projector.project(factor_x * 10.5f, i, -10);
 							if (y_left)
-								outFloat(g, tickpos.x, tickpos.y,
-										(float) ((double) (i + 10) / 20
-												* (ymax - ymin) + ymin),
-										Label.LEFT, TOP);
+								outFloat(g, tickpos.x, tickpos.y, (float) ((double) (i + 10) / 20 * (ymax - ymin) + ymin), Label.LEFT, TOP);
 							else
-								outFloat(g, tickpos.x, tickpos.y,
-										(float) ((double) (i + 10) / 20
-												* (ymax - ymin) + ymin),
-										Label.RIGHT, TOP);
+								outFloat(g, tickpos.x, tickpos.y, (float) ((double) (i + 10) / 20 * (ymax - ymin) + ymin), Label.RIGHT, TOP);
 						}
 					}
 					if (!isDisplayGrids || (i % (t_x / 2) == 0) || isDisplayXY) {
 						if (isDisplayGrids && (i % t_x == 0))
-							projection = projector.project(i, -factor_y * 10,
-									-10);
+							projection = projector.project(i, -factor_y * 10, -10);
 						else {
 							if (i % t_x != 0)
-								projection = projector.project(i,
-										factor_y * 9.8f, -10);
+								projection = projector.project(i, factor_y * 9.8f, -10);
 							else
-								projection = projector.project(i,
-										factor_y * 9.5f, -10);
+								projection = projector.project(i, factor_y * 9.5f, -10);
 						}
 						tickpos = projector.project(i, factor_y * 10, -10);
-						g.drawLine(projection.x, projection.y, tickpos.x,
-								tickpos.y);
+						g.drawLine(projection.x, projection.y, tickpos.x, tickpos.y);
 						if ((i % t_x == 0) && isDisplayXY) {
-							tickpos = projector.project(i, factor_y * 10.5f,
-									-10);
+							tickpos = projector.project(i, factor_y * 10.5f, -10);
 							if (x_left)
-								outFloat(g, tickpos.x, tickpos.y,
-										(float) ((double) (i + 10) / 20
-												* (xmax - xmin) + xmin),
-										Label.LEFT, TOP);
+								outFloat(g, tickpos.x, tickpos.y, (float) ((double) (i + 10) / 20 * (xmax - xmin) + xmin), Label.LEFT, TOP);
 							else
-								outFloat(g, tickpos.x, tickpos.y,
-										(float) ((double) (i + 10) / 20
-												* (xmax - xmin) + xmin),
-										Label.RIGHT, TOP);
+								outFloat(g, tickpos.x, tickpos.y, (float) ((double) (i + 10) / 20 * (xmax - xmin) + xmin), Label.RIGHT, TOP);
 						}
 					}
 				}
@@ -921,87 +871,55 @@ public class JSurface extends javax.swing.JComponent {
 				if (isDisplayZ || (isDisplayGrids && isBoxed)) {
 					if (!isDisplayGrids || (i % (t_z / 2) == 0) || isDisplayZ) {
 						if (isBoxed && isDisplayGrids && (i % t_z == 0)) {
-							projection = projector.project(-factor_x * 10,
-									-factor_y * 10, i);
-							tickpos = projector.project(-factor_x * 10,
-									factor_y * 10, i);
+							projection = projector.project(-factor_x * 10, -factor_y * 10, i);
+							tickpos = projector.project(-factor_x * 10, factor_y * 10, i);
 						} else {
 							if (i % t_z == 0)
-								projection = projector.project(-factor_x * 10,
-										factor_y * 9.5f, i);
+								projection = projector.project(-factor_x * 10, factor_y * 9.5f, i);
 							else
-								projection = projector.project(-factor_x * 10,
-										factor_y * 9.8f, i);
-							tickpos = projector.project(-factor_x * 10,
-									factor_y * 10, i);
+								projection = projector.project(-factor_x * 10, factor_y * 9.8f, i);
+							tickpos = projector.project(-factor_x * 10, factor_y * 10, i);
 						}
-						g.drawLine(projection.x, projection.y, tickpos.x,
-								tickpos.y);
+						g.drawLine(projection.x, projection.y, tickpos.x, tickpos.y);
 						if (isDisplayZ) {
-							tickpos = projector.project(-factor_x * 10,
-									factor_y * 10.5f, i);
+							tickpos = projector.project(-factor_x * 10, factor_y * 10.5f, i);
 							if (i % t_z == 0) {
 								if (x_left)
-									outFloat(g, tickpos.x, tickpos.y,
-											(float) ((double) (i + 10) / 20
-													* (zmax - zmin) + zmin),
-											Label.LEFT, CENTER);
+									outFloat(g, tickpos.x, tickpos.y, (float) ((double) (i + 10) / 20 * (zmax - zmin) + zmin), Label.LEFT, CENTER);
 								else
-									outFloat(g, tickpos.x, tickpos.y,
-											(float) ((double) (i + 10) / 20
-													* (zmax - zmin) + zmin),
-											Label.RIGHT, CENTER);
+									outFloat(g, tickpos.x, tickpos.y, (float) ((double) (i + 10) / 20 * (zmax - zmin) + zmin), Label.RIGHT, CENTER);
 							}
 						}
 						if (isDisplayGrids && isBoxed && (i % t_z == 0)) {
-							projection = projector.project(-factor_x * 10,
-									-factor_y * 10, i);
-							tickpos = projector.project(factor_x * 10,
-									-factor_y * 10, i);
+							projection = projector.project(-factor_x * 10, -factor_y * 10, i);
+							tickpos = projector.project(factor_x * 10, -factor_y * 10, i);
 						} else {
 							if (i % t_z == 0)
-								projection = projector.project(factor_x * 9.5f,
-										-factor_y * 10, i);
+								projection = projector.project(factor_x * 9.5f, -factor_y * 10, i);
 							else
-								projection = projector.project(factor_x * 9.8f,
-										-factor_y * 10, i);
-							tickpos = projector.project(factor_x * 10,
-									-factor_y * 10, i);
+								projection = projector.project(factor_x * 9.8f, -factor_y * 10, i);
+							tickpos = projector.project(factor_x * 10, -factor_y * 10, i);
 						}
-						g.drawLine(projection.x, projection.y, tickpos.x,
-								tickpos.y);
+						g.drawLine(projection.x, projection.y, tickpos.x, tickpos.y);
 						if (isDisplayZ) {
-							tickpos = projector.project(factor_x * 10.5f,
-									-factor_y * 10, i);
+							tickpos = projector.project(factor_x * 10.5f, -factor_y * 10, i);
 							if (i % t_z == 0) {
 								if (y_left)
-									outFloat(g, tickpos.x, tickpos.y,
-											(float) ((double) (i + 10) / 20
-													* (zmax - zmin) + zmin),
-											Label.LEFT, CENTER);
+									outFloat(g, tickpos.x, tickpos.y, (float) ((double) (i + 10) / 20 * (zmax - zmin) + zmin), Label.LEFT, CENTER);
 								else
-									outFloat(g, tickpos.x, tickpos.y,
-											(float) ((double) (i + 10) / 20
-													* (zmax - zmin) + zmin),
-											Label.RIGHT, CENTER);
+									outFloat(g, tickpos.x, tickpos.y, (float) ((double) (i + 10) / 20 * (zmax - zmin) + zmin), Label.RIGHT, CENTER);
 							}
 						}
 						if (isDisplayGrids && isBoxed) {
 							if (i % t_y == 0) {
-								projection = projector.project(-factor_x * 10,
-										i, -10);
-								tickpos = projector.project(-factor_x * 10, i,
-										10);
-								g.drawLine(projection.x, projection.y,
-										tickpos.x, tickpos.y);
+								projection = projector.project(-factor_x * 10, i, -10);
+								tickpos = projector.project(-factor_x * 10, i, 10);
+								g.drawLine(projection.x, projection.y, tickpos.x, tickpos.y);
 							}
 							if (i % t_x == 0) {
-								projection = projector.project(i,
-										-factor_y * 10, -10);
-								tickpos = projector.project(i, -factor_y * 10,
-										10);
-								g.drawLine(projection.x, projection.y,
-										tickpos.x, tickpos.y);
+								projection = projector.project(i, -factor_y * 10, -10);
+								tickpos = projector.project(i, -factor_y * 10, 10);
+								g.drawLine(projection.x, projection.y, tickpos.x, tickpos.y);
 							}
 						}
 					}
@@ -1123,8 +1041,7 @@ public class JSurface extends javax.swing.JComponent {
 	 *            the alignment in y direction
 	 */
 
-	private final void outString(Graphics g, int x, int y, String s,
-			int x_align, int y_align) {
+	private final void outString(Graphics g, int x, int y, String s, int x_align, int y_align) {
 		switch (y_align) {
 		case TOP:
 			y += g.getFontMetrics(g.getFont()).getAscent();
@@ -1138,13 +1055,10 @@ public class JSurface extends javax.swing.JComponent {
 			g.drawString(s, x, y);
 			break;
 		case Label.RIGHT:
-			g
-					.drawString(s, x
-							- g.getFontMetrics(g.getFont()).stringWidth(s), y);
+			g.drawString(s, x - g.getFontMetrics(g.getFont()).stringWidth(s), y);
 			break;
 		case Label.CENTER:
-			g.drawString(s, x - g.getFontMetrics(g.getFont()).stringWidth(s)
-					/ 2, y);
+			g.drawString(s, x - g.getFontMetrics(g.getFont()).stringWidth(s) / 2, y);
 			break;
 		}
 	}
@@ -1166,8 +1080,7 @@ public class JSurface extends javax.swing.JComponent {
 	 *            the alignment in y direction
 	 */
 
-	private final void outFloat(Graphics g, int x, int y, float f, int x_align,
-			int y_align) {
+	private final void outFloat(Graphics g, int x, int y, float f, int x_align, int y_align) {
 		// String s = Float.toString(f);
 		String s = format(f);
 		outString(g, x, y, s, x_align, y_align);
@@ -1215,12 +1128,9 @@ public class JSurface extends javax.swing.JComponent {
 						result = zmin;
 					else
 						result = zmax;
-					float ratio = (result - vertex[index].z)
-							/ (vertex[loop].z - vertex[index].z);
-					float new_x = ratio * (vertex[loop].x - vertex[index].x)
-							+ vertex[index].x;
-					float new_y = ratio * (vertex[loop].y - vertex[index].y)
-							+ vertex[index].y;
+					float ratio = (result - vertex[index].z) / (vertex[loop].z - vertex[index].z);
+					float new_x = ratio * (vertex[loop].x - vertex[index].x) + vertex[index].x;
+					float new_y = ratio * (vertex[loop].y - vertex[index].y) + vertex[index].y;
 					if (low1)
 						projection = projector.project(new_x, new_y, -10);
 					else
@@ -1241,12 +1151,9 @@ public class JSurface extends javax.swing.JComponent {
 						result = zmin;
 					else
 						result = zmax;
-					float ratio = (result - vertex[loop].z)
-							/ (vertex[index].z - vertex[loop].z);
-					float new_x = ratio * (vertex[index].x - vertex[loop].x)
-							+ vertex[loop].x;
-					float new_y = ratio * (vertex[index].y - vertex[loop].y)
-							+ vertex[loop].y;
+					float ratio = (result - vertex[loop].z) / (vertex[index].z - vertex[loop].z);
+					float new_x = ratio * (vertex[index].x - vertex[loop].x) + vertex[loop].x;
+					float new_y = ratio * (vertex[index].y - vertex[loop].y) + vertex[loop].y;
 					if (low2)
 						projection = projector.project(new_x, new_y, -10);
 					else
@@ -1267,8 +1174,8 @@ public class JSurface extends javax.swing.JComponent {
 			graphics.setColor(colors.getPolygonColor(curve, z));
 			graphics.fillPolygon(poly_x, poly_y, count);
 			graphics.setColor(colors.getLineColor(1, z));
-			if (isMesh ) {
-		
+			if (isMesh) {
+
 				poly_x[count] = poly_x[0];
 				poly_y[count] = poly_y[0];
 				count++;
@@ -1290,8 +1197,7 @@ public class JSurface extends javax.swing.JComponent {
 	 *            vertices array of second plane
 	 */
 
-	private final void splitPlotPlane(SurfaceVertex[] values1,
-			SurfaceVertex[] values2) {
+	private final void splitPlotPlane(SurfaceVertex[] values1, SurfaceVertex[] values2) {
 		int trackposition = COINCIDE;
 		int uppercount = 0, lowercount = 0;
 		boolean coincide = true;
@@ -1309,21 +1215,18 @@ public class JSurface extends javax.swing.JComponent {
 
 					// intersects
 
-					factor = (values1[i].z - values2[i].z)
-							/ (values1[i].z - values2[i].z + values2[j].z - values1[j].z);
+					factor = (values1[i].z - values2[i].z) / (values1[i].z - values2[i].z + values2[j].z - values1[j].z);
 					if (values1[i].x == values1[j].x) {
 
 						// intersects in y direction
 
-						yi = factor * (values1[j].y - values1[i].y)
-								+ values1[i].y;
+						yi = factor * (values1[j].y - values1[i].y) + values1[i].y;
 						xi = values1[i].x;
 					} else {
 
 						// intersects in x direction
 
-						xi = factor * (values1[j].x - values1[i].x)
-								+ values1[i].x;
+						xi = factor * (values1[j].x - values1[i].x) + values1[i].x;
 						yi = values1[i].y;
 					}
 					zi = factor * (values2[j].z - values2[i].z) + values2[i].z;
@@ -1345,21 +1248,18 @@ public class JSurface extends javax.swing.JComponent {
 
 					// intersects
 
-					factor = (values1[i].z - values2[i].z)
-							/ (values1[i].z - values2[i].z + values2[j].z - values1[j].z);
+					factor = (values1[i].z - values2[i].z) / (values1[i].z - values2[i].z + values2[j].z - values1[j].z);
 					if (values1[i].x == values1[j].x) {
 
 						// intersects in y direction
 
-						yi = factor * (values1[j].y - values1[i].y)
-								+ values1[i].y;
+						yi = factor * (values1[j].y - values1[i].y) + values1[i].y;
 						xi = values1[i].x;
 					} else {
 
 						// intersects in x direction
 
-						xi = factor * (values1[j].x - values1[i].x)
-								+ values1[i].x;
+						xi = factor * (values1[j].x - values1[i].x) + values1[i].x;
 						yi = values1[i].y;
 					}
 					zi = factor * (values2[j].z - values2[i].z) + values2[i].z;
@@ -1446,21 +1346,9 @@ public class JSurface extends javax.swing.JComponent {
 				 */
 
 				if (values1[1].x == values1[2].x) {
-					upper_first = (values1[2].z - values1[3].z)
-							* (cop.x - values1[3].x)
-							/ (values1[2].x - values1[3].x) + values1[3].z
-							+ (values1[2].z - values1[1].z)
-							* (cop.y - values1[1].y)
-							/ (values1[2].y - values1[1].y) + values1[1].z
-							- values1[2].z > cop.z;
+					upper_first = (values1[2].z - values1[3].z) * (cop.x - values1[3].x) / (values1[2].x - values1[3].x) + values1[3].z + (values1[2].z - values1[1].z) * (cop.y - values1[1].y) / (values1[2].y - values1[1].y) + values1[1].z - values1[2].z > cop.z;
 				} else {
-					upper_first = (values1[2].z - values1[1].z)
-							* (cop.x - values1[1].x)
-							/ (values1[2].x - values1[1].x) + values1[1].z
-							+ (values1[2].z - values1[3].z)
-							* (cop.y - values1[3].y)
-							/ (values1[2].y - values1[3].y) + values1[3].z
-							- values1[2].z > cop.z;
+					upper_first = (values1[2].z - values1[1].z) * (cop.x - values1[1].x) / (values1[2].x - values1[1].x) + values1[1].z + (values1[2].z - values1[3].z) * (cop.y - values1[3].y) / (values1[2].y - values1[3].y) + values1[3].z - values1[2].z > cop.z;
 				}
 			}
 
@@ -1521,15 +1409,13 @@ public class JSurface extends javax.swing.JComponent {
 	 * Determines whether a plane is plottable, i.e: does not have invalid
 	 * surfaceVertex.
 	 * 
-	 * @return <code>true</code> if the plane is plottable, <code>false</code>
-	 *         otherwise
+	 * @return <code>true</code> if the plane is plottable, <code>false</code> otherwise
 	 * @param values
 	 *            vertices array of the plane
 	 */
 
 	private final boolean plottable(SurfaceVertex[] values) {
-		return (!values[0].isInvalid() && !values[1].isInvalid()
-				&& !values[2].isInvalid() && !values[3].isInvalid());
+		return (!values[0].isInvalid() && !values[1].isInvalid() && !values[2].isInvalid() && !values[3].isInvalid());
 	}
 
 	private final SurfaceVertex values1[] = new SurfaceVertex[4];
@@ -1552,8 +1438,7 @@ public class JSurface extends javax.swing.JComponent {
 	 *            step in y direction
 	 */
 
-	private final void plotArea(int start_lx, int start_ly, int end_lx,
-			int end_ly, int sx, int sy) {
+	private final void plotArea(int start_lx, int start_ly, int end_lx, int end_ly, int sx, int sy) {
 
 		start_lx *= calc_divisions + 1;
 		sx *= calc_divisions + 1;
@@ -1564,27 +1449,27 @@ public class JSurface extends javax.swing.JComponent {
 
 		while (ly != end_ly) {
 			if (plotfunc1) {
-				values1[1] = vertex[0][lx + ly];
-				values1[2] = vertex[0][lx + ly + sy];
+				values1[1] = surfaceVertex[0][lx + ly];
+				values1[2] = surfaceVertex[0][lx + ly + sy];
 			}
 			if (plotfunc2) {
-				values2[1] = vertex[1][lx + ly];
-				values2[2] = vertex[1][lx + ly + sy];
+				values2[1] = surfaceVertex[1][lx + ly];
+				values2[2] = surfaceVertex[1][lx + ly + sy];
 			}
 
 			while (lx != end_lx) {
 				Thread.yield();
 				if (plotfunc1) {
 					values1[0] = values1[1];
-					values1[1] = vertex[0][lx + sx + ly];
+					values1[1] = surfaceVertex[0][lx + sx + ly];
 					values1[3] = values1[2];
-					values1[2] = vertex[0][lx + sx + ly + sy];
+					values1[2] = surfaceVertex[0][lx + sx + ly + sy];
 				}
 				if (plotfunc2) {
 					values2[0] = values2[1];
-					values2[1] = vertex[1][lx + sx + ly];
+					values2[1] = surfaceVertex[1][lx + sx + ly];
 					values2[3] = values2[2];
-					values2[2] = vertex[1][lx + sx + ly + sy];
+					values2[2] = surfaceVertex[1][lx + sx + ly + sy];
 				}
 				if (!plotboth) {
 					if (plotfunc1) {
@@ -1665,15 +1550,11 @@ public class JSurface extends javax.swing.JComponent {
 
 		// direction test
 
-		float distance = projector.getDistance()
-				* projector.getCosElevationAngle();
+		float distance = projector.getDistance() * projector.getCosElevationAngle();
 
 		// cop : center of projection
-		//OMG there is a new SurfaceVertex every time !
-		cop = new SurfaceVertex(distance
-				* projector.getSinRotationAngle(), distance
-				* projector.getCosRotationAngle(), projector.getDistance()
-				* projector.getSinElevationAngle());
+		// OMG there is a new SurfaceVertex every time !
+		cop = new SurfaceVertex(distance * projector.getSinRotationAngle(), distance * projector.getCosRotationAngle(), projector.getDistance() * projector.getSinElevationAngle());
 		cop.transform(projector);
 
 		boolean inc_x = cop.x > 0;
@@ -1704,33 +1585,23 @@ public class JSurface extends javax.swing.JComponent {
 			if ((cop.y > 10) || (cop.y < -10)) {
 				plotArea(start_lx, start_ly, end_lx, end_ly, sx, sy);
 			} else { // split in y direction
-				int split_y = (int) ((cop.y + 10) * plot_density / 20)
-						* multiple_factor;
+				int split_y = (int) ((cop.y + 10) * plot_density / 20) * multiple_factor;
 				plotArea(start_lx, 0, end_lx, split_y, sx, multiple_factor);
-				plotArea(start_lx, calc_divisions, end_lx, split_y, sx,
-						-multiple_factor);
+				plotArea(start_lx, calc_divisions, end_lx, split_y, sx, -multiple_factor);
 			}
 		} else {
 			if ((cop.y > 10) || (cop.y < -10)) { // split in x direction
-				int split_x = (int) ((cop.x + 10) * plot_density / 20)
-						* multiple_factor;
+				int split_x = (int) ((cop.x + 10) * plot_density / 20) * multiple_factor;
 				plotArea(0, start_ly, split_x, end_ly, multiple_factor, sy);
-				plotArea(calc_divisions, start_ly, split_x, end_ly,
-						-multiple_factor, sy);
+				plotArea(calc_divisions, start_ly, split_x, end_ly, -multiple_factor, sy);
 			} else { // split in both x and y directions
-				int split_x = (int) ((cop.x + 10) * plot_density / 20)
-						* multiple_factor;
-				int split_y = (int) ((cop.y + 10) * plot_density / 20)
-						* multiple_factor;
+				int split_x = (int) ((cop.x + 10) * plot_density / 20) * multiple_factor;
+				int split_y = (int) ((cop.y + 10) * plot_density / 20) * multiple_factor;
 				critical = true;
-				plotArea(0, 0, split_x, split_y, multiple_factor,
-						multiple_factor);
-				plotArea(0, calc_divisions, split_x, split_y, multiple_factor,
-						-multiple_factor);
-				plotArea(calc_divisions, 0, split_x, split_y, -multiple_factor,
-						multiple_factor);
-				plotArea(calc_divisions, calc_divisions, split_x, split_y,
-						-multiple_factor, -multiple_factor);
+				plotArea(0, 0, split_x, split_y, multiple_factor, multiple_factor);
+				plotArea(0, calc_divisions, split_x, split_y, multiple_factor, -multiple_factor);
+				plotArea(calc_divisions, 0, split_x, split_y, -multiple_factor, multiple_factor);
+				plotArea(calc_divisions, calc_divisions, split_x, split_y, -multiple_factor, -multiple_factor);
 			}
 		}
 
@@ -1820,60 +1691,42 @@ public class JSurface extends javax.swing.JComponent {
 				if (!isDisplayGrids || (i % (t_y / 2) == 0) || isDisplayXY) {
 					yc = contourConvertY(i);
 					if ((isDisplayGrids) && (i % t_y == 0)) {
-						graphics.drawLine(contourConvertX(-10.0f), yc,
-								contourConvertX(+10.0f), yc);
+						graphics.drawLine(contourConvertX(-10.0f), yc, contourConvertX(+10.0f), yc);
 					}
 					if (isDisplayXY) {
 						if (i % t_y != 0) {
-							graphics.drawLine(contourConvertX(+10.3f), yc, x2,
-									yc);
-							graphics.drawLine(contourConvertX(-10.3f), yc, x1,
-									yc);
+							graphics.drawLine(contourConvertX(+10.3f), yc, x2, yc);
+							graphics.drawLine(contourConvertX(-10.3f), yc, x1, yc);
 						} else {
-							graphics.drawLine(contourConvertX(+10.0f), yc, x2,
-									yc);
-							graphics.drawLine(contourConvertX(-10.0f), yc, x1,
-									yc);
+							graphics.drawLine(contourConvertX(+10.0f), yc, x2, yc);
+							graphics.drawLine(contourConvertX(-10.0f), yc, x1, yc);
 						}
 					}
 					if ((i % t_y == 0) && isDisplayXY) {
-						outString(graphics, contourConvertX(10.7f), yc,
-								ylabels[labelindex++], Label.LEFT, CENTER);
+						outString(graphics, contourConvertX(10.7f), yc, ylabels[labelindex++], Label.LEFT, CENTER);
 					}
 				}
 				if (!isDisplayGrids || (i % (t_x / 2) == 0) || isDisplayXY) {
 					xc = contourConvertX(i);
 					if ((isDisplayGrids) && (i % t_x == 0)) {
-						graphics.drawLine(xc, contourConvertY(-10.0f), xc,
-								contourConvertY(+10.0f));
+						graphics.drawLine(xc, contourConvertY(-10.0f), xc, contourConvertY(+10.0f));
 					}
 					if (isDisplayXY) {
 						if (i % t_x != 0) {
-							graphics.drawLine(xc, contourConvertY(-10.3f), xc,
-									y2);
-							graphics.drawLine(xc, contourConvertY(+10.3f), xc,
-									y1);
+							graphics.drawLine(xc, contourConvertY(-10.3f), xc, y2);
+							graphics.drawLine(xc, contourConvertY(+10.3f), xc, y1);
 						} else {
-							graphics.drawLine(xc, contourConvertY(-10.0f), xc,
-									y2);
-							graphics.drawLine(xc, contourConvertY(+10.0f), xc,
-									y1);
+							graphics.drawLine(xc, contourConvertY(-10.0f), xc, y2);
+							graphics.drawLine(xc, contourConvertY(+10.0f), xc, y1);
 						}
 					}
 					if ((i % t_x == 0) && isDisplayXY) {
-						outFloat(
-								graphics,
-								xc,
-								contourConvertY(-10.7f),
-								(float) ((double) (i + 10) / 20 * (xmax - xmin) + xmin),
-								Label.CENTER, TOP);
+						outFloat(graphics, xc, contourConvertY(-10.7f), (float) ((double) (i + 10) / 20 * (xmax - xmin) + xmin), Label.CENTER, TOP);
 					}
 				}
 				if (isDisplayXY) {
-					outString(graphics, (x1 + x2) / 2, contourConvertY(-11.4f),
-							"X", Label.CENTER, TOP);
-					outString(graphics, contourConvertX(10.7f),
-							contourConvertY(-1.0f), "Y", Label.LEFT, CENTER);
+					outString(graphics, (x1 + x2) / 2, contourConvertY(-11.4f), "X", Label.CENTER, TOP);
+					outString(graphics, contourConvertX(10.7f), contourConvertY(-1.0f), "Y", Label.LEFT, CENTER);
 				}
 			}
 		}
@@ -1994,8 +1847,7 @@ public class JSurface extends javax.swing.JComponent {
 
 			legend_label = new String[counts];
 			for (int i = 0; i < counts; i++) {
-				float label = (float) ((double) (i) / (counts - 1)
-						* (zmax - zmin) + zmin);
+				float label = (float) ((double) (i) / (counts - 1) * (zmax - zmin) + zmin);
 				legend_label[i] = format(label);
 				int labelwidth = fm.stringWidth(legend_label[i]);
 				if (labelwidth > legend_length)
@@ -2048,8 +1900,7 @@ public class JSurface extends javax.swing.JComponent {
 	}
 
 	/**
-	 * Creates contour plot of a single area division. Called by
-	 * <code>plotContour</code> method
+	 * Creates contour plot of a single area division. Called by <code>plotContour</code> method
 	 * 
 	 * @see #plotContour
 	 */
@@ -2094,56 +1945,35 @@ public class JSurface extends javax.swing.JComponent {
 						else
 							xpoints[index] = contourConvertX(intersection[edge]);
 					} else {
-						if ((z > contour_vertex[edge].z)
-								|| (z > contour_vertex[nextedge].z)) {
+						if ((z > contour_vertex[edge].z) || (z > contour_vertex[nextedge].z)) {
 							switch (index) {
 							case 1:
-								delta[edge] = (contour_vertex[nextedge].y - contour_vertex[edge].y)
-										* contour_stepz
-										/ (contour_vertex[nextedge].z - contour_vertex[edge].z);
+								delta[edge] = (contour_vertex[nextedge].y - contour_vertex[edge].y) * contour_stepz / (contour_vertex[nextedge].z - contour_vertex[edge].z);
 
-								intersection[edge] = (contour_vertex[nextedge].y
-										* (z - contour_vertex[edge].z) + contour_vertex[edge].y
-										* (contour_vertex[nextedge].z - z))
-										/ (contour_vertex[nextedge].z - contour_vertex[edge].z);
+								intersection[edge] = (contour_vertex[nextedge].y * (z - contour_vertex[edge].z) + contour_vertex[edge].y * (contour_vertex[nextedge].z - z)) / (contour_vertex[nextedge].z - contour_vertex[edge].z);
 
 								xpoints[index] = xmin;
 								ypoints[index] = contourConvertY(intersection[edge]);
 								break;
 							case 3:
-								delta[edge] = (contour_vertex[nextedge].x - contour_vertex[edge].x)
-										* contour_stepz
-										/ (contour_vertex[nextedge].z - contour_vertex[edge].z);
+								delta[edge] = (contour_vertex[nextedge].x - contour_vertex[edge].x) * contour_stepz / (contour_vertex[nextedge].z - contour_vertex[edge].z);
 
-								intersection[edge] = (contour_vertex[nextedge].x
-										* (z - contour_vertex[edge].z) + contour_vertex[edge].x
-										* (contour_vertex[nextedge].z - z))
-										/ (contour_vertex[nextedge].z - contour_vertex[edge].z);
+								intersection[edge] = (contour_vertex[nextedge].x * (z - contour_vertex[edge].z) + contour_vertex[edge].x * (contour_vertex[nextedge].z - z)) / (contour_vertex[nextedge].z - contour_vertex[edge].z);
 
 								xpoints[index] = contourConvertX(intersection[edge]);
 								break;
 							case 5:
-								delta[edge] = (contour_vertex[edge].y - contour_vertex[nextedge].y)
-										* contour_stepz
-										/ (contour_vertex[edge].z - contour_vertex[nextedge].z);
+								delta[edge] = (contour_vertex[edge].y - contour_vertex[nextedge].y) * contour_stepz / (contour_vertex[edge].z - contour_vertex[nextedge].z);
 
-								intersection[edge] = (contour_vertex[edge].y
-										* (z - contour_vertex[nextedge].z) + contour_vertex[nextedge].y
-										* (contour_vertex[edge].z - z))
-										/ (contour_vertex[edge].z - contour_vertex[nextedge].z);
+								intersection[edge] = (contour_vertex[edge].y * (z - contour_vertex[nextedge].z) + contour_vertex[nextedge].y * (contour_vertex[edge].z - z)) / (contour_vertex[edge].z - contour_vertex[nextedge].z);
 
 								xpoints[index] = xmax;
 								ypoints[index] = contourConvertY(intersection[edge]);
 								break;
 							case 7:
-								delta[edge] = (contour_vertex[edge].x - contour_vertex[nextedge].x)
-										* contour_stepz
-										/ (contour_vertex[edge].z - contour_vertex[nextedge].z);
+								delta[edge] = (contour_vertex[edge].x - contour_vertex[nextedge].x) * contour_stepz / (contour_vertex[edge].z - contour_vertex[nextedge].z);
 
-								intersection[edge] = (contour_vertex[edge].x
-										* (z - contour_vertex[nextedge].z) + contour_vertex[nextedge].x
-										* (contour_vertex[edge].z - z))
-										/ (contour_vertex[edge].z - contour_vertex[nextedge].z);
+								intersection[edge] = (contour_vertex[edge].x * (z - contour_vertex[nextedge].z) + contour_vertex[nextedge].x * (contour_vertex[edge].z - z)) / (contour_vertex[edge].z - contour_vertex[nextedge].z);
 
 								xpoints[index] = contourConvertX(intersection[edge]);
 								break;
@@ -2183,8 +2013,7 @@ public class JSurface extends javax.swing.JComponent {
 				for (int index = 1; index < 8; index += 2) {
 					if (xpoints[index] >= 0) {
 						if (x != -1)
-							accumulator.addLine(x, y, xpoints[index],
-									ypoints[index]);
+							accumulator.addLine(x, y, xpoints[index], ypoints[index]);
 						x = xpoints[index];
 						y = ypoints[index];
 					}
@@ -2259,11 +2088,10 @@ public class JSurface extends javax.swing.JComponent {
 			for (int i = 0; i < calc_divisions; i += multiple_factor) {
 				index = i * (calc_divisions + 1);
 				for (int j = 0; j < calc_divisions; j += multiple_factor) {
-					contour_vertex[0] = vertex[func][index];
-					contour_vertex[1] = vertex[func][index + multiple_factor];
-					contour_vertex[2] = vertex[func][index + delta
-							+ multiple_factor];
-					contour_vertex[3] = vertex[func][index + delta];
+					contour_vertex[0] = surfaceVertex[func][index];
+					contour_vertex[1] = surfaceVertex[func][index + multiple_factor];
+					contour_vertex[2] = surfaceVertex[func][index + delta + multiple_factor];
+					contour_vertex[3] = surfaceVertex[func][index + delta];
 					createContour();
 					index += multiple_factor;
 				}
@@ -2328,11 +2156,10 @@ public class JSurface extends javax.swing.JComponent {
 			for (int i = 0; i < calc_divisions; i += multiple_factor) {
 				index = i * (calc_divisions + 1);
 				for (int j = 0; j < calc_divisions; j += multiple_factor) {
-					contour_vertex[0] = vertex[func][index];
-					contour_vertex[1] = vertex[func][index + multiple_factor];
-					contour_vertex[2] = vertex[func][index + delta
-							+ multiple_factor];
-					contour_vertex[3] = vertex[func][index + delta];
+					contour_vertex[0] = surfaceVertex[func][index];
+					contour_vertex[1] = surfaceVertex[func][index + multiple_factor];
+					contour_vertex[2] = surfaceVertex[func][index + delta + multiple_factor];
+					contour_vertex[3] = surfaceVertex[func][index + delta];
 
 					int x = contourConvertX(contour_vertex[1].x);
 					int y = contourConvertY(contour_vertex[1].y);
@@ -2441,7 +2268,7 @@ public class JSurface extends javax.swing.JComponent {
 				if (counter == 0) {
 					while (j <= calc_divisions) {
 						Thread.yield();
-						z = vertex[func][k].z;
+						z = surfaceVertex[func][k].z;
 						invalid = Float.isNaN(z);
 						if (!invalid) {
 							graphics.setColor(colors.getLineColor(curve, z));
@@ -2449,47 +2276,34 @@ public class JSurface extends javax.swing.JComponent {
 							if (z < zmin) {
 								error = true;
 								float ratio = (zmin - lastz) / (z - lastz);
-								projection = projector.project(ratio
-										* (vertex[func][k].x - lx) + lx, ratio
-										* (vertex[func][k].y - ly) + ly, -10);
+								projection = projector.project(ratio * (surfaceVertex[func][k].x - lx) + lx, ratio * (surfaceVertex[func][k].y - ly) + ly, -10);
 							} else if (z > zmax) {
 								error = true;
 								float ratio = (zmax - lastz) / (z - lastz);
-								projection = projector.project(ratio
-										* (vertex[func][k].x - lx) + lx, ratio
-										* (vertex[func][k].y - ly) + ly, 10);
+								projection = projector.project(ratio * (surfaceVertex[func][k].x - lx) + lx, ratio * (surfaceVertex[func][k].y - ly) + ly, 10);
 							} else {
 								error = false;
-								projection = vertex[func][k].projection(projector);
+								projection = surfaceVertex[func][k].projection(projector);
 							}
 							if (lasterror && (!error) && (j != 0)) {
 								if (lastz > zmax) {
 									float ratio = (zmax - z) / (lastz - z);
-									lastproj = projector.project(ratio
-											* (lx - vertex[func][k].x)
-											+ vertex[func][k].x, ratio
-											* (ly - vertex[func][k].y)
-											+ vertex[func][k].y, 10);
+									lastproj = projector.project(ratio * (lx - surfaceVertex[func][k].x) + surfaceVertex[func][k].x, ratio * (ly - surfaceVertex[func][k].y) + surfaceVertex[func][k].y, 10);
 								} else if (lastz < zmin) {
 									float ratio = (zmin - z) / (lastz - z);
-									lastproj = projector.project(ratio
-											* (lx - vertex[func][k].x)
-											+ vertex[func][k].x, ratio
-											* (ly - vertex[func][k].y)
-											+ vertex[func][k].y, -10);
+									lastproj = projector.project(ratio * (lx - surfaceVertex[func][k].x) + surfaceVertex[func][k].x, ratio * (ly - surfaceVertex[func][k].y) + surfaceVertex[func][k].y, -10);
 								}
 							} else
 								invalid = error && lasterror;
 						} else
 							error = true;
 						if (!invalid && (j != 0)) {
-							graphics.drawLine(lastproj.x, lastproj.y,
-									projection.x, projection.y);
+							graphics.drawLine(lastproj.x, lastproj.y, projection.x, projection.y);
 						}
 						lastproj = projection;
 						lasterror = error;
-						lx = vertex[func][k].x;
-						ly = vertex[func][k].y;
+						lx = surfaceVertex[func][k].x;
+						ly = surfaceVertex[func][k].y;
 						lastz = z;
 						j++;
 						k++;
@@ -2513,53 +2327,40 @@ public class JSurface extends javax.swing.JComponent {
 				if (counter == 0) {
 					while (i <= calc_divisions) {
 						Thread.yield();
-						z = vertex[func][k].z;
+						z = surfaceVertex[func][k].z;
 						invalid = Float.isNaN(z);
 						if (!invalid) {
 							if (z < zmin) {
 								error = true;
 								float ratio = (zmin - lastz) / (z - lastz);
-								projection = projector.project(ratio
-										* (vertex[func][k].x - lx) + lx, ratio
-										* (vertex[func][k].y - ly) + ly, -10);
+								projection = projector.project(ratio * (surfaceVertex[func][k].x - lx) + lx, ratio * (surfaceVertex[func][k].y - ly) + ly, -10);
 							} else if (z > zmax) {
 								error = true;
 								float ratio = (zmax - lastz) / (z - lastz);
-								projection = projector.project(ratio
-										* (vertex[func][k].x - lx) + lx, ratio
-										* (vertex[func][k].y - ly) + ly, 10);
+								projection = projector.project(ratio * (surfaceVertex[func][k].x - lx) + lx, ratio * (surfaceVertex[func][k].y - ly) + ly, 10);
 							} else {
 								error = false;
-								projection = vertex[func][k].projection(projector);
+								projection = surfaceVertex[func][k].projection(projector);
 							}
 							if (lasterror && (!error) && (i != 0)) {
 								if (lastz > zmax) {
 									float ratio = (zmax - z) / (lastz - z);
-									lastproj = projector.project(ratio
-											* (lx - vertex[func][k].x)
-											+ vertex[func][k].x, ratio
-											* (ly - vertex[func][k].y)
-											+ vertex[func][k].y, 10);
+									lastproj = projector.project(ratio * (lx - surfaceVertex[func][k].x) + surfaceVertex[func][k].x, ratio * (ly - surfaceVertex[func][k].y) + surfaceVertex[func][k].y, 10);
 								} else if (lastz < zmin) {
 									float ratio = (zmin - z) / (lastz - z);
-									lastproj = projector.project(ratio
-											* (lx - vertex[func][k].x)
-											+ vertex[func][k].x, ratio
-											* (ly - vertex[func][k].y)
-											+ vertex[func][k].y, -10);
+									lastproj = projector.project(ratio * (lx - surfaceVertex[func][k].x) + surfaceVertex[func][k].x, ratio * (ly - surfaceVertex[func][k].y) + surfaceVertex[func][k].y, -10);
 								}
 							} else
 								invalid = error && lasterror;
 						} else
 							error = true;
 						if (!invalid && (i != 0)) {
-							graphics.drawLine(lastproj.x, lastproj.y,
-									projection.x, projection.y);
+							graphics.drawLine(lastproj.x, lastproj.y, projection.x, projection.y);
 						}
 						lastproj = projection;
 						lasterror = error;
-						lx = vertex[func][k].x;
-						ly = vertex[func][k].y;
+						lx = surfaceVertex[func][k].x;
+						ly = surfaceVertex[func][k].y;
 						lastz = z;
 						i++;
 						k += calc_divisions + 1;
