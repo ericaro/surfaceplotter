@@ -9,6 +9,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.SwingPropertyChangeSupport;
 
+import net.ericaro.surfaceplotter.Mapper;
+
 /** Abstract implementation that handles everything but the surfaceVertex array
  * 
  * @author eric
@@ -596,6 +598,10 @@ public abstract class AbstractSurfaceModel implements SurfaceModel{
 		setPlotColor(val ? PlotColor.OPAQUE : PlotColor.SPECTRUM);
 	}
 
+	
+	
+	public abstract void setMapper(Mapper mapper) ;
+	
 	/**
 	 * Sets the text of status line
 	 * 

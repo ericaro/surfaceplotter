@@ -36,15 +36,19 @@ public class ProgressiveSurfaceModel extends AbstractSurfaceModel implements Sur
 	 */
 	public ProgressiveSurfaceModel() {
 		super();
-		highDefinitionVertex = allocateMemory(hasFunction1, hasFunction2, maxDefinition);
 	}
 
 	public void setMapper(Mapper mapper) {
 		this.mapper = mapper;
 	}
 
+	
+	
 	public SwingWorker<Void, Void> plot() {
-
+		highDefinitionVertex = allocateMemory(hasFunction1, hasFunction2, maxDefinition);
+		currentDefinition = -1;
+		availableDefinition = -1;
+		
 		return new SwingWorker<Void, Void>() {
 
 			@Override

@@ -239,6 +239,7 @@ public class JSurfacePanel extends JPanel {
 		configurationToggler = new AbstractAction(){public void actionPerformed(ActionEvent e){toggleConfiguration();}};
 
 		//======== this ========
+		setName("this");
 		setLayout(new GridBagLayout());
 		((GridBagLayout)getLayout()).columnWidths = new int[] {0, 0, 0};
 		((GridBagLayout)getLayout()).rowHeights = new int[] {0, 0, 0};
@@ -252,6 +253,7 @@ public class JSurfacePanel extends JPanel {
 		title.setBackground(Color.white);
 		title.setOpaque(true);
 		title.setFont(title.getFont().deriveFont(title.getFont().getSize() + 4f));
+		title.setName("title");
 		add(title, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
 			GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 			new Insets(0, 0, 0, 0), 0, 0));
@@ -259,6 +261,7 @@ public class JSurfacePanel extends JPanel {
 		//---- surface ----
 		surface.setToolTipText(bundle.getString("surface.toolTipText"));
 		surface.setInheritsPopupMenu(true);
+		surface.setName("surface");
 		surface.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -276,9 +279,11 @@ public class JSurfacePanel extends JPanel {
 		//======== scrollpane ========
 		{
 			scrollpane.setWidthFixed(true);
+			scrollpane.setName("scrollpane");
 
 			//---- configurationPanel ----
 			configurationPanel.setNextFocusableComponent(this);
+			configurationPanel.setName("configurationPanel");
 			scrollpane.setViewportView(configurationPanel);
 		}
 		add(scrollpane, new GridBagConstraints(1, 0, 1, 2, 0.0, 0.0,
