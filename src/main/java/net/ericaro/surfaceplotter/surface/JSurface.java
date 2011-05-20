@@ -93,6 +93,9 @@ public class JSurface extends javax.swing.JComponent {
 			isDisplayGrids;
 	private float xmin, xmax, ymin;
 	private float ymax, zmin, zmax;
+	
+	private String xLabel= "X";
+	private String yLabel= "Y";
 
 
 	// constants
@@ -633,22 +636,47 @@ public class JSurface extends javax.swing.JComponent {
 		cleanUpMemory();
 	}
 
-	/**
-	 * Returns the preferred size of this object. This will be the initial size
-	 * of <code>SurfaceCanvas</code>.
-	 * 
-	 * @return the preferred size.
-	 */
+//	/**
+//	 * Returns the preferred size of this object. This will be the initial size
+//	 * of <code>SurfaceCanvas</code>.
+//	 * 
+//	 * @return the preferred size.
+//	 */
+//
+//	public Dimension getPreferredSize() {
+//		return new Dimension(550, 550); // initial canvas size
+//	}
 
-	public Dimension getPreferredSize() {
-		return new Dimension(550, 550); // initial canvas size
+
+	public String getXLabel() {
+		return xLabel;
 	}
-
+	
+	public void setXLabel(String xLabel) {
+		firePropertyChange("xLabel", this.xLabel, this.xLabel = xLabel);
+	}
+	
+	public String getYLabel() {
+		return yLabel;
+	}
+	
+	public void setYLabel(String yLabel) {
+		firePropertyChange("yLabel", this.yLabel, this.yLabel = yLabel);
+	}
+	
+	
+	
+	
+	
+	
+	
 	/*----------------------------------------------------------------------------------------*
 	 *                            Private methods begin here                                  *
 	 *----------------------------------------------------------------------------------------*/
 
 	private int factor_x, factor_y; // conversion factors
+
+
 	private int t_x, t_y, t_z; // determines ticks density
 
 	/**
@@ -861,9 +889,9 @@ public class JSurface extends javax.swing.JComponent {
 
 				if (isDisplayXY) {
 					tickpos = projector.project(0, factor_y * 14, -10);
-					outString(g, tickpos.x, tickpos.y, "X", Label.CENTER, TOP);
+					outString(g, tickpos.x, tickpos.y, xLabel, Label.CENTER, TOP);
 					tickpos = projector.project(factor_x * 14, 0, -10);
-					outString(g, tickpos.x, tickpos.y, "Y", Label.CENTER, TOP);
+					outString(g, tickpos.x, tickpos.y, yLabel, Label.CENTER, TOP);
 				}
 
 				// z grids and ticks
@@ -1725,8 +1753,8 @@ public class JSurface extends javax.swing.JComponent {
 					}
 				}
 				if (isDisplayXY) {
-					outString(graphics, (x1 + x2) / 2, contourConvertY(-11.4f), "X", Label.CENTER, TOP);
-					outString(graphics, contourConvertX(10.7f), contourConvertY(-1.0f), "Y", Label.LEFT, CENTER);
+					outString(graphics, (x1 + x2) / 2, contourConvertY(-11.4f), xLabel, Label.CENTER, TOP);
+					outString(graphics, contourConvertX(10.7f), contourConvertY(-1.0f), yLabel, Label.LEFT, CENTER);
 				}
 			}
 		}
