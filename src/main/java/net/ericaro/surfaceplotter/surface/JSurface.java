@@ -2074,7 +2074,7 @@ public class JSurface extends javax.swing.JComponent {
 
 	private final void plotContour() {
 		float zi, zx;
-
+		
 		accumulator.clearAccumulator();
 
 		try {
@@ -2089,6 +2089,8 @@ public class JSurface extends javax.swing.JComponent {
 
 		zmin = zi;
 		zmax = zx;
+		curve = plotfunc1 ? 1 : plotfunc2 ? 2 : 1;
+		
 		computePlotArea();
 
 		int plot_density = model.getDispDivisions();
@@ -2179,7 +2181,7 @@ public class JSurface extends javax.swing.JComponent {
 			int func = 0;
 			if (!plotfunc1)
 				func = 1; // function 1 has higher priority
-			curve = func + 1;
+			curve = func+1;
 			int delta = (calc_divisions + 1) * multiple_factor;
 			for (int i = 0; i < calc_divisions; i += multiple_factor) {
 				index = i * (calc_divisions + 1);
