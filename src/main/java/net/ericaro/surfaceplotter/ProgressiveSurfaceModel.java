@@ -1,6 +1,7 @@
 package net.ericaro.surfaceplotter;
 
 import java.util.List;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingWorker;
@@ -93,6 +94,21 @@ public class ProgressiveSurfaceModel extends AbstractSurfaceModel implements Sur
 				z2Min = (float) floor(z2Min, 2);
 				z2Max = (float) ceil(z2Max, 2);
 			}
+
+			@Override protected void done() {
+				try {
+					get();
+				} catch (InterruptedException e) {
+				} catch (CancellationException e) {
+				}
+				catch (ExecutionException e) {
+					e.printStackTrace();
+				}
+				
+			}
+			
+			
+			
 		};
 	}
 
