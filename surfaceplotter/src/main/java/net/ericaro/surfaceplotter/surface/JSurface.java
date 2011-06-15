@@ -151,6 +151,10 @@ public class JSurface extends javax.swing.JComponent {
 		return lastFocused;
 	}
 
+	public SurfaceModel getModel() {
+		return model;
+	}
+	
 	public void setModel(SurfaceModel model) {
 
 		if (this.model != null)
