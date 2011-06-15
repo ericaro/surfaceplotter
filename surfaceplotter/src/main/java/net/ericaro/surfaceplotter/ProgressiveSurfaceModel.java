@@ -44,8 +44,11 @@ public class ProgressiveSurfaceModel extends AbstractSurfaceModel implements Sur
 	}
 
 	
-	
 	public SwingWorker<Void, Void> plot() {
+		return plot(null);
+	}
+	
+	public SwingWorker<Void, Void> plot(final Runnable callback) {
 		highDefinitionVertex = allocateMemory(hasFunction1, hasFunction2, maxDefinition);
 		currentDefinition = -1;
 		availableDefinition = -1;
@@ -96,15 +99,7 @@ public class ProgressiveSurfaceModel extends AbstractSurfaceModel implements Sur
 			}
 
 			@Override protected void done() {
-				try {
-					get();
-				} catch (InterruptedException e) {
-				} catch (CancellationException e) {
-				}
-				catch (ExecutionException e) {
-					e.printStackTrace();
-				}
-				
+				if (callback !=null) callback.run();
 			}
 			
 			
