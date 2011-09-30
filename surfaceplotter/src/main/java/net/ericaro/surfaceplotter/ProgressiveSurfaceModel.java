@@ -61,6 +61,7 @@ public class ProgressiveSurfaceModel extends AbstractSurfaceModel implements Sur
 				while (maxDefinition > availableDefinition) {
 					increaseDefinition();
 					// Thread.sleep(1000);
+					if (isCancelled()) return null;
 					publish();
 				}
 				setProgress(100);
@@ -87,6 +88,7 @@ public class ProgressiveSurfaceModel extends AbstractSurfaceModel implements Sur
 				for (int i = 0; i < k; i++)
 					for (int j = 0; j < k; j++)
 						if (definition(i, j) == def){
+							if (isCancelled()) return;
 							compute(i, j);
 							setProgress(( ci++ *100 )/ max ) ;
 						}
