@@ -3,7 +3,7 @@
 	<groupId>net.ericaro</groupId>
 	<artifactId>surfaceplotter</artifactId>
 	<name>Surface Plotter</name>
-	<version>2.0.1-SNAPSHOT</version>
+	<version>2.0.1</version>
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
@@ -111,9 +111,9 @@
 
 
 	<scm>
-		<connection>scm:svn:https://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter</connection>
-		<developerConnection>scm:svn:https://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter</developerConnection>
-		<url>http://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter</url>
+		<connection>scm:svn:https://surfaceplotter.googlecode.com/svn/tags/surfaceplotter-2.0.1</connection>
+		<developerConnection>scm:svn:https://surfaceplotter.googlecode.com/svn/tags/surfaceplotter-2.0.1</developerConnection>
+		<url>http://surfaceplotter.googlecode.com/svn/tags/surfaceplotter-2.0.1</url>
 	</scm>
 	<licenses>
 		<license>
