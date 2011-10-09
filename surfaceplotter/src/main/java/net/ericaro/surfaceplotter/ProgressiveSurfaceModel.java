@@ -1,8 +1,6 @@
 package net.ericaro.surfaceplotter;
 
 import java.util.List;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingWorker;
 
@@ -297,4 +295,15 @@ public class ProgressiveSurfaceModel extends AbstractSurfaceModel implements Sur
 		fireStateChanged();
 	}
 
+	public int getMaxDefinition() {
+		return maxDefinition;
+	}
+
+	public void setMaxDefinition(int maxDefinition) {
+		getPropertyChangeSupport().firePropertyChange("maxDefinition", this.maxDefinition, this.maxDefinition = maxDefinition);
+	}
+
+	
+	
+	
 }// end of class
