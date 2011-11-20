@@ -599,9 +599,6 @@ public abstract class AbstractSurfaceModel implements SurfaceModel{
 	}
 
 	
-	
-	public abstract void setMapper(Mapper mapper) ;
-	
 	/**
 	 * Sets the text of status line
 	 * 
