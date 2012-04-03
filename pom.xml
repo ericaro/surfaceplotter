@@ -111,9 +111,7 @@
 
 
 	<scm>
-		<connection>scm:svn:https://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter</connection>
-		<developerConnection>scm:svn:https://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter</developerConnection>
-		<url>http://surfaceplotter.googlecode.com/svn/trunk/surfaceplotter</url>
+		<connection>scm:git:http://surfaceplotter.googlecode.com/git/</connection>
 	</scm>
 	<licenses>
 		<license>
