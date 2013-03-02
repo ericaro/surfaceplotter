@@ -480,6 +480,7 @@ public class JSurface extends javax.swing.JComponent {
 		boolean useCSS = true; // we want to use CSS		// style attribute
 		java.io.Writer out = new java.io.OutputStreamWriter(new java.io.FileOutputStream(file), "UTF-8");
 		svgGenerator.stream(out, useCSS);
+		out.close();
 	}
 
 	/**
