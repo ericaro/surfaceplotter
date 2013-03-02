@@ -1,8 +1,18 @@
-.settings
-.project
-.classpath
+# maven
 target
 
+# eclipse
+.project
+.classpath
+.settings
+.externalToolBuilders
+
+# java
 *.class
+
+# python
 *.pyc
 
+# gedit backup files
+*~ 
+*.*~

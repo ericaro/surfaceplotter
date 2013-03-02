@@ -56,7 +56,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import net.ericaro.surfaceplotter.DefaultSurfaceModel;
 import net.ericaro.surfaceplotter.surface.SurfaceModel.PlotType;
 
-import org.apache.batik.svggen.SVGGraphics2D;
 
 /**
  * The class <code>JSurface</code> is responsible for the generation of surface
@@ -471,7 +470,7 @@ public class JSurface extends javax.swing.JComponent {
 
 		// Create an instance of the SVG Generator
 
-		SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
+		org.apache.batik.svggen.SVGGraphics2D svgGenerator = new org.apache.batik.svggen.SVGGraphics2D(document);
 
 		// Ask the test to render into the SVG Graphics2D implementation
 		export(svgGenerator);
