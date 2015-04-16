@@ -16,6 +16,7 @@ import net.ericaro.surfaceplotter.DefaultSurfaceModel;
 import net.ericaro.surfaceplotter.JSurfacePanel;
 import net.ericaro.surfaceplotter.Mapper;
 import net.ericaro.surfaceplotter.ProgressiveSurfaceModel;
+import net.ericaro.surfaceplotter.surface.SurfaceUtils;
 
 
 
@@ -53,7 +54,7 @@ public class Sample extends JPanel {
 		JFileChooser jfc = new JFileChooser();
 		try {
 			if (jfc.showSaveDialog(surfacePanel1) == JFileChooser.APPROVE_OPTION )
-				surfacePanel1.getSurface().doExportSVG( jfc.getSelectedFile());
+				SurfaceUtils.doExportSVG(surfacePanel1.getSurface(), jfc.getSelectedFile());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
