@@ -429,61 +429,6 @@ public class JSurface extends javax.swing.JComponent {
 	private int click_x, click_y; // previous mouse cursor position
 
 	/**
-	 * <code>mouseDown</code> event handler. Sets internal tracking variables
-	 * for dragging operations.
-	 * 
-	 * @param e
-	 *            the event
-	 * @param x
-	 *            the x coordinate of cursor
-	 * @param y
-	 *            the y coordinate of cursor
-	 */
-
-	public void doExportPNG(File file) throws IOException {
-		if (file == null)
-			return;
-		int h, w;
-		w = 50;
-		h = 30;
-		java.awt.image.BufferedImage bf = new java.awt.image.BufferedImage(getWidth(), getHeight(), java.awt.image.BufferedImage.TYPE_INT_RGB);
-		Graphics2D g2d = bf.createGraphics();
-
-		// g2d.setColor(java.awt.Color.white);
-		// g2d.fillRect(0,0,getWidth() ,getHeight());
-		// g2d.setColor(java.awt.Color.black);
-		export(g2d);
-		// java.awt.image.BufferedImage bf2=bf.getSubimage(0,0,w,h);
-		boolean b = javax.imageio.ImageIO.write(bf, "PNG", file);
-	}
-
-	/**
-	 * needs batik, will reintroduce it later
-	 * @throws ParserConfigurationException 
-	 */
-	public void doExportSVG(File file) throws IOException, ParserConfigurationException{
-		if (file == null)
-			return;
-
-		// Create an instance of org.w3c.dom.Document
-		org.w3c.dom.Document document = javax.xml.parsers.DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-
-		// Create an instance of the SVG Generator
-
-		org.apache.batik.svggen.SVGGraphics2D svgGenerator = new org.apache.batik.svggen.SVGGraphics2D(document);
-
-		// Ask the test to render into the SVG Graphics2D implementation
-		export(svgGenerator);
-
-		// Finally, stream out SVG to the standard output using UTF-8 //
-		// character to byte encoding
-		boolean useCSS = true; // we want to use CSS		// style attribute
-		java.io.Writer out = new java.io.OutputStreamWriter(new java.io.FileOutputStream(file), "UTF-8");
-		svgGenerator.stream(out, useCSS);
-		out.close();
-	}
-
-	/**
 	 * Paints surface. Creates surface plot, contour plot, or density plot based
 	 * on current vertices array, contour plot flag, and density plot flag. If
 	 * no data is available, creates image of base plane and axes.
