@@ -591,7 +591,13 @@ public class JSurface extends javax.swing.JComponent {
 		paintComponent(g); // do not erase, just paint
 	}
 
-	private void export(Graphics g) {
+	/**
+	* Exports <code>JSurface</code> to the specified graphics object.
+	*
+	* @param g the graphics object
+	*
+	*/
+	public void export(Graphics g) {
 		if (data_available && !interrupted) {
 			boolean old = printing;
 			printing = true;
