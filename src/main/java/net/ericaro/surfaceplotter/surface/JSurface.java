@@ -595,7 +595,8 @@ public class JSurface extends javax.swing.JComponent {
 		if (data_available && !interrupted) {
 			boolean old = printing;
 			printing = true;
-			
+			printwidth = getBounds().width;
+			printheight = getBounds().height;
 			draw(g);
 			
 			
